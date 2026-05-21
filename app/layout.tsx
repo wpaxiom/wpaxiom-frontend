@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
@@ -11,6 +12,10 @@ export const metadata: Metadata = {
   description:
     "Three plugins. Zero bloat. wpaxiom builds tightly-scoped WordPress tools for developers who care about query count, bundle size, and the next ten years of WordPress.",
   metadataBase: new URL("https://wpaxiom.com"),
+  icons: {
+    icon: "/logo-icon.svg",
+    apple: "/logo-icon.svg",
+  },
 };
 
 const themeInitScript = `
@@ -37,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <SpeedInsights />
       </body>
     </html>
   );
