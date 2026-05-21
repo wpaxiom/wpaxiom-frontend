@@ -99,15 +99,9 @@ export function Footer() {
               <ul className="space-y-2.5 text-muted">
                 {RESOURCE_LINKS.map((link) => (
                   <li key={link.href}>
-                    {link.external ? (
-                      <a href={link.href} className="hover:text-ink transition">
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link href={link.href} className="hover:text-ink transition">
-                        {link.label}
-                      </Link>
-                    )}
+                    <Link href={link.href} className="hover:text-ink transition">
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
