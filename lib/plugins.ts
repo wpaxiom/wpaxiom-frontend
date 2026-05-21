@@ -46,7 +46,7 @@ export const PLUGINS: Plugin[] = [
       "Precision-built blocks for the WordPress block editor. Free core, optional Pro extension.",
     Icon: LayoutGrid,
     badge: { label: "Free", tone: "free" },
-    meta: "WP 6.4+",
+    meta: "WP 6.0+",
     wpOrgUrl: "https://wordpress.org/plugins/axiom-blocks/",
     detailsHref: "/plugins/axiom-blocks",
     installCta: { label: "View Plugin", href: "/plugins/axiom-blocks" },

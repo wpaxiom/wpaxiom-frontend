@@ -26,7 +26,7 @@ export function Hero() {
             </p>
 
             <div className="mt-8 flex items-center gap-6 flex-wrap text-sm">
-              <span className="text-muted font-mono">WP 6.4+</span>
+              <span className="text-muted font-mono">WP 6.0+</span>
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
