@@ -14,9 +14,10 @@ const RESOURCE_LINKS = [
   { href: "/changelog", label: "Changelog" },
 ];
 
-const COMPANY_LINKS = [
+const IMPORTANT_LINKS = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/donate", label: "Buy me a coffee" },
 ];
 
 const CONNECT_LINKS = [
@@ -71,7 +72,10 @@ export function Footer() {
                 <WordPressIcon />
               </a>
             </div>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-6 flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded border border-line text-muted">
+                Paddle
+              </span>
               <span className="px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded border border-line text-muted">
                 Stripe
               </span>
@@ -107,9 +111,9 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Company</h4>
+              <h4 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Important Links</h4>
               <ul className="space-y-2.5 text-muted">
-                {COMPANY_LINKS.map((link) => (
+                {IMPORTANT_LINKS.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="hover:text-ink transition">
                       {link.label}
@@ -133,12 +137,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-6 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-subtle font-mono">
+        <div className="mt-16 pt-6 border-t border-line text-xs text-subtle font-mono">
           <span>© 2026 wpaxiom. Built for WordPress developers.</span>
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-ok" />
-            All systems operational · status.wpaxiom.com
-          </span>
         </div>
       </div>
     </footer>
