@@ -42,9 +42,7 @@ let readyPromise: Promise<void> | null = null;
 
 function configure(eventCallback?: (event: PaddleEvent) => void): void {
   if (typeof window === "undefined" || !window.Paddle) return;
-  if (IS_SANDBOX) {
-    window.Paddle.Environment.set("sandbox");
-  }
+  window.Paddle.Environment.set(IS_SANDBOX ? "sandbox" : "production");
   if (TOKEN) {
     window.Paddle.Initialize({ token: TOKEN, eventCallback });
   }
