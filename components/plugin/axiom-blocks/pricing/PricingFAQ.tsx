@@ -28,11 +28,6 @@ const ITEMS: FAQItem[] = [
       </>
     ),
   },
-  {
-    question: "Which payment method should I choose?",
-    answer:
-      "If you're in the US, EU, or UK and want the fastest checkout (including Apple Pay), pick Stripe. If you're outside those regions or need invoices that include VAT for your local tax authority, pick FastSpring — they act as the merchant of record and handle the paperwork.",
-  },
 ];
 
 export function PricingFAQ() {

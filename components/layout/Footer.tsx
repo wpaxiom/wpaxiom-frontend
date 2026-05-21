@@ -20,6 +20,12 @@ const IMPORTANT_LINKS = [
   { href: "/donate", label: "Buy me a coffee" },
 ];
 
+const LEGAL_LINKS = [
+  { href: "/terms", label: "Terms" },
+  { href: "/privacy-policy", label: "Privacy" },
+  { href: "/refund-policy", label: "Refund policy" },
+];
+
 const CONNECT_LINKS = [
   { href: "https://github.com/wpaxiom", label: "GitHub" },
   { href: "https://twitter.com/wpaxiom", label: "X / Twitter" },
@@ -76,12 +82,6 @@ export function Footer() {
               <span className="px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded border border-line text-muted">
                 Paddle
               </span>
-              <span className="px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded border border-line text-muted">
-                Stripe
-              </span>
-              <span className="px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider rounded border border-line text-muted">
-                FastSpring
-              </span>
             </div>
           </div>
 
@@ -137,8 +137,15 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-16 pt-6 border-t border-line text-xs text-subtle font-mono">
+        <div className="mt-16 pt-6 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-subtle font-mono">
           <span>© 2026 wpaxiom. Built for WordPress developers.</span>
+          <div className="flex items-center gap-4">
+            {LEGAL_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-ink transition">
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

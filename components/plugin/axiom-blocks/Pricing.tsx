@@ -61,11 +61,9 @@ const PLANS: PlanMeta[] = [
 ];
 
 type Cycle = BillingCycle;
-type Gateway = "stripe" | "fastspring";
 
 export function Pricing({ matrix }: { matrix: PriceMatrix }) {
   const [cycle, setCycle] = useState<Cycle>("yearly");
-  const [gateway, setGateway] = useState<Gateway>("stripe");
 
   return (
     <section id="pricing" className="border-b border-line/70 relative overflow-hidden">
@@ -130,32 +128,9 @@ export function Pricing({ matrix }: { matrix: PriceMatrix }) {
         </div>
 
         <div className="mt-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-muted">Pay with:</span>
-            <button
-              type="button"
-              onClick={() => setGateway("stripe")}
-              aria-pressed={gateway === "stripe"}
-              className={
-                gateway === "stripe"
-                  ? "px-3 py-1.5 rounded-md bg-elevated border border-coral/40 text-ink text-sm font-medium"
-                  : "px-3 py-1.5 rounded-md bg-elevated border border-line hover:border-muted text-muted hover:text-ink text-sm transition"
-              }
-            >
-              Stripe
-            </button>
-            <button
-              type="button"
-              onClick={() => setGateway("fastspring")}
-              aria-pressed={gateway === "fastspring"}
-              className={
-                gateway === "fastspring"
-                  ? "px-3 py-1.5 rounded-md bg-elevated border border-coral/40 text-ink text-sm font-medium"
-                  : "px-3 py-1.5 rounded-md bg-elevated border border-line hover:border-muted text-muted hover:text-ink text-sm transition"
-              }
-            >
-              FastSpring
-            </button>
+          <div className="flex items-center gap-3 text-sm text-muted">
+            <span>Payments by</span>
+            <span className="px-3 py-1.5 rounded-md bg-elevated border border-line text-ink text-sm font-medium">Paddle</span>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-mono text-muted">
             <span className="flex items-center gap-1.5">
