@@ -1,0 +1,111 @@
+---
+title: Creating your first specification table
+category: Getting Started
+updatedAt: 2026-05-17
+readTime: 5
+prev:
+  title: Installing Specifico
+  slug: installing-specifico
+next:
+  title: Per-product overrides
+  slug: per-product-overrides
+---
+
+This guide takes you from a fresh Specifico install to a working **Specifications** tab on your product pages in three steps. Plan on about five minutes.
+
+You'll build a smartphone specifications table for products in your *Phones* category. The same flow works for any product type.
+
+## How Specifico is organized
+
+Before you start, the three concepts you'll touch:
+
+- **Groups** are reusable sets of attributes — e.g. *Display*, *Performance*, *Camera*. A single group like *Display* can appear in many tables (phone, tablet, TV).
+- **Specifications** are the actual tables shown to customers. A table is a chosen list of groups.
+- **Mapping** decides which table appears on which product, by category, tag, or specific products.
+
+You'll build them in that order.
+
+## Step 1 — Create a group
+
+1. In WP admin go to **Specifico → Groups**
+2. Click **Add Group**
+3. Enter a group name — for this example, `Display`
+4. Add attributes (each attribute becomes one row in the final table). For *Display* you might add:
+
+   | Attribute name | Attribute value | Attribute type |
+   | --- | --- | --- |
+   | Screen Size | 6.1 inches | Text |
+   | Resolution | 2532 × 1170 | Text |
+   | Refresh Rate | 120 Hz | Text |
+
+5. Click **Save Group**
+
+<Callout type="info">
+  The values you enter at the group level are **defaults**. When the group appears on a product page, those defaults are what shows. You can override the values per product later — see [Per-product overrides](/docs/specifico/per-product-overrides).
+</Callout>
+
+Repeat for any other groups you want — *Performance*, *Camera*, *Battery*, etc. Three or four groups is plenty for a useful table.
+
+> *Screenshot: Groups list page with Display, Performance, Camera entries*
+
+## Step 2 — Create a specification table
+
+1. Go to **Specifico → Specifications**
+2. Click **Add Specification**
+3. Enter a table name — `Smartphone Specifications`
+4. In the **Groups** dropdown, select the groups you just created
+5. Leave **Status** enabled
+6. Click **Save Specification**
+
+> *Screenshot: Add Specification panel with title, status toggle, and groups multi-select*
+
+The table itself stores no values — it's a template that pulls attributes from its groups.
+
+## Step 3 — Map the table to products
+
+The mapping is what makes the table actually appear on the frontend. Without a mapping, a saved table sits unused.
+
+1. Go to **Specifico → Mapping**
+2. Click **Add Mapping**
+3. In the new row:
+   - **Specifications:** pick `Smartphone Specifications`
+   - **Type:** pick `Product Category`
+   - **Values:** pick `Phones` (or whatever category your phone products are in)
+4. Click **Save**
+
+> *Screenshot: Mapping page with one row mapping Smartphone Specifications → Product Category → Phones*
+
+<Callout type="tip">
+  You can match by multiple things at once — add several mapping rows, or pick several values in one row. The first matching rule wins, so put more specific rules first.
+</Callout>
+
+The four match types are:
+
+- **Product Category** — every product in the chosen category
+- **Product Tag** — every product with the chosen tag
+- **Product** — a single named product (use for one-off overrides)
+- **Product ID** — a single product by ID (same as Product, useful when titles are ambiguous)
+
+## Step 4 — Check the result
+
+Open any product in the *Phones* category on the storefront. Below the product summary you'll see a new **Specifications** tab alongside *Description* and *Reviews*. Click it to see your table rendered with rows like:
+
+```
+Screen Size       6.1 inches
+Resolution        2532 × 1170
+Refresh Rate      120 Hz
+```
+
+If a product isn't showing the tab:
+
+- Check the product is in the mapped category (or matches whichever rule type you chose)
+- Check the specification table is **enabled** (status toggle in step 2)
+- Check the mapping is saved — empty cells in the mapping row mean no match
+
+## Next steps
+
+You now have a working specifications table. From here:
+
+- **Tune the table for individual products.** A smartphone in your catalog has `6.7 inches`, not the default `6.1 inches`? See [Per-product overrides](/docs/specifico/per-product-overrides) to change values for one product without affecting the group.
+- **Build more tables.** Each product type usually wants its own — *Laptop Specifications*, *Headphone Specifications*, etc. Groups are reusable: the same *Battery* group can appear in a phone table and a laptop table.
+- **Customize the look.** Theme styles, group sub-headings, and table density live under **Specifico → Settings**.

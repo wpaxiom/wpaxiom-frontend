@@ -1,0 +1,140 @@
+---
+title: Countdown Timer
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 4
+prev:
+  title: Before/After Slider
+  slug: before-after-slider-block
+next:
+  title: Copy to Clipboard
+  slug: copy-to-clipboard-block
+---
+
+Countdown Timer displays a live ticking countdown to a target date and time. It renders an initial value server-side on every page load, then the frontend script takes over and ticks every second. Use it for sale deadlines, launch dates, event countdowns, or any time-sensitive call to action.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Countdown Timer**. The block drops in with a default target date seven days from the current server time and all four units visible.
+
+## Target date
+
+Set the target date and time in the **Target Date** field in the sidebar. The field accepts any date-time value — pick from the date picker or type an ISO 8601 string directly. If no date is set the block defaults to seven days from the server's current time.
+
+<Callout type="info">
+  The target date is evaluated in the visitor's browser timezone via JavaScript after the initial server render. Set your deadline in UTC or account for the timezone offset in the date string to avoid off-by-one-hour surprises.
+</Callout>
+
+## Display units
+
+Each time unit can be shown or hidden independently with its own toggle in the **Display Units** panel.
+
+| Toggle | Default |
+|--------|---------|
+| Show Days | On |
+| Show Hours | On |
+| Show Minutes | On |
+| Show Seconds | On |
+
+Hide **Days** for countdowns under 24 hours; hide **Seconds** for a calmer visual on longer deadlines.
+
+## Labels
+
+The **Labels** panel has a separate text field for each unit's caption below the number.
+
+| Field | Default |
+|-------|---------|
+| Days Label | `Days` |
+| Hours Label | `Hours` |
+| Minutes Label | `Minutes` |
+| Seconds Label | `Seconds` |
+
+Use this to translate labels into another language or shorten them — `D`, `H`, `M`, `S` for a compact layout. Label fields are always editable regardless of whether a unit is shown or hidden.
+
+## Style
+
+### Colors
+
+- **Digit color** — the large number color. Default `#333333`.
+- **Label color** — the small unit label color. Default `#666666`.
+- **Background color** — fill color of each unit tile. Default `#f0f0f0`. Set to `transparent` to remove the tile appearance.
+
+### Size & shape
+
+- **Digit font size** — size of the countdown numbers. Default `48px`.
+- **Label font size** — size of the unit labels. Default `14px`.
+- **Border radius** — rounds the corners of each unit tile. Default `8px`. Set to `0` for square tiles or a high value (`999px`) for pill-shaped tiles.
+
+## Layout
+
+### Direction
+
+**Horizontal** (default) — units sit side by side in a row. **Vertical** — units stack in a column, useful in narrow sidebars or alongside other vertical content.
+
+### Alignment
+
+Positions the unit group within the block: **Left**, **Center** (default), or **Right**.
+
+### Gap
+
+Controls spacing between unit tiles. Default `20px`.
+
+## Expired state
+
+When the countdown reaches zero the block switches to its expired state. Set the behavior with **On expiry**:
+
+| Action | Behavior |
+|--------|----------|
+| Show Message | Replaces the timer with the text from **Expired message** (default: `Time's up!`) |
+| Hide Block | Removes the timer from the page entirely |
+| Redirect to URL | Navigates the visitor to the URL in **Redirect URL** |
+
+The expired state is evaluated server-side on initial render and then re-evaluated each second in the browser. A visitor who lands on the page after the deadline sees the expired state immediately.
+
+## Typography
+
+Two independent typography panels — **Digits** and **Labels** — give full control over font family, weight, line height, letter spacing, transform, and decoration for each element. The **Digit font size** and **Label font size** fields in the Style panel act as the base size; the typography panel values override them when set.
+
+## Spacing & alignment
+
+**Spacing** sets per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+
+## HTML output
+
+```html
+<div
+  class="wp-block-axiom-blocks-countdown-timer axiom-blocks-countdown axiom-blocks-countdown--horizontal axiom-blocks-countdown--align-center"
+>
+  <div
+    class="axiom-blocks-countdown__container"
+    style="display: flex; flex-wrap: wrap; gap: 20px;"
+    data-target-date="2026-06-01T00:00:00+00:00"
+    data-expired-action="showMessage"
+    data-expired-message="Time's up!"
+    data-redirect-url=""
+  >
+    <div class="axiom-blocks-countdown__unit" data-unit="days" style="background-color: #f0f0f0; border-radius: 8px; padding: 20px; min-width: 80px;">
+      <div class="axiom-blocks-countdown__digit" style="font-weight: bold; line-height: 1; font-size: 48px; color: #333333;">16</div>
+      <div class="axiom-blocks-countdown__label" style="text-transform: uppercase; letter-spacing: 1px; font-size: 14px; color: #666666; margin-top: 8px;">Days</div>
+    </div>
+    <div class="axiom-blocks-countdown__unit" data-unit="hours" style="...">
+      <div class="axiom-blocks-countdown__digit" style="...">08</div>
+      <div class="axiom-blocks-countdown__label" style="...">Hours</div>
+    </div>
+    <div class="axiom-blocks-countdown__unit" data-unit="minutes" style="...">
+      <div class="axiom-blocks-countdown__digit" style="...">42</div>
+      <div class="axiom-blocks-countdown__label" style="...">Minutes</div>
+    </div>
+    <div class="axiom-blocks-countdown__unit" data-unit="seconds" style="...">
+      <div class="axiom-blocks-countdown__digit" style="...">05</div>
+      <div class="axiom-blocks-countdown__label" style="...">Seconds</div>
+    </div>
+  </div>
+</div>
+```
+
+When the timer expires and the action is **Show message**:
+
+```html
+<div class="axiom-blocks-countdown__expired">Time's up!</div>
+```

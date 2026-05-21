@@ -1,0 +1,160 @@
+---
+title: Advanced Section
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 6
+prev:
+  title: Pricing Table
+  slug: pricing-table-block
+next:
+  title: Before/After Slider
+  slug: before-after-slider-block
+---
+
+Advanced Section is a full-width container block that accepts any inner blocks and adds a rich layer of background, overlay, border, and layout controls on top of WordPress's native constrained layout system. Use it wherever a Group block isn't enough — hero sections, feature rows, CTA bands, and any section that needs a custom background or precise height control.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Advanced Section**. The block drops in empty, ready for inner blocks. Add any blocks inside it — Headings, Paragraphs, Buttons, Columns, or other Axiom blocks.
+
+## Background
+
+The **Background** panel in the sidebar has three modes. Switch between them with the **Type** selector.
+
+### Color
+
+Picks a solid background color for the section. Leave it empty to inherit the page background.
+
+### Gradient
+
+Builds a CSS gradient directly in the sidebar.
+
+- **Gradient type** — Linear (angle-based) or Radial (center-out circle)
+- **Angle** — 0–360°, only applies to linear gradients
+- **From / To** — start and end color with individual stop positions (0–100%)
+- **Use mid color** — enable to add a third color stop between From and To, with its own position slider
+
+### Image
+
+Picks a background image from the media library.
+
+- **Select / Replace / Remove** — media library buttons for the image
+- **Size** — Cover (fill, may crop), Contain (fit fully, may letterbox), Auto (natural size)
+- **Focal point** — drag the crosshair on the image preview to set `background-position`; or choose from nine preset positions in the dropdown
+- **Repeat** — No repeat, Repeat, Repeat X, Repeat Y
+- **Attachment** — Scroll (moves with page) or Fixed (stays in place as content scrolls). Hidden when Parallax is enabled since the two are mutually exclusive.
+
+## Overlay
+
+An overlay sits between the background and the inner content. Use it to darken an image background so text is readable, or to add a color wash over a gradient.
+
+- **Type** — Color or Gradient
+- **Color** — the overlay color (for Color type)
+- **Opacity** — 0–100%; at 0 the overlay is invisible regardless of color
+- **Gradient** — linear or radial, From and To colors with angle (same controls as the background gradient)
+- **Blend mode** — Normal, Multiply, Screen, Overlay, Darken, Lighten — composites the overlay onto the background layer
+
+<Callout type="tip">
+  A common pattern: image background + black overlay at 40–60% opacity + light-colored text inside. This is more reliable than hoping the image has dark areas where the text lands.
+</Callout>
+
+## Border
+
+- **Style** — None, Solid, Dashed, Dotted, Double
+- **Width** — 0–20 px (only visible when Style is not None)
+- **Color** — border color
+- **Border radius** — 0–64 px, rounds all four corners equally
+
+## Layout
+
+### Min height
+
+Sets the minimum height of the section. The unit switcher lets you choose **px**, **vh** (viewport height), or **rem**. A hero section set to `100vh` fills the full screen height.
+
+**Min height (mobile)** is an independent override that applies below 768 px. Leave it empty to use the same value as the desktop min height.
+
+### Content alignment
+
+- **Vertical** — Top, Center, Bottom — aligns inner content along the vertical axis within the min-height area
+- **Horizontal** — Left, Center, Right — aligns inner content along the horizontal axis
+
+<Callout type="info">
+  These alignment controls position the content block *within* the section height. They do not override the inner blocks' own alignment settings.
+</Callout>
+
+## Parallax
+
+Parallax is available only when the background type is **Image** and an image is selected. Enable the **Parallax** toggle in the Background panel to activate it.
+
+**Parallax speed** — 0–100%. Higher values create a more pronounced scroll effect. 20–40% is a safe starting range.
+
+<Callout type="warning">
+  Parallax is a frontend-only effect — it does not play in the block editor. Preview it on the frontend or in a full-screen preview. When parallax is active, **Attachment** is hidden because they conflict.
+</Callout>
+
+## Spacing & alignment
+
+**Spacing** sets per-side padding and margin on the section wrapper. The block supports **Wide** and **Full** alignment from the toolbar — useful for breaking a section to full viewport width inside a constrained layout.
+
+## HTML output
+
+```html
+<div
+  class="wp-block-axiom-blocks-advanced-section axiom-blocks-section axiom-blocks-section--image is-h-center is-v-center has-parallax"
+  style="
+    background-image: none;
+    --axiom-blocks-section-min-h: 600px;
+    --axiom-blocks-section-min-h-mobile: 400px;
+    min-height: var(--axiom-blocks-section-min-h, 400px);
+    --axiom-blocks-section-justify: center;
+    --axiom-blocks-section-align: center;
+    --axiom-blocks-section-overlay-bg: rgba(0,0,0,0.5);
+    --axiom-blocks-section-overlay-opacity: 0.5;
+    --axiom-blocks-section-overlay-blend: normal;
+    --ab-bg-image: url('/wp-content/uploads/hero.jpg');
+    --ab-bg-size: cover;
+    --ab-bg-position: 50.0% 30.0%;
+    --ab-bg-repeat: no-repeat;
+  "
+  data-parallax-speed="0.30"
+  id="hero"
+>
+  <!-- inner blocks -->
+</div>
+```
+
+When parallax is **off** the image renders directly on the wrapper:
+
+```html
+<div
+  class="wp-block-axiom-blocks-advanced-section axiom-blocks-section axiom-blocks-section--image is-h-center is-v-center"
+  style="
+    background-image: url('/wp-content/uploads/hero.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    ...
+  "
+>
+  <!-- inner blocks -->
+</div>
+```
+
+## CSS custom properties
+
+All layout and overlay values are surfaced as CSS custom properties on the wrapper so your theme stylesheet can read or override them.
+
+| Property | Controls |
+|----------|----------|
+| `--axiom-blocks-section-min-h` | Desktop minimum height |
+| `--axiom-blocks-section-min-h-mobile` | Mobile minimum height (≤ 768 px) |
+| `--axiom-blocks-section-justify` | Vertical content alignment (flex value) |
+| `--axiom-blocks-section-align` | Horizontal content alignment (flex value) |
+| `--axiom-blocks-section-overlay-bg` | Overlay background (color or gradient string) |
+| `--axiom-blocks-section-overlay-opacity` | Overlay opacity (0–1) |
+| `--axiom-blocks-section-overlay-blend` | Overlay blend mode |
+| `--ab-bg-image` | Background image URL (parallax mode only) |
+| `--ab-bg-size` | Background size (parallax mode only) |
+| `--ab-bg-position` | Background position (parallax mode only) |
+| `--ab-bg-repeat` | Background repeat (parallax mode only) |

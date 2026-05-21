@@ -1,0 +1,52 @@
+---
+title: Setting up your first Cartick product
+category: Getting Started
+updatedAt: 2026-04-15
+readTime: 6
+prev:
+  title: Installing Cartick
+  slug: installing-cartick
+next:
+  title: Connecting a payment provider
+  slug: connecting-a-payment-provider
+---
+
+Cartick models commerce around **products** and **prices**. A product is the thing you're selling; a price is a billing configuration attached to it (one-time, subscription, or usage-based). This separation — borrowed from Stripe's data model — makes it easy to offer the same product at multiple price points without duplicating inventory data.
+
+## Create a product
+
+1. In WP admin, go to **Cartick → Products → Add New**
+2. Give it a name — this appears on checkout and in receipts
+3. Set the **product type**: Simple, Subscription, or Bundle
+4. Under **Pricing**, click **Add price** and choose a billing interval
+5. Enter the amount and currency
+6. Click **Publish**
+
+<Callout type="tip">
+  Leave **Slug** blank — Cartick generates a clean URL from the product name automatically.
+</Callout>
+
+## Attach delivery
+
+For software products, add a **Download** or **License key** delivery under the **Fulfillment** panel:
+
+- **Download** — upload a ZIP or link to a URL. Cartick signs download links with a 24-hour expiry token.
+- **License key** — connect the wpaxiom licensing plugin to auto-generate keys on purchase.
+
+## Embed a checkout button
+
+Cartick ships a `[cartick_buy]` shortcode and a **Buy Button** block. Both render a checkout button that opens Cartick's hosted checkout in a modal.
+
+```html
+[cartick_buy product="axiom-blocks-pro" price="monthly"]
+```
+
+Or drop the **Cartick Buy Button** block into any post or template and pick your product from the dropdown.
+
+<Callout type="info">
+  The checkout modal inherits your theme's font stack and respects `prefers-color-scheme`. No additional CSS required.
+</Callout>
+
+## Test a purchase
+
+Enable **Test mode** under **Cartick → Settings → Payments**. Use card number `4242 4242 4242 4242` with any future expiry and any CVC. Test purchases go through the full fulfilment flow — download links generate, license keys are issued — so you can verify end-to-end before going live.

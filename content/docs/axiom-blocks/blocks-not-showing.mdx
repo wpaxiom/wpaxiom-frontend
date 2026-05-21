@@ -1,0 +1,67 @@
+---
+title: Blocks not showing
+category: Troubleshooting
+updatedAt: 2026-05-15
+readTime: 3
+prev:
+  title: License activation
+  slug: license-activation-troubleshooting
+---
+
+If an Axiom Blocks block is missing from the inserter, not rendering on the frontend, or showing a disabled state in the editor, work through the checks below.
+
+## Block is disabled in the dashboard
+
+Each block can be toggled on or off from the Axiom Blocks admin dashboard. A disabled block does not appear in the inserter and renders nothing on the frontend.
+
+1. Go to **WordPress admin → Axiom Blocks**
+2. Open the **Blocks** tab
+3. Find the block and make sure its toggle is on
+4. Save, then reload the editor
+
+## Plugin is not active
+
+If no Axiom Blocks blocks appear at all, confirm the plugin itself is active.
+
+1. Go to **WordPress admin → Plugins**
+2. Confirm **Axiom Blocks** is listed and shows **Active**
+3. If it is deactivated, click **Activate** and reload the editor
+
+## Caching — most common cause of frontend issues
+
+If blocks show correctly in the editor but not on the frontend, a cache layer is almost always the cause.
+
+- **Page cache** — purge your caching plugin (WP Rocket, W3 Total Cache, LiteSpeed Cache, etc.)
+- **CDN cache** — if you use Cloudflare or a similar CDN, clear the CDN cache
+- **Browser cache** — do a hard refresh (`Ctrl+Shift+R` / `Cmd+Shift+R`) or open in a private window
+
+After clearing all cache layers, reload the frontend page and check again.
+
+## Plugin or theme conflict
+
+Another plugin or your active theme may be loading a script or style that interferes with Axiom Blocks.
+
+1. Temporarily switch to a default WordPress theme (Twenty Twenty-Four)
+2. If the block appears, the conflict is in your theme
+3. Switch back to your theme, then deactivate other plugins one at a time to isolate the conflict
+
+## Block requires WooCommerce
+
+The **Free Shipping Progress** block requires WooCommerce to be installed and active. If WooCommerce is missing or inactive the block is silently skipped on the frontend.
+
+Confirm WooCommerce is active under **WordPress admin → Plugins** before using this block.
+
+## Block assets not loading
+
+If the block renders in the editor but appears unstyled or broken on the frontend, the block's CSS or JavaScript may not be loading.
+
+- Check your browser console for 404 errors on any `axiom-blocks` asset files
+- If you have a plugin that merges or minifies scripts, try disabling it temporarily
+- If you recently updated the plugin, purge all caches — old cached asset URLs may no longer be valid after an update
+
+<ContactCta
+  heading="Still not showing? We can help."
+  description="If you have tried everything above and the block is still not appearing, contact our support team with your WordPress version, active theme name, and a description of which block is affected."
+  label="Contact support"
+  href="/contact"
+/>

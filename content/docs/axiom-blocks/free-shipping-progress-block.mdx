@@ -1,0 +1,122 @@
+---
+title: Free Shipping Progress
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 4
+prev:
+  title: Trust Badges
+  slug: trust-badges-block
+---
+
+Free Shipping Progress shows customers how close their cart is to qualifying for free shipping. The first render is server-side so the bar is accurate immediately on page load — then the frontend script refreshes it live whenever a product is added or removed from the cart.
+
+<Callout type="info">
+  This block requires WooCommerce. In Auto mode it reads the threshold directly from your active Free shipping methods inside WooCommerce shipping zones.
+</Callout>
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Free Shipping Progress**. The editor shows a static preview at 55% fill. The live cart value is only visible on the frontend.
+
+## Threshold
+
+The **Threshold** panel is open by default.
+
+**Detection mode** controls where the qualifying amount comes from:
+
+| Mode | Behavior |
+|------|----------|
+| Auto (from WooCommerce shipping zones) | Reads the smallest `min_amount` from any active Free shipping method in your shipping zones |
+| Custom amount | Uses the value you enter, ignoring shipping zones entirely |
+
+**Custom threshold** — visible only in Custom mode. Enter the cart subtotal (excluding tax) a customer must reach to qualify. Example: `75` for $75.00.
+
+## Messages
+
+Two textarea fields control what the block says in each state.
+
+**Before qualifying** — shown while the cart is below the threshold. Default: `Add {amount_left} more for free shipping!`
+
+Use `{amount_left}` anywhere in the message as a placeholder — it is replaced with the formatted currency amount the customer still needs to add (e.g. `$12.50`).
+
+**After qualifying** — shown once the cart reaches the threshold. Default: `You've unlocked free shipping!`
+
+## Style
+
+**Text alignment** — aligns the message text: Left, Center (default), or Right.
+
+**Bar height** — thickness of the progress bar in pixels. Range 2–32. Default 4.
+
+**Corner radius** — rounds the ends of the bar and its track. Range 0–999px. Default 999 (fully rounded pill shape). Set to 0 for a flat rectangular bar.
+
+## Colors
+
+**Progress fill** — the bar color while the cart is below the threshold. Default `#7C3AED`.
+
+**Track** — the background color of the unfilled portion of the bar. Default `#e5e7eb`.
+
+**Qualified fill** — the bar color once the cart reaches the threshold. Default `#10b981` (green). The bar switches to this color and the `is-qualified` class is added to the wrapper.
+
+## Visibility
+
+**Hide when cart is empty** — hides the block entirely when there are no items in the cart. Useful for keeping the widget out of sight until shopping starts.
+
+**Hide once free shipping is unlocked** — hides the block once the customer qualifies. Use this if you'd rather show a separate banner or rely on the cart totals to communicate the achievement.
+
+## Spacing
+
+Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+
+## Live updates
+
+The frontend script subscribes to WooCommerce's jQuery cart events. Any time the cart changes — item added, removed, quantity updated, mini-cart refreshed — each Free Shipping Progress block on the page independently calls the REST endpoint `axiom-blocks/v1/free-shipping-progress` with its own settings and applies the fresh snapshot without a full page reload.
+
+## HTML output
+
+```html
+<div
+  class="wp-block-axiom-blocks-free-shipping-progress axiom-blocks-fsp is-align-center"
+  style="
+    --ab-fsp-bar-color: #7C3AED;
+    --ab-fsp-bar-bg: #e5e7eb;
+    --ab-fsp-qualified-color: #10b981;
+    --ab-fsp-bar-height: 4px;
+    --ab-fsp-radius: 999px;
+  "
+  data-ab-fsp="1"
+  data-threshold-mode="auto"
+  data-custom-threshold="0"
+  data-message-before="Add {amount_left} more for free shipping!"
+  data-message-qualified="You&#039;ve unlocked free shipping!"
+  data-hide-empty="0"
+  data-hide-qualified="0"
+>
+  <p class="axiom-blocks-fsp__msg" data-ab-fsp-msg>
+    Add <span class="woocommerce-Price-amount">$25.00</span> more for free shipping!
+  </p>
+  <div class="axiom-blocks-fsp__track">
+    <div class="axiom-blocks-fsp__fill" data-ab-fsp-fill style="width: 50.00%;"></div>
+  </div>
+</div>
+```
+
+Once the cart qualifies, `is-qualified` is added to the wrapper and the fill switches to `--ab-fsp-qualified-color`:
+
+```html
+<div class="axiom-blocks-fsp is-align-center is-qualified" ...>
+  <p class="axiom-blocks-fsp__msg" data-ab-fsp-msg>You've unlocked free shipping!</p>
+  <div class="axiom-blocks-fsp__track">
+    <div class="axiom-blocks-fsp__fill" data-ab-fsp-fill style="width: 100%;"></div>
+  </div>
+</div>
+```
+
+## CSS custom properties
+
+| Property | Controls |
+|----------|----------|
+| `--ab-fsp-bar-color` | Fill color while below threshold |
+| `--ab-fsp-bar-bg` | Track (unfilled) background color |
+| `--ab-fsp-qualified-color` | Fill color when cart has qualified |
+| `--ab-fsp-bar-height` | Bar thickness |
+| `--ab-fsp-radius` | Bar and track corner radius |

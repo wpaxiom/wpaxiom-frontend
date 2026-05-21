@@ -1,0 +1,163 @@
+---
+title: Trust Badges
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 5
+prev:
+  title: Reading Progress Bar
+  slug: reading-progress-bar-block
+next:
+  title: Free Shipping Progress
+  slug: free-shipping-progress-block
+---
+
+Trust Badges renders a curated row of payment, security, and service icons to reinforce buyer confidence at checkout or anywhere on the page. Choose from built-in presets, hand-pick individual badges, or upload your own images — or mix all three.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Trust Badges**. The block drops in with the Mixed preset active: Visa, Mastercard, PayPal, SSL Secure, and Money Back.
+
+## Content
+
+**Show heading** — toggles an optional text line above the badge row. Default on with the text `Secure Checkout Guaranteed`.
+
+When enabled, two additional fields appear:
+
+- **Heading text** — the label displayed above the badges.
+- **Heading alignment** — Left, Center (default), or Right.
+
+## Badges
+
+The **Badges** panel is open by default.
+
+**Preset** — quickly populates the selected badge list with a curated set:
+
+| Preset | Contents |
+|--------|----------|
+| Mixed (recommended) | A balanced mix of payment, security, and service badges |
+| Payment only | Payment method icons only |
+| Security only | SSL, encryption, and trust icons only |
+| Service only | Guarantee and support icons only |
+| All built-in | Every available built-in badge |
+| Custom selection | Preserves your current manual selection |
+
+Below the preset selector, badges are listed by category — **Payment**, **Security**, **Service** — each as an individual toggle. Enabling or disabling any toggle switches the preset to **Custom selection** automatically.
+
+## Custom badges
+
+The **Custom badges** panel lets you add your own images alongside the built-in badges.
+
+Click **Add custom badge** to create an entry. Each custom badge has:
+
+- **Image** — click the thumbnail to open the media library and select an image.
+- **Label / alt** — text displayed below the badge and used as the image alt attribute. Leave blank to suppress the label.
+- **Optional link URL** — wraps the image in an `<a>` tag that opens in a new tab. Leave blank for no link.
+- **Remove** — deletes the entry.
+
+Custom badges render after the selected built-in badges. A custom badge without an image URL is skipped on the frontend.
+
+## Layout
+
+**Layout** — how badges are arranged:
+
+| Option | Behavior |
+|--------|----------|
+| Horizontal row | All badges in a single wrapping row |
+| Grid | Badges in a fixed column grid |
+
+**Columns** — number of columns when Layout is Grid. Range 2–6. Default 4.
+
+**Alignment** — positions the badge list within the block: Left, Center (default), or Right.
+
+**Gap** — spacing between badges. Range 0–64px. Default 16px.
+
+**Badge size** — the pixel dimensions of each badge icon:
+
+| Size | Dimensions |
+|------|-----------|
+| Small | 32 × 32px |
+| Medium | 48 × 48px (default) |
+| Large | 64 × 64px |
+
+## Style
+
+**Color mode** — how built-in SVG badges are colored:
+
+| Mode | Appearance |
+|------|-----------|
+| Brand colors | Each badge renders in its original brand colors |
+| Monochrome | All badges render in a single color |
+
+**Icon color** — the fill color used in Monochrome mode. Default `#1e1e1e`. Only visible when Monochrome is selected.
+
+**Show card background** — wraps each badge in a colored tile. Off by default.
+
+- **Card color** — the tile background color. Default `#ffffff`.
+- **Card radius** — rounds the tile corners. Range 0–32px. Default 8px.
+
+**Show border** — adds a border around each badge tile. Off by default.
+
+- **Border color** — the border color. Default `#e5e7eb`.
+
+## Typography
+
+Two independent sub-panels:
+
+- **Heading** — font family, size, weight, line height, letter spacing, transform, and decoration for the heading text.
+- **Badge label** — the same controls for the label beneath each badge.
+
+## Spacing
+
+Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+
+## HTML output
+
+```html
+<div
+  class="wp-block-axiom-blocks-trust-badges axiom-blocks-trust-badges is-layout-horizontal is-align-center is-size-medium is-color-color has-card"
+  style="
+    --ab-tb-gap: 16px;
+    --ab-tb-card-bg: #ffffff;
+    --ab-tb-card-radius: 8px;
+    --ab-tb-border: 0;
+    --ab-tb-columns: unset;
+    --ab-tb-icon-size: 48px;
+  "
+>
+  <div class="axiom-blocks-trust-badges__heading" style="text-align: center;">
+    Secure Checkout Guaranteed
+  </div>
+
+  <div class="axiom-blocks-trust-badges__list">
+
+    <!-- Built-in badge -->
+    <div class="axiom-blocks-trust-badges__item">
+      <svg ...><!-- Visa SVG --></svg>
+      <span class="axiom-blocks-trust-badges__label">Visa</span>
+    </div>
+
+    <!-- Custom badge with link -->
+    <div class="axiom-blocks-trust-badges__item">
+      <a href="https://example.com" rel="noopener noreferrer" target="_blank">
+        <img src="/wp-content/uploads/badge.png" alt="Certified" style="width:48px;height:48px;object-fit:contain;" />
+      </a>
+      <span class="axiom-blocks-trust-badges__label">Certified</span>
+    </div>
+
+  </div>
+</div>
+```
+
+## CSS custom properties
+
+All layout and style values are set as CSS custom properties on the wrapper.
+
+| Property | Controls |
+|----------|----------|
+| `--ab-tb-gap` | Spacing between badge items |
+| `--ab-tb-card-bg` | Card tile background color |
+| `--ab-tb-card-radius` | Card tile border radius |
+| `--ab-tb-border` | Badge tile border (shorthand, e.g. `1px solid #e5e7eb`) |
+| `--ab-tb-columns` | Grid column count (`unset` in horizontal layout) |
+| `--ab-tb-icon-size` | Badge icon width and height |
+| `--ab-tb-icon-color` | Monochrome fill color (only set when color mode is Monochrome) |

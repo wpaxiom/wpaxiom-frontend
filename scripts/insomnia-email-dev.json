@@ -1,0 +1,361 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-05-12T12:00:00.000Z",
+  "__export_source": "wpaxiom-frontend:email-dev-helpers",
+  "resources": [
+    {
+      "_id": "wrk_wpaxiom_email",
+      "_type": "workspace",
+      "name": "wpaxiom — Email Dev",
+      "description": "Send any transactional email template to a real inbox via /api/dev/send-email. Change the \"to\" field in each request to your test inbox before firing. Templates use built-in sample data — to override, pass a \"vars\" object alongside.",
+      "scope": "collection"
+    },
+    {
+      "_id": "fld_emails",
+      "_type": "request_group",
+      "parentId": "wrk_wpaxiom_email",
+      "name": "Templates",
+      "description": "One request per template. Each uses built-in SAMPLE_VARS from the dev endpoint.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1000000000000
+    },
+    {
+      "_id": "req_email_order_confirmation",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "01 — Order Confirmation",
+      "description": "Sent right after purchase, before license issuance.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"order-confirmation\"\n}"
+      },
+      "metaSortKey": -1000,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_license_delivery",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "02 — License Delivery (hero)",
+      "description": "Sent immediately after license is generated. Most important customer-facing email.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"license-delivery\"\n}"
+      },
+      "metaSortKey": -900,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_welcome",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "03 — Welcome",
+      "description": "Sent ~5 minutes after license delivery for first-time buyers.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"welcome\"\n}"
+      },
+      "metaSortKey": -800,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_renewal_upcoming",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "04 — Renewal Upcoming",
+      "description": "Sent 7 days before subscription renews.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"renewal-upcoming\"\n}"
+      },
+      "metaSortKey": -700,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_renewal_successful",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "05 — Renewal Successful",
+      "description": "Receipt for successful subscription renewal.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"renewal-successful\"\n}"
+      },
+      "metaSortKey": -600,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_payment_failed",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "06 — Payment Failed (dunning)",
+      "description": "Sent when Paddle reports a failed renewal payment.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"payment-failed\"\n}"
+      },
+      "metaSortKey": -500,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_subscription_cancelled",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "07 — Subscription Cancelled",
+      "description": "Confirmation that the user cancelled their subscription.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"subscription-cancelled\"\n}"
+      },
+      "metaSortKey": -400,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_license_expired",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "08 — License Expired",
+      "description": "Notifies the user that their license expired.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"license-expired\"\n}"
+      },
+      "metaSortKey": -300,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_site_activated",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "09 — Site Activated",
+      "description": "Notifies the user when a new site activates their license.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"site-activated\"\n}"
+      },
+      "metaSortKey": -200,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_password_reset",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "10 — Password Reset",
+      "description": "Standard password reset email in our visual style.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"password-reset\"\n}"
+      },
+      "metaSortKey": -100,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_new_user",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "11 — New User (account auto-created)",
+      "description": "Sent after a Paddle purchase auto-creates a WP user. Shows login email + set-password link.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"new-user\"\n}"
+      },
+      "metaSortKey": -50,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_email_password_changed",
+      "_type": "request",
+      "parentId": "fld_emails",
+      "name": "12 — Password Changed (confirmation)",
+      "description": "Sent after a successful password reset. Confirms the change and offers a sign-in link.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/send-email",
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"to\": \"shuvo586@gmail.com\",\n  \"template\": \"password-changed\"\n}"
+      },
+      "metaSortKey": -25,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_crons",
+      "_type": "request_group",
+      "parentId": "wrk_wpaxiom_email",
+      "name": "Crons",
+      "description": "Scheduled jobs you can fire manually. Each requires a Bearer token matching CRON_SECRET in .env.local.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -2000000000000
+    },
+    {
+      "_id": "req_cron_renewal_reminders",
+      "_type": "request",
+      "parentId": "fld_crons",
+      "name": "Renewal Reminders (daily)",
+      "description": "Lists active WC subscriptions renewing in 6–8 days, sends Renewal Upcoming email, marks meta to dedupe. Replace REPLACE_ME with your CRON_SECRET.",
+      "method": "GET",
+      "url": "http://localhost:3000/api/cron/renewal-reminders",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer REPLACE_ME" }
+      ],
+      "body": {},
+      "metaSortKey": -100,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_cron_license_expired",
+      "_type": "request",
+      "parentId": "fld_crons",
+      "name": "License Expired (daily)",
+      "description": "Lists licenses whose expires_at fell within the last 24h, sends License Expired email. Replace REPLACE_ME with your CRON_SECRET.",
+      "method": "GET",
+      "url": "http://localhost:3000/api/cron/license-expired",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer REPLACE_ME" }
+      ],
+      "body": {},
+      "metaSortKey": -90,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_webhooks",
+      "_type": "request_group",
+      "parentId": "wrk_wpaxiom_email",
+      "name": "Webhooks",
+      "description": "Plugin-fired webhooks landing on Next.js. Bearer token must match the matching *_WEBHOOK_SECRET env var.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -3000000000000
+    },
+    {
+      "_id": "req_webhook_site_activated",
+      "_type": "request",
+      "parentId": "fld_webhooks",
+      "name": "Site Activated (simulate plugin fire)",
+      "description": "Simulates the wpaxiom-licensing plugin firing the site-activated webhook. Replace REPLACE_ME with your WPAXIOM_PLUGIN_WEBHOOK_SECRET.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/webhooks/site-activated",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer REPLACE_ME" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"license_key\": \"AXM-TEST-0000-0000-0000\",\n  \"site_url\": \"https://example-customer.com\",\n  \"activated_at\": \"2026-05-13 12:34:56\",\n  \"current_activations\": 2,\n  \"max_activations\": 5,\n  \"product_id\": 29,\n  \"customer_email\": \"shuvo586@gmail.com\",\n  \"customer_name\": \"Shuvo\"\n}"
+      },
+      "metaSortKey": -10,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    }
+  ]
+}

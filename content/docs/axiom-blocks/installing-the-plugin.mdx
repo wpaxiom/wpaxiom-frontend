@@ -1,0 +1,59 @@
+---
+title: Installing the plugin
+category: Getting Started
+updatedAt: 2026-05-15
+readTime: 3
+next:
+  title: Activating your license
+  slug: activating-your-license
+---
+
+Axiom Blocks is distributed as two plugins: the **free version** available from the WordPress.org plugin directory, and the **Pro extension** you download from your wpaxiom account. Both install as standard WordPress plugins. This guide covers installing both.
+
+## Requirements
+
+- **WordPress 6.4** or newer
+- **PHP 7.4** or newer (PHP 8.1+ recommended)
+- A theme with block editor support
+
+<Callout type="tip">
+  Not sure what version you're running? In WP admin go to **Tools → Site Health → Info** and expand the **Server** and **WordPress** sections.
+</Callout>
+
+## Install the free version
+
+### From the WordPress admin
+
+1. Go to **Plugins → Add New Plugin**
+2. Search for **Axiom Blocks**
+3. Click **Install Now** on the entry by wpaxiom, then **Activate**
+4. Open any post or page — the blocks appear under the **Axiom Blocks** category in the inserter
+
+### Manual upload
+
+1. Download the latest ZIP from [wordpress.org/plugins/axiom-blocks](#)
+2. Go to **Plugins → Add New Plugin → Upload Plugin**
+3. Choose the ZIP and click **Install Now**
+4. Click **Activate Plugin**
+
+### WP-CLI
+
+```bash
+wp plugin install axiom-blocks --activate
+```
+
+## Install the Pro extension
+
+Pro is a companion plugin — install it **alongside** the free version, not instead of it.
+
+<Callout type="warning">
+  Keep the free plugin active at all times. Deactivating it will disable Pro features as well.
+</Callout>
+
+1. Sign in at [wpaxiom.com/account](/account)
+2. Go to the **Licenses** tab and find your Axiom Blocks Pro license
+3. Click **Download .zip**
+4. In WP admin go to **Plugins → Add New Plugin → Upload Plugin**
+5. Upload the ZIP and click **Activate Plugin**
+
+Once both plugins are active, continue to [Activating your license](/docs/axiom-blocks/activating-your-license) to connect your license key.

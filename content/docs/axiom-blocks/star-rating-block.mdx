@@ -1,0 +1,100 @@
+---
+title: Star Rating
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 3
+prev:
+  title: Copy to Clipboard
+  slug: copy-to-clipboard-block
+next:
+  title: Shape Divider
+  slug: shape-divider-block
+---
+
+Star Rating displays a row of stars filled to a precise rating value, with an optional numeric value and review count below. Use it in testimonials, product cards, case study headers, or anywhere you want to show social proof at a glance.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Star Rating**. The block drops in at 4.5 out of 5 stars.
+
+## Rating
+
+The **Rating** panel is open by default.
+
+**Precision** controls how finely the rating value is snapped:
+
+| Option | Behavior |
+|--------|----------|
+| Full stars only | Rounds to the nearest whole number |
+| Half stars | Rounds to the nearest 0.5 |
+| Any fraction | Uses the exact value with no rounding |
+
+**Rating** — the value to display. The slider range is 0 to the current **Max Stars** value. The step size follows the Precision setting: 1 for Full, 0.5 for Half, 0.1 for Any.
+
+**Max Stars** — the total number of stars in the row. Range 3–10, default 5.
+
+## Labels
+
+**Show numeric value** — displays the rating number alongside the stars (e.g. `4.5`). Full-star precision shows no decimal; Half and Any show one decimal place.
+
+**Show review count** — displays the review count in parentheses after the numeric value (e.g. `(1,234 reviews)`). Enabling this reveals two additional fields:
+
+- **Review count** — the number to display. Formatted with locale-aware thousands separators on the frontend.
+- **Count label** — the word after the number. Default `reviews`. Change it to `ratings`, `opinions`, or any other label.
+
+<Callout type="info">
+  The numeric value and review count share a single meta line below the stars. Both can be shown together or independently.
+</Callout>
+
+## Style
+
+**Alignment** — positions the star row (and meta line) within the block: **Left** (default), **Center**, or **Right**.
+
+**Star size** — the width and height of each star SVG. Default `20px`. Accepts any CSS length — e.g. `24px`, `1.5rem`.
+
+**Filled color** — the color of the filled portion of the stars. Default `#fbbf24` (amber).
+
+**Empty color** — the color of the unfilled portion. Default `#e5e7eb` (light grey).
+
+**Text color** — the color of the numeric value and review count text. Default `#4b5563`. Only appears in the sidebar when **Show numeric value** or **Show review count** is enabled.
+
+## Meta typography
+
+Full control over font family, size, weight, line height, letter spacing, transform, and decoration for the value and count text. Only appears in the sidebar when at least one of the label toggles is on.
+
+## Spacing
+
+Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+
+## HTML output
+
+```html
+<div
+  class="wp-block-axiom-blocks-star-rating axiom-blocks-star-rating axiom-blocks-star-rating--align-left"
+>
+  <div
+    class="axiom-blocks-star-rating__stars"
+    role="img"
+    aria-label="Rating: 4.5 out of 5"
+  >
+    <!-- Empty star row — always full width, sits behind the filled row -->
+    <div class="axiom-blocks-star-rating__row axiom-blocks-star-rating__row--empty">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#e5e7eb" aria-hidden="true">...</svg>
+      <!-- × maxStars -->
+    </div>
+    <!-- Filled star row — clipped to fill percentage -->
+    <div class="axiom-blocks-star-rating__row axiom-blocks-star-rating__row--filled" style="width: 90%;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#fbbf24" aria-hidden="true">...</svg>
+      <!-- × maxStars -->
+    </div>
+  </div>
+
+  <!-- Only rendered when showValue or showCount is enabled -->
+  <div class="axiom-blocks-star-rating__meta" style="color: #4b5563;">
+    <span class="axiom-blocks-star-rating__value">4.5</span>
+    <span class="axiom-blocks-star-rating__count">(1,234 reviews)</span>
+  </div>
+</div>
+```
+
+The star fill works by overlaying two identical rows of stars — one in the empty color, one in the filled color — and clipping the filled row to `width: {fillPercent}%`. A 4.5 out of 5 rating clips to `90%`.

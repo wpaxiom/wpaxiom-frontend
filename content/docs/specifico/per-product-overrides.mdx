@@ -1,0 +1,129 @@
+---
+title: Per-product overrides
+category: Per-product
+updatedAt: 2026-05-17
+readTime: 5
+prev:
+  title: Creating your first specification table
+  slug: creating-your-first-table
+next:
+  title: Mapping rules
+  slug: mapping-rules
+---
+
+The mapping rules you set up in **Specifico → Mapping** apply a single table to every product in a category. That's the right default most of the time — but real catalogs have exceptions:
+
+- The mapped table says *Screen: 6.1"* but this specific phone has *6.7"*
+- One product needs an extra row the rest of the category doesn't have
+- A single product needs an entirely custom spec sheet that doesn't fit the category template
+
+Specifico handles all three from the **Specification Settings** metabox on the product edit screen.
+
+## Enabling specifications for a product
+
+Open any product in **Products → All Products → Edit**. Scroll down to the **Specification Settings** metabox.
+
+At the top is a single switch: **Enable specifications for this product**. Turn it on and the rest of the metabox appears.
+
+> *Screenshot: Specification Settings metabox with the enable switch turned on, two mode cards visible below*
+
+You'll see two mode cards:
+
+- **Inherit from mapping** — use the table chosen by your global mapping rule, with optional per-product value overrides
+- **Customize for this product** — override the mapping with a one-off table built just for this product
+
+Inherit is selected by default and is the right choice for most products.
+
+## Mode 1 — Inherit from mapping
+
+Inherit mode uses the table that your mapping rule resolved for this product. The header of the inherit card tells you which table is in effect and which rule matched it:
+
+```
+Will display: Smartphone Specifications
+Matched via category: Phones
+```
+
+This is read-only — it's just telling you the result. To change which table appears, edit the rule in **Specifico → Mapping**.
+
+### Editing values for this product
+
+The labels in a mapping table (e.g. *Screen Size*, *Resolution*) are shared across every product in the category — change them once in the group, every matching product updates. The **values** in each row, however, are *what's actually on this product* and almost always need to be product-specific.
+
+Click **Show fields** in the inherit card. The table expands:
+
+> *Screenshot: Inherit card expanded, two-column rows with locked labels on left, editable text inputs on right*
+
+- The **left column** (label) is locked — it comes from the group definition and cannot be edited here
+- The **right column** (value) is an editable text field — change it for this product only
+
+Type the right value into each row, then click **Update** on the product. Saved values are stored per product and override the group defaults whenever this product is displayed. Other products in the same category keep showing the group defaults.
+
+<Callout type="tip">
+  Saved per-product values stay even when you collapse the field table with **Hide fields**. The toggle only controls visibility in the metabox — your edits are still saved.
+</Callout>
+
+### What happens if you don't override any values
+
+The frontend falls back to whatever default values you set when you created the group. That's exactly what *inheriting* means — until you customize a row, the group's default fills it in.
+
+### No mapping rule matches this product
+
+If the metabox says **No mapping rule matches this product yet**, no global rule resolves to a table for this product. You have two options:
+
+1. **Add a mapping rule** — go to **Specifico → Mapping** and add a rule that includes this product's category, tag, or ID. After saving, return to the product and the inherit card will fill in.
+2. **Switch to Customize** — if this is genuinely a one-off product and you don't want a category rule, use the Customize mode below instead.
+
+## Mode 2 — Customize for this product
+
+Select **Customize for this product** when the product needs a completely different table structure than its category's mapping — not just different values, but different rows, different groups, or no relation to the mapping at all.
+
+### Pick a starting point
+
+When you first switch to Customize, the card shows a chooser:
+
+> *Screenshot: Customize card with a "Copy from an existing table…" dropdown and an "or start blank" link below*
+
+- **Copy from an existing table…** — pick any saved specification table. The groups and rows are duplicated into this product's custom override. Edit freely from there.
+- **or start blank** — start with one empty group and one empty row, build everything by hand.
+
+Copy from existing is usually faster: take your nearest template and edit it down.
+
+### Editing the custom table
+
+Once you have a starting point, the table appears as collapsible groups. For each group:
+
+- Click the group title to expand it
+- Edit the **group name** in the text input at the top
+- Edit each **row** — two columns side by side, both editable
+- **Add attribute** at the bottom of a group adds a new row
+- The trash icon next to a row deletes it
+- **Add group** at the very bottom of the editor adds a new group
+
+A small label above the editor tells you what you started from:
+
+```
+Copied from Smartphone Specifications
+```
+
+or `Custom table` if you started blank.
+
+### Switching starting points
+
+Made a wrong choice? Click **Start over** in the top-right of the editor. This wipes the custom table and returns you to the chooser. Use it when you copied the wrong template and want a different one — or when you started blank and would rather copy from a template after all.
+
+<Callout type="warning">
+  **Start over** discards everything in the custom table for this product, including any rows you've added by hand. There's no undo. If you want to keep your work, save the product first and consider whether you actually need a different starting point.
+</Callout>
+
+## When to use which mode
+
+| Situation | Use |
+| --- | --- |
+| Most products in a category share specs, with different values per product | **Inherit** + edit values |
+| Product needs one or two extra rows the category doesn't have | **Customize** (copy from the category's table, add rows) |
+| Product is a complete outlier — different attributes entirely | **Customize** (copy or start blank) |
+| Product genuinely has no specs to show | Leave the **Enable specifications** switch off |
+
+## Disabling specifications for a product
+
+Turn the **Enable specifications for this product** switch off and save. The Specifications tab disappears from this product's frontend page. Any inherited values or custom table data you saved is preserved in case you re-enable later.

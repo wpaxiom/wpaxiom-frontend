@@ -1,0 +1,57 @@
+---
+title: Installing Specifico
+category: Getting Started
+updatedAt: 2026-05-17
+readTime: 2
+next:
+  title: Creating your first specification table
+  slug: creating-your-first-table
+---
+
+Specifico is a free WordPress plugin that adds a structured specifications tab to your WooCommerce product pages. It installs like any other WordPress plugin — no license key, no activation step.
+
+## Requirements
+
+- **WordPress 5.8** or newer
+- **WooCommerce 6.3** or newer (the plugin extends the product page tabs)
+- **PHP 7.4** or newer
+
+<Callout type="tip">
+  Not sure what version you're running? In WP admin go to **Tools → Site Health → Info** and expand the **Server** and **WordPress** sections.
+</Callout>
+
+## Install from the WordPress admin
+
+1. Go to **Plugins → Add New Plugin**
+2. Search for **Specifico**
+3. Click **Install Now** on the entry by wpaxiom, then **Activate**
+4. A new **Specifico** item appears in the admin sidebar
+
+## Manual upload
+
+If you downloaded the ZIP from your wpaxiom account or the WordPress.org page:
+
+1. Go to **Plugins → Add New Plugin → Upload Plugin**
+2. Choose the `specifico.zip` file and click **Install Now**
+3. Click **Activate Plugin**
+
+## WP-CLI
+
+```bash
+wp plugin install specifico --activate
+```
+
+## After activation
+
+Open the new **Specifico** menu in the admin sidebar. You'll see four screens:
+
+- **Specifications** — your specification tables (the actual data customers will see on product pages)
+- **Groups** — reusable sets of attributes that compose a table
+- **Mapping** — rules that decide which table shows on which product
+- **Settings** — global display options
+
+<Callout type="info">
+  Make sure WooCommerce is active before you activate Specifico. Without WooCommerce, the product tab won't render on the frontend.
+</Callout>
+
+Continue to **Creating your first specification table** to build your first spec table from scratch.

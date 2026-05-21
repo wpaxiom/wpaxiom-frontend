@@ -1,0 +1,134 @@
+---
+title: Before/After Slider
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 4
+prev:
+  title: Advanced Section
+  slug: advanced-section-block
+next:
+  title: Countdown Timer
+  slug: countdown-timer-block
+---
+
+Before/After Slider is a drag-to-compare block that stacks two images in the same frame and lets visitors reveal either side by dragging a handle. Use it for product comparisons, photo retouching demos, design before/after — any two states of the same subject.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Before/After Slider**. The block drops in as a placeholder. Set both images in the sidebar to activate the slider.
+
+## Images
+
+The **Images** panel has two independent pickers — **Before** and **After**. Each shows a thumbnail preview once an image is selected.
+
+- **Select image** — opens the media library
+- **Replace** — swaps the current image without losing other settings
+- **Remove** — clears the image and returns to the placeholder state
+
+The block renders nothing on the frontend until both images are set.
+
+## Labels
+
+Enable **Show labels** to overlay a text chip on each side of the frame.
+
+- **Before label** — defaults to `Before`
+- **After label** — defaults to `After`
+
+Labels are hidden by default. When disabled, neither label field appears in the sidebar.
+
+## Style
+
+### Initial position
+
+Sets where the divider handle starts when the block first loads, as a percentage from the left edge. Default is `50` (centered). Set it lower to reveal more of the After image on load, higher to reveal more of the Before image.
+
+### Aspect ratio
+
+Controls the frame's height.
+
+| Option | Behavior |
+|--------|----------|
+| Auto (use before image) | Frame height matches the before image's natural proportions |
+| 16 : 9 | Fixed widescreen ratio |
+| 4 : 3 | Fixed standard ratio |
+| 1 : 1 | Square |
+| 3 : 4 | Fixed portrait ratio |
+
+When a fixed ratio is set, both images fill the frame with `object-fit: cover`.
+
+### Handle color
+
+The color of the circular drag handle and its arrow chevrons. Defaults to white (`#ffffff`). Set this to a contrasting color if your images are light near the center.
+
+### Line color
+
+The color of the vertical divider line. Defaults to white (`#ffffff`). The line inherits this color independently from the handle.
+
+## Spacing
+
+**Spacing** sets per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar to break out of the content column.
+
+## Interaction
+
+The slider works across pointer and touch devices.
+
+- **Drag** — click or tap anywhere on the frame and drag left or right to move the handle
+- **Click to jump** — clicking a point on the frame snaps the handle to that position immediately
+- **Keyboard** — when the frame has focus, use the arrow keys to move the handle:
+
+| Key | Movement |
+|-----|----------|
+| `←` / `→` | ±2% |
+| `Page Up` / `Page Down` | ±10% |
+| `Home` | Jump to 0% (full Before) |
+| `End` | Jump to 100% (full After) |
+
+The frame carries `role="slider"` and updates `aria-valuenow` on every move.
+
+## HTML output
+
+```html
+<div class="wp-block-axiom-blocks-before-after-slider axiom-blocks-bas">
+  <div
+    class="axiom-blocks-bas__frame is-aspect-fixed"
+    style="--slider-pos: 50%; --handle-color: #ffffff; --line-color: #ffffff; aspect-ratio: 16 / 9;"
+    role="slider"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="50"
+    aria-label="Before / after image comparison"
+    tabindex="0"
+  >
+    <img
+      src="/wp-content/uploads/after.jpg"
+      alt="After"
+      class="axiom-blocks-bas__img axiom-blocks-bas__img--after"
+      draggable="false"
+    />
+    <img
+      src="/wp-content/uploads/before.jpg"
+      alt="Before"
+      class="axiom-blocks-bas__img axiom-blocks-bas__img--before"
+      draggable="false"
+    />
+    <span class="axiom-blocks-bas__label axiom-blocks-bas__label--before">Before</span>
+    <span class="axiom-blocks-bas__label axiom-blocks-bas__label--after">After</span>
+    <div class="axiom-blocks-bas__line" aria-hidden="true"></div>
+    <div class="axiom-blocks-bas__handle" aria-hidden="true">
+      <!-- chevron SVG -->
+    </div>
+  </div>
+</div>
+```
+
+When **Aspect ratio** is set to **Auto**, the frame carries `is-aspect-auto` instead of `is-aspect-fixed`, and no `aspect-ratio` inline style is added.
+
+## CSS custom properties
+
+These are set on `.axiom-blocks-bas__frame`. Override them from your theme stylesheet if needed.
+
+| Property | Controls |
+|----------|----------|
+| `--slider-pos` | Divider position (% from left); updated live by the frontend script |
+| `--handle-color` | Handle circle and chevron color |
+| `--line-color` | Vertical divider line color |

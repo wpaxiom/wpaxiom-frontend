@@ -1,0 +1,68 @@
+---
+title: Reading Progress Bar
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 3
+prev:
+  title: Device Visibility
+  slug: device-visibility-block
+next:
+  title: Trust Badges
+  slug: trust-badges-block
+---
+
+Reading Progress Bar renders a thin fixed bar at the top or bottom of the viewport that fills as the visitor scrolls down the page. Use it on long-form content — blog posts, documentation, case studies — to give readers a visual sense of how far through the article they are.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Reading Progress Bar**. Only one instance is allowed per page — the inserter will not offer a second one.
+
+The editor shows a static preview at 42% fill with a note that the bar is fixed to the viewport on the frontend. It does not scroll in the editor.
+
+## Position
+
+The **Position** panel is open by default.
+
+**Position** — where the bar is fixed on the viewport:
+
+| Option | Placement |
+|--------|-----------|
+| Top of viewport | Pinned to the very top edge of the browser window |
+| Bottom of viewport | Pinned to the very bottom edge |
+
+**Z-index** — the stacking order of the bar. Default `9999`. Range 1–99999. Raise this value if the bar appears behind a sticky header or navigation — set it higher than the header's z-index.
+
+## Style
+
+**Height** — the thickness of the bar. Default `4px`. Accepts any CSS length — e.g. `6px`, `0.375rem`.
+
+**Fill color** — the color of the filled portion that grows as the visitor scrolls. Default `#7C3AED`.
+
+**Show track background** — toggle to display a background track behind the fill. Default on. When off, the unfilled area is transparent and only the filled portion is visible.
+
+**Track color** — the color of the unfilled track. Default `#e5e7eb`. Only appears when **Show track background** is on.
+
+## HTML output
+
+```html
+<div
+  class="axiom-blocks-reading-progress-bar axiom-blocks-reading-progress-bar--top"
+  style="height: 4px; background: #e5e7eb; z-index: 9999;"
+  role="progressbar"
+  aria-label="Reading progress"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="0"
+>
+  <div
+    class="axiom-blocks-reading-progress-bar__fill"
+    style="background: #7C3AED; height: 100%; width: 0%;"
+  ></div>
+</div>
+```
+
+The fill `width` starts at `0%` and is updated live by the frontend script on every scroll event. `aria-valuenow` updates in sync.
+
+<Callout type="info">
+  On page load the frontend script moves the bar element directly to `&lt;body&gt;`. This ensures `position: fixed` works correctly even when the block is placed inside a container that uses `transform`, `filter`, or `will-change` — properties that create a new CSS containing block and would otherwise break fixed positioning.
+</Callout>

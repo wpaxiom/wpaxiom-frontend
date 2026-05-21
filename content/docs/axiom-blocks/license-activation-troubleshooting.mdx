@@ -1,0 +1,53 @@
+---
+title: License activation
+category: Troubleshooting
+updatedAt: 2026-05-15
+readTime: 3
+next:
+  title: Blocks not showing
+  slug: blocks-not-showing
+---
+
+If your license key is not activating, the two most common causes are a full site quota and an inactive subscription. Work through the checks below in order before contacting support.
+
+## Check your site quota
+
+Every license allows activation on a limited number of sites. If the quota is full, new activations are rejected even with a valid key.
+
+1. Log in to your account at [wpaxiom.com/account](https://wpaxiom.com/account)
+2. Open the **Licenses** tab
+3. Find your license key and expand it — you will see a list of all currently activated sites
+4. If the list is full, click **Deactivate** next to any site you no longer use
+5. Return to your WordPress dashboard and try activating again
+
+<Callout type="tip">
+  Deactivating a site from the Licenses tab frees up a slot immediately — no waiting period. Use this whenever you migrate a site, move to a new domain, or retire a staging environment.
+</Callout>
+
+## Check your subscription status
+
+A lapsed or cancelled subscription will prevent activation and may deactivate existing sites.
+
+1. In your account, open the **Subscriptions** tab
+2. Locate your Axiom Blocks subscription and check the **Status** and **Next payment** date
+3. If the subscription is **expired** or **on-hold**, renew it from the same page
+4. Once renewed, return to WordPress and activate your license key again
+
+## Check the license key itself
+
+- Make sure you copied the full key with no leading or trailing spaces — paste it directly from your account page rather than typing it manually
+- Each license key is tied to the product you purchased. If you have multiple licenses, confirm you are using the key for Axiom Blocks specifically
+
+## Firewall or outbound request blocked
+
+License activation makes an outbound HTTP request from your server to our licensing service. Some managed hosts block outgoing requests by default.
+
+- Ask your host to confirm that outbound HTTP connections are permitted from your server
+- If you are on a local development environment with no public URL, activation may fail because the site cannot be verified — use a staging or live domain instead
+
+<ContactCta
+  heading="Still not activating? We're here to help."
+  description="If you have worked through every step above and the license still will not activate, reach out to our support team. Include the error message from your Axiom Blocks dashboard and the site URL you are trying to activate on."
+  label="Contact support"
+  href="/contact"
+/>

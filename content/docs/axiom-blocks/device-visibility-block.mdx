@@ -1,0 +1,68 @@
+---
+title: Device Visibility
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 3
+prev:
+  title: Shape Divider
+  slug: shape-divider-block
+next:
+  title: Reading Progress Bar
+  slug: reading-progress-bar-block
+---
+
+Device Visibility is an inner blocks container that shows or hides its content at three breakpoints — desktop, tablet, and mobile. Drop any block inside it and control exactly which screen sizes see that content.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Device Visibility**. The block drops in as an empty container visible on all devices. Add any inner blocks inside it — headings, images, columns, other Axiom blocks.
+
+The editor shows a label beneath the toolbar summarising the current visibility state: **Visible on all devices** when all three toggles are on, or a list of the active devices when some are off.
+
+## Visibility settings
+
+The **Visibility Settings** panel is open by default and has one toggle per breakpoint:
+
+| Toggle | Breakpoint |
+|--------|-----------|
+| Show on Desktop | 1025px and above |
+| Show on Tablet | 768px – 1024px |
+| Show on Mobile | Below 768px |
+
+All three are on by default. Disable any combination to hide the inner content at that breakpoint.
+
+<Callout type="warning">
+  If you turn off all three toggles the editor shows a warning: **This block is hidden on all devices.** The wrapper is still rendered in the HTML with `display: none` so the content is completely invisible — but it still exists in the DOM.
+</Callout>
+
+## Spacing
+
+Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+
+## HTML output
+
+Hiding a device adds a modifier class to the wrapper. The block's stylesheet uses media queries to apply `display: none` at the corresponding breakpoint.
+
+```html
+<!-- Visible on desktop and tablet, hidden on mobile -->
+<div class="wp-block-axiom-blocks-device-visibility is-hidden-mobile">
+  <!-- inner blocks -->
+</div>
+```
+
+```html
+<!-- Hidden on desktop only -->
+<div class="wp-block-axiom-blocks-device-visibility is-hidden-desktop">
+  <!-- inner blocks -->
+</div>
+```
+
+When **all three** toggles are off, the block renders with an inline `display: none` regardless of breakpoint:
+
+```html
+<div class="wp-block-axiom-blocks-device-visibility is-hidden-desktop is-hidden-tablet is-hidden-mobile" style="display: none;">
+  <!-- inner blocks -->
+</div>
+```
+
+When a device toggle is **on**, no modifier class is added for that breakpoint — the default state is visible.

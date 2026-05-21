@@ -1,0 +1,53 @@
+---
+title: Menu Cart
+category: Modules
+updatedAt: 2026-05-20
+readTime: 5
+prev:
+  title: Sticky Cart
+  slug: sticky-cart
+next:
+  title: Off-Canvas Cart
+  slug: off-canvas-cart
+---
+
+The **Menu Cart** module injects a cart summary — an icon, item count, and/or cart total — into one of your site's registered navigation menus.
+
+## Selecting a menu
+
+Under **Select menu**, choose which registered nav menu should receive the cart widget. Only menus registered by your theme or plugins appear in this list.
+
+<Callout type="tip">
+  If the dropdown is empty, your theme hasn't registered any nav menus. Register one under **Appearance → Menus** or in your theme's `functions.php`.
+</Callout>
+
+## Display options
+
+- **Display cart** — master toggle to show or hide the cart widget in the selected menu
+- **Show on cart page** — show the widget when viewing the cart (enabled by default)
+- **Show on checkout page** — show the widget on the checkout page (enabled by default)
+- **Display cart icon** — shows a bag/cart SVG icon alongside the count or total (enabled by default)
+
+## Content
+
+Choose what text the cart button displays:
+
+| Option | Shows |
+|---|---|
+| Item count | "2 items" |
+| Price | Cart subtotal or total |
+| Item count + price | "2 items – $24.00" |
+
+When showing a price, set **Price to display** to either **Subtotal** (before tax and shipping) or **Total** (the final cart total including fees).
+
+## Alignment
+
+Set **Menu alignment** to position the cart widget within the menu: **Left**, **Center**, or **Right**. Defaults to right.
+
+## Custom CSS class
+
+Add a custom CSS class to the cart wrapper for targeted styling from your theme or a custom stylesheet.
+
+## AJAX updates
+
+**AJAX cart** keeps the count and total in sync with WooCommerce's cart fragments system — no page reload needed when items are added or removed.

@@ -1,0 +1,58 @@
+---
+title: Off-Canvas Cart
+category: Modules
+updatedAt: 2026-05-20
+readTime: 6
+prev:
+  title: Menu Cart
+  slug: menu-cart
+---
+
+The **Off-Canvas Cart** module adds a slide-in cart drawer and a floating trigger button to every page on your store. Clicking the button opens the drawer, which lists all cart items with quantity controls and a checkout link.
+
+## Drawer position and size
+
+- **Position** — the drawer slides in from the **left** or **right** edge of the screen. Defaults to right.
+- **Width** — the drawer width in pixels (280–600 px). Defaults to 380 px.
+
+## Trigger button
+
+A floating button fixed to the screen opens and closes the drawer.
+
+- **Button position** — choose a corner: top-left, top-right, bottom-left, or bottom-right. Defaults to bottom-right.
+- **Button background** — background colour of the trigger button. Defaults to `#6B66F7`.
+- **Button colour** — icon/text colour on the trigger button. Defaults to white.
+
+<Callout type="info">
+  The trigger button renders on top of page content. If it overlaps a critical element on certain pages, use a custom CSS rule to reposition it, or switch it to a different corner.
+</Callout>
+
+## Auto-open
+
+Enable **Auto-open** to pop the drawer open automatically when a customer adds an item to the cart. Disabled by default.
+
+## Animation speed
+
+Control how quickly the drawer slides in and out:
+
+| Option | Duration |
+|---|---|
+| Slow | 0.6 s |
+| Normal | 0.4 s |
+| Fast | 0.22 s |
+
+## Drawer header
+
+- **Title** — the heading shown at the top of the drawer. Defaults to "Your Cart".
+- **Show item count in header** — displays the number of items next to the title when the cart is not empty (enabled by default).
+
+## Cart items
+
+- **Show product images** — show a thumbnail next to each line item (enabled by default).
+
+Each cart item shows the product name, any variation meta, the line price, and inline quantity controls (minus / input / plus). Items can be removed individually with the trash icon.
+
+## Empty cart state
+
+- **Empty cart text** — the message shown when there are no items in the cart. Defaults to "Your cart is empty."
+- **Continue shopping URL** — the link shown under the empty-cart message. Leave blank to use the WooCommerce shop page URL automatically.

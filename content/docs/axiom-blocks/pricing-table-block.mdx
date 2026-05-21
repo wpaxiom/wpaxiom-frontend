@@ -1,0 +1,154 @@
+---
+title: Pricing Table
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 6
+prev:
+  title: Tabs
+  slug: tabs-block
+next:
+  title: Advanced Section
+  slug: advanced-section-block
+---
+
+The Pricing Table block is a parent–child pair: the **Pricing Table** wrapper manages the grid layout, accent color, and card style, while each **Pricing Plan** card holds its own name, price, features, and CTA. Both blocks are server-side rendered. The block drops in with three pre-filled plans — Starter, Pro (highlighted), and Business — so you have a working layout to edit immediately.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Pricing Table**. Three plan cards appear immediately. Add or remove plans from the Pricing Table toolbar or by inserting a Pricing Plan block inside the wrapper.
+
+## Plan card settings
+
+Select a Pricing Plan card to access its settings. Each card is fully independent.
+
+### Name & badge
+
+Click the plan name directly in the editor to rename it — it's a live `RichText` field. The **Badge text** field in the sidebar (e.g. `Most Popular`) renders a small chip above the plan name. Leave it empty to hide the badge entirely.
+
+### Price display
+
+The price row is made of three inline-editable fields: **currency symbol**, **amount**, and **period**. Click any of them in the editor to change the value. You can hide the currency or period independently with the **Show currency** and **Show period** toggles under **Price display** in the sidebar.
+
+### Description
+
+The tagline below the price is optional. Click the placeholder text in the editor to add a short description. Leave it blank and it won't render on the frontend.
+
+### Features list
+
+Each plan has an independent feature list. In the editor:
+
+- **Add** — click **+ Add feature** at the bottom of the list
+- **Toggle included/excluded** — click the icon to the left of any feature to flip its state; a checkmark means included, a cross means excluded
+- **Remove** — click the trash icon on the right of any feature row
+- **Rename** — click the feature text and type directly
+
+<Callout type="tip">
+  Excluded features are still rendered on the frontend — they show with a cross icon and a muted style. This lets you show what a lower-tier plan is missing compared to a higher one.
+</Callout>
+
+### Call to action
+
+The CTA button label is editable directly in the card. To set the button URL, click the **link icon** in the block toolbar. A small URL input opens inline — paste or search for the destination. Click the unlink icon in the toolbar to clear the URL. The **Open in new tab** toggle is in both the toolbar input and the **Call to action** sidebar panel.
+
+### Recommended plan
+
+Enable **Mark as recommended** in the **Plan** sidebar panel to highlight that card. This adds the `is-highlight` class to the card and applies the table-level accent color to the card border, badge, and CTA button. Only one plan should be highlighted at a time.
+
+<Callout type="tip">
+  The recommended card is visually driven by the accent color set on the parent Pricing Table block, not the individual plan. Change the accent once and all highlight styling updates.
+</Callout>
+
+## Table settings
+
+Select the outer Pricing Table block to access grid and style settings.
+
+### Columns & gap
+
+**Columns** (1–4) sets how many plan cards appear per row. **Gap** (in px) controls the spacing between cards. On small screens the cards stack to a single column automatically.
+
+### Card style
+
+Four card style presets control the visual treatment of every plan card in the table.
+
+| Preset | Appearance |
+|--------|------------|
+| Bordered | Subtle border around each card, no shadow |
+| Flat | No border or shadow — suits layered or colored section backgrounds |
+| Shadow | Drop shadow with no border — lifts cards off the background |
+| Minimal | Border and background stripped away — cards sit flush |
+
+### Accent color
+
+The **Accent color** drives the highlight treatment on the recommended plan card — the border, badge background, and CTA button all inherit this color. Default is `#7C3AED`. Set it once and every `is-highlight` card updates.
+
+### Feature icon style
+
+**Feature icon style** applies to every plan in the table at once — it comes via block context so individual cards don't override it.
+
+| Style | Included | Excluded |
+|-------|----------|----------|
+| Check | Checkmark | Cross |
+| Dot | Dot | Dot |
+
+Use **Dot** when you don't want to show excluded items as negatives — both states render the same dot icon with different opacity.
+
+### Section heading
+
+Enable **Show heading** to render a title above the plan grid. Edit the heading text in the sidebar. Alignment (Left, Center, Right) and full typography controls are available under **Heading typography**.
+
+## Typography
+
+Each text element in a Pricing Plan card has its own independent typography panel inside **Typography** in the plan sidebar: **Plan name**, **Price**, **Description**, **Features**, and **Button**. The section heading typography is controlled from the parent Pricing Table block.
+
+## Spacing & alignment
+
+**Spacing** sets per-side padding and margin on the outer Pricing Table wrapper. The block supports **Wide** and **Full** alignment from the toolbar to break out of the content column.
+
+## HTML output
+
+The Pricing Table renders a wrapper with the grid inside it. Each plan renders as an `<article>`.
+
+```html
+<div
+  class="wp-block-axiom-blocks-pricing-table axiom-blocks-pricing-table is-card-bordered is-feat-check"
+  style="--ab-pt-columns: 3; --ab-pt-gap: 24px; --ab-pt-accent: #7C3AED;"
+>
+  <div class="axiom-blocks-pricing-table__grid">
+
+    <article class="wp-block-axiom-blocks-pricing-plan ab-pt-plan is-highlight">
+      <div class="ab-pt-plan__badge">Most Popular</div>
+      <h3 class="ab-pt-plan__name">Pro</h3>
+      <div class="ab-pt-plan__price">
+        <span class="ab-pt-plan__currency">$</span>
+        <span class="ab-pt-plan__amount">29</span>
+        <span class="ab-pt-plan__period">/month</span>
+      </div>
+      <p class="ab-pt-plan__desc">Everything you need to grow.</p>
+      <ul class="ab-pt-plan__features">
+        <li class="ab-pt-feat is-included">
+          <span class="ab-pt-feat__icon"><!-- checkmark svg --></span>
+          <span class="ab-pt-feat__text">Unlimited projects</span>
+        </li>
+        <li class="ab-pt-feat is-excluded">
+          <span class="ab-pt-feat__icon"><!-- cross svg --></span>
+          <span class="ab-pt-feat__text">Custom integrations</span>
+        </li>
+      </ul>
+      <div class="ab-pt-plan__cta-area">
+        <a class="ab-pt-plan__cta" href="/pricing">Start free trial</a>
+      </div>
+    </article>
+
+  </div>
+</div>
+```
+
+## CSS custom properties
+
+These are set on the outer `.axiom-blocks-pricing-table` wrapper. Target them from your theme stylesheet to override without touching block settings.
+
+| Property | Controls |
+|----------|----------|
+| `--ab-pt-columns` | Number of columns in the plan grid |
+| `--ab-pt-gap` | Gap between plan cards |
+| `--ab-pt-accent` | Accent color for highlighted plan card |

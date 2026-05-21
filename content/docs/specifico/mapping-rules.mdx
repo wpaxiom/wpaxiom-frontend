@@ -1,0 +1,165 @@
+---
+title: Mapping rules
+category: Mapping
+updatedAt: 2026-05-17
+readTime: 6
+prev:
+  title: Per-product overrides
+  slug: per-product-overrides
+next:
+  title: Display settings
+  slug: display-settings
+---
+
+The **Mapping** screen is where you tell Specifico *which* specification table to show on *which* products. Without a mapping, a saved specification table just sits there — no product page displays it.
+
+Mapping rules answer a question per product: *"Which spec table applies here?"* You write one or more rules that match products by category, tag, name, or ID, and Specifico walks the rules from top to bottom for each product, picking the first one that matches.
+
+## Anatomy of a rule
+
+Each row on the Mapping screen is one rule, made of three picks:
+
+> *Screenshot: Mapping page with one row: Specifications, Type, Values columns plus a trash button*
+
+| Column | What it controls |
+| --- | --- |
+| **Specifications** | The specification table to show when this rule matches |
+| **Type** | What to match against — category, tag, product, or product ID |
+| **Values** | One or more values of that type that should trigger the match |
+
+Click **Add Mapping** to add a row. Click the trash icon to delete one. Click **Save Mapping** to persist the rule set.
+
+## The four rule types
+
+### Product Category
+
+The workhorse. Matches every product assigned to any of the chosen WooCommerce categories.
+
+| Specifications | Type | Values |
+| --- | --- | --- |
+| Smartphone Specifications | Product Category | Phones |
+
+Every product in the *Phones* category gets the Smartphone Specifications table. This is what you'll use 80% of the time.
+
+You can pick multiple categories in **Values** — a product in *any* of them matches.
+
+### Product Tag
+
+Same as Product Category, but matches by WooCommerce product tag instead.
+
+Use this when your store organizes products by tags that cut across categories — for example, a `flagship` tag that applies to top-tier products in any category.
+
+### Product
+
+Matches a single product picked by name. Useful when:
+
+- One product in a category needs a different table than the rest of the category
+- The product doesn't fit a category-wide rule
+
+| Specifications | Type | Values |
+| --- | --- | --- |
+| Foldable Phone Specifications | Product | Galaxy Z Fold 5 |
+
+<Callout type="info">
+  If you need a one-off table that doesn't look like anything else in your catalog, consider [per-product overrides in Customize mode](/docs/specifico/per-product-overrides#mode-2--customize-for-this-product) instead — it's editable inline on the product page and keeps your Mapping screen tidy.
+</Callout>
+
+### Product ID
+
+Same as **Product**, but you pick the product by its numeric WordPress post ID instead of its title. Use this when:
+
+- Two products share the same title (variants, duplicates, etc.) and the title picker is ambiguous
+- You're scripting or copying IDs from elsewhere
+
+Otherwise, **Product** is friendlier.
+
+## Multiple values in one rule
+
+The **Values** column is a multi-select — pick as many as you like. All values within a single rule are treated as **OR**. This rule matches products in *Phones* **or** *Tablets*:
+
+| Specifications | Type | Values |
+| --- | --- | --- |
+| Mobile Device Specifications | Product Category | Phones, Tablets |
+
+This is more compact than writing two separate rules and behaves identically.
+
+## Multiple rules — first match wins
+
+When you have several rules, Specifico walks them in the order they appear on the screen and stops at the first one that matches. Rules below the first match are ignored for that product.
+
+This lets you handle exceptions:
+
+| # | Specifications | Type | Values |
+| --- | --- | --- | --- |
+| 1 | Foldable Phone Specifications | Product | Galaxy Z Fold 5 |
+| 2 | Smartphone Specifications | Product Category | Phones |
+
+A regular phone matches rule 2. The *Galaxy Z Fold 5* matches both rule 1 *and* rule 2, but because rule 1 comes first, the foldable table wins.
+
+<Callout type="warning">
+  **Put specific rules before general ones.** If you put the category rule first, every phone (including the Fold) gets the Smartphone Specifications table and the foldable-specific rule never fires. Order matters.
+</Callout>
+
+### Reordering rules
+
+There's no drag-handle on the Mapping screen yet. To change the order of rules:
+
+1. Note down what's in each row (or take a screenshot)
+2. Delete the rows you want to reorder
+3. Re-add them in the desired order
+4. Click **Save Mapping**
+
+This is an admin convenience limitation, not a data limitation — once saved, the order is preserved exactly.
+
+## What happens when no rule matches
+
+If a product doesn't match any rule, Specifico simply doesn't show a Specifications tab on that product's page. The product is "uncovered" by your mapping.
+
+To cover an uncovered product, either:
+
+- Add a rule (category, tag, etc.) that includes it
+- Or open the product, enable Specification Settings, and use [Customize mode](/docs/specifico/per-product-overrides#mode-2--customize-for-this-product) to give it a one-off table
+
+If the product *has* an enabled override in Customize mode, the override displays even when no mapping matches — the per-product setting always wins.
+
+## Common patterns
+
+### Different tables per category
+
+The basic case. One rule per category:
+
+| Specifications | Type | Values |
+| --- | --- | --- |
+| Smartphone Specifications | Product Category | Phones |
+| Laptop Specifications | Product Category | Laptops |
+| Headphone Specifications | Product Category | Headphones |
+
+### Different tables for tagged products
+
+Useful when you want a specialized table for a cross-cutting subset:
+
+| Specifications | Type | Values |
+| --- | --- | --- |
+| Gaming Spec Sheet | Product Tag | gaming |
+| Standard Specifications | Product Category | All Products |
+
+`gaming`-tagged products in any category get the gaming spec sheet; everything else falls through to the standard table.
+
+### Catch-all fallback
+
+Put the broadest rule last so it picks up anything earlier rules missed:
+
+| # | Specifications | Type | Values |
+| --- | --- | --- | --- |
+| 1 | Smartphone Specifications | Product Category | Phones |
+| 2 | Laptop Specifications | Product Category | Laptops |
+| 3 | Generic Specifications | Product Category | Uncategorized, All Products |
+
+Products in *Phones* match rule 1. Products in *Laptops* match rule 2. Anything else lands on rule 3.
+
+## Editing and removing rules
+
+- **Edit** — change the dropdowns in place and click **Save Mapping**. Saved changes apply to every product page on the next load.
+- **Delete** — click the trash icon at the right of the row, then click **Save Mapping** to persist.
+
+Deleting a rule doesn't delete the underlying specification table or its groups — only the rule that pointed to it.

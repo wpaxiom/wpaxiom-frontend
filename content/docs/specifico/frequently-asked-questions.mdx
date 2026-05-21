@@ -1,0 +1,122 @@
+---
+title: Frequently asked questions
+category: Help
+updatedAt: 2026-05-17
+readTime: 6
+prev:
+  title: Display settings
+  slug: display-settings
+---
+
+Quick answers to the questions we hear most. If you don't see your question here, the rest of the [docs](/docs) cover each admin screen in depth.
+
+## Setup and compatibility
+
+### Does Specifico work without WooCommerce?
+
+No. Specifico extends the WooCommerce product page tabs system, so WooCommerce must be installed and active. Without it, the **Specifications** tab has no surface to render on.
+
+### What WooCommerce versions are supported?
+
+WooCommerce 6.3 and newer. Specifico has been tested with the current WooCommerce release.
+
+### Does it work with WooCommerce HPOS (High-Performance Order Storage)?
+
+Yes. Specifico declares HPOS compatibility — orders aren't part of Specifico's data model anyway, so there's no migration to worry about on your end.
+
+### Does it work with WPML or Polylang?
+
+Specifico's admin interface is translation-ready via the WordPress i18n system (a POT file ships with the plugin). The **specification data itself** (group names, attribute labels, values) isn't multilingual-aware yet — translating per language is on the roadmap. For now, multilingual stores typically maintain one set of specs and accept that they display in the source language.
+
+## Troubleshooting the Specifications tab
+
+### Why isn't the Specifications tab showing on my product?
+
+Walk through these in order — one of them is almost always the cause:
+
+1. **WooCommerce is active.** Check **Plugins → Installed Plugins** — both Specifico and WooCommerce should be active.
+2. **Specifications are enabled on the product.** Open the product, scroll to the **Specification Settings** metabox, and confirm the top switch is on.
+3. **A mapping rule matches the product** *or* **Customize mode is set on the product**. If neither, the tab won't render. See [Mapping rules](/docs/specifico/mapping-rules) for how mapping decides matches.
+4. **The mapped specification table is enabled.** Go to **Specifico → Specifications** and check the **Status** column — inactive tables don't render.
+5. **The product page template renders WooCommerce tabs.** Some themes replace the default tabs section with a custom layout that strips Specifico's tab. Try switching to a default theme (Storefront, Twenty Twenty-Four) temporarily to confirm.
+
+### The tab shows up but the table is empty
+
+This usually means the matched specification table has no groups assigned, or every group has zero attributes. Open **Specifico → Specifications**, edit the table, and confirm groups are selected. Then open **Specifico → Groups** and confirm each group has attribute rows.
+
+### Per-product values I edited aren't appearing on the frontend
+
+- Confirm you clicked **Update** on the product after editing values in the metabox.
+- Clear any page cache (caching plugin, server-side cache, or CDN). Per-product values are read at render time, so they update instantly *after* the cache layer is bypassed.
+- Confirm you were editing in **Inherit from mapping** mode, not **Customize**. The two modes save to different places — values entered in one don't appear in the other.
+
+## Features and limits
+
+### Can I have different specs per product variation?
+
+Not in 1.0.1. A variable product currently shows the same specification table regardless of which variation is selected. Variation-specific specs are on the roadmap as a paid feature.
+
+### Can shoppers compare products on the storefront?
+
+Not yet — frontend comparison (pick 2–4 products, view their specs side by side) is planned for a future release.
+
+### Can shoppers filter products by spec in the shop?
+
+Not yet — spec-based filtering (e.g. "phones with 8GB+ RAM") is planned as a Pro feature in a future release.
+
+### Does Specifico add structured data for SEO?
+
+Not yet. Schema.org `Product` markup with `additionalProperty` entries — useful for Google rich snippets — is planned for the next release.
+
+### Can I import specs from CSV or Excel?
+
+Not yet. Bulk import/export is on the roadmap. For now, specs are entered through the admin UI.
+
+### Can I export specs?
+
+Not yet — see above.
+
+### Can I add icons or images next to attributes?
+
+Not in the current admin UI. The attribute label is plain text. You can inject icons with CSS that targets the attribute row (e.g. `td:before { content: url(...) }`), but it's a theme-level customization.
+
+## Data and lifecycle
+
+### Where is the data stored?
+
+- **Groups** are a custom post type: `specifico-groups`. Attributes for each group are stored as the `_specifico_attr` post meta on the group post.
+- **Specification tables** are a custom post type: `specifico-table`. The list of groups assigned to a table is stored as the `_specifico_groups` post meta on the table post.
+- **Mapping rules** are stored as the `_specifico_mapping` site option.
+- **Per-product settings** (enable/override mode, custom groups, inherit-value overrides) are stored as post meta on each WooCommerce product: `_specifico_spec`, `_specifico_override`, `_specifico_groups`, `_specifico_inherit_values`.
+- **Display settings** are stored as the `_specifico_settings` site option.
+
+### What happens if I deactivate the plugin?
+
+The Specifications tab stops rendering on product pages, and the Specifico menu disappears from the admin sidebar. **All data is preserved** — re-activating restores everything exactly as it was.
+
+### What happens if I uninstall the plugin?
+
+All Specifico data stays in the database. Uninstalling Specifico does **not** delete groups, tables, mapping rules, or per-product overrides. Reinstalling later picks up where you left off.
+
+If you want to clear Specifico's data completely after uninstalling, you'll need to remove the post types' entries and the two options manually with a database tool or a custom script.
+
+### Can I migrate data between sites?
+
+Standard WordPress export/import handles the data partially — groups and tables are post types and will be exported by **Tools → Export**. Mapping rules and display settings live in options and need to be migrated with a database tool, or via WP-CLI:
+
+```bash
+wp option get _specifico_mapping --format=json > mapping.json
+wp option update _specifico_mapping "$(cat mapping.json)" --format=json
+```
+
+Native import/export inside the plugin is on the roadmap.
+
+## Pricing and licensing
+
+### Is Specifico free?
+
+Yes. Specifico ships as a free GPLv2 plugin. A Pro extension with comparison, spec filtering, bulk import/export, and variations support is planned for a future release; the free version remains free.
+
+### Where do I report bugs or request features?
+
+Open a ticket from your [wpaxiom account](/account) or the plugin's support page. Include the plugin version (visible in **Plugins → Installed Plugins**), WordPress and WooCommerce versions, and a clear description of what you expected vs what happened.

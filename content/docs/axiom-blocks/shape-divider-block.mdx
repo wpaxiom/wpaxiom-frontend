@@ -1,0 +1,81 @@
+---
+title: Shape Divider
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 3
+prev:
+  title: Star Rating
+  slug: star-rating-block
+next:
+  title: Device Visibility
+  slug: device-visibility-block
+---
+
+Shape Divider renders a full-width decorative SVG between two sections. Use it to create a smooth visual transition between sections with different background colors — a wave, curve, or triangle that makes the boundary feel intentional rather than abrupt.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Shape Divider**. The block drops in as a wave shape. Set it to **Full** or **Wide** alignment from the toolbar so it spans the full content width.
+
+<Callout type="tip">
+  The typical setup: place the divider between two sections, set **Shape color** to match the background of the section below it, and set **Background** to match the section above. The shape then appears to cut cleanly between the two colors.
+</Callout>
+
+## Shape
+
+The **Shape** panel is open by default.
+
+**Shape style** — five SVG shapes to choose from:
+
+| Shape | Description |
+|-------|-------------|
+| Wave | Sinusoidal double-wave — the smoothest, most natural transition |
+| Curve | Single arc that sweeps from one side to the other |
+| Triangle | Centered triangle pointing up into the section above |
+| Tilt | Straight diagonal — flat on the right edge, angled on the left |
+| Slant | Straight diagonal — flat on the left edge, angled on the right |
+
+**Height** — controls how tall the shape area is. Default `80px`. Accepts any CSS length — e.g. `120px`, `6rem`. Taller values make the shape more pronounced.
+
+**Flip horizontal** — mirrors the shape left to right. Most useful with asymmetric shapes (Tilt, Slant) to reverse the direction of the angle.
+
+**Flip vertical** — flips the shape upside down. Use this when the divider sits at the top of a section rather than the bottom — the shape then opens downward into the section instead of upward.
+
+## Color
+
+**Shape color** — the fill color of the SVG path. Default `#ffffff`. Set this to match the background of the section the shape is pointing into.
+
+**Background** — the color behind the SVG, filling the rectangular wrapper. Default is transparent. Set this to match the background of the section the shape is pointing away from.
+
+**Transparent background** — toggle to set the background to `transparent` rather than a solid color. Use this when the section above has a gradient or image background.
+
+## Spacing
+
+Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar — use **Full** to break out of a constrained layout and span the viewport edge to edge.
+
+## HTML output
+
+```html
+<div
+  class="wp-block-axiom-blocks-shape-divider axiom-blocks-shape-divider axiom-blocks-shape-divider--wave"
+  style="height: 80px; background: transparent;"
+  aria-hidden="true"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1200 120"
+    preserveAspectRatio="none"
+    class="axiom-blocks-shape-divider__svg"
+  >
+    <path d="M0,60 C200,120 400,0 600,60 C800,120 1000,0 1200,60 L1200,120 L0,120 Z" fill="#ffffff"></path>
+  </svg>
+</div>
+```
+
+When both flip toggles are on, the SVG receives an inline transform:
+
+```html
+<svg ... style="transform: scaleX(-1) scaleY(-1);">
+```
+
+The SVG uses `preserveAspectRatio="none"` so it always stretches to fill the full block width regardless of the container size.

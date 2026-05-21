@@ -1,0 +1,72 @@
+---
+title: Activating your license
+category: Getting Started
+updatedAt: 2026-05-15
+readTime: 3
+prev:
+  title: Installing the plugin
+  slug: installing-the-plugin
+next:
+  title: Tabs
+  slug: tabs-block
+---
+
+Once the Axiom Blocks Pro plugin is installed, you need to activate your license key to unlock Pro features. Activation takes a few seconds.
+
+## Find your license key
+
+Your key is available in two places:
+
+- **Your account** — log in at [wpaxiom.com/account](/account), open the **Licenses** tab, and copy the key from the Axiom Blocks Pro row
+- **Purchase email** — the license key is included in the order confirmation email sent after purchase
+
+Keys follow the format `AXM-XXXX-XXXX-XXXX-XXXX`. Copy the full key exactly as shown — it is case-sensitive.
+
+## Activate in WP admin
+
+1. In WP admin, go to **Axiom Blocks** in the sidebar
+2. Open the **Settings** tab
+3. Find the **Pro License** card
+4. Paste your key into the input field
+5. Click **Activate**
+
+When activation succeeds the notice below the input updates to **License active — valid until {date}.** If your subscription has no fixed end date the notice reads **valid until further notice**. The input becomes read-only and the button switches to **Deactivate**.
+
+<Callout type="info">
+  The Pro License card only appears when the Axiom Blocks Pro plugin is installed and active. If you don't see it, check that the Pro plugin is activated under **Plugins**.
+</Callout>
+
+## Activation errors
+
+| Message | What to do |
+|---------|-----------|
+| Invalid license key — please check the key and try again. | Re-copy the key from your account page; paste directly rather than typing to avoid extra spaces |
+| Could not reach the license server. Try again in a moment. | Your server cannot reach the licensing service — check that outbound HTTP is permitted and retry |
+| Limit reached | Site quota is full — log in to your account, open the **Licenses** tab, and remove a site to free a slot |
+
+## Automatic license checks
+
+The plugin re-validates your license in the background every time an admin page loads (at most once per hour). If you remove a site from your account dashboard, the WordPress site will automatically detect the change within an hour and the license card will return to the inactive state — you do not need to click Deactivate first.
+
+## Deactivate a site
+
+To move your license to a different domain, deactivate it on the current site first.
+
+**From WP admin:**
+
+1. Go to **Axiom Blocks → Settings**
+2. Click **Deactivate** in the Pro License card
+3. The slot is freed immediately — activate on the new site
+
+**From your account:**
+
+1. Log in at [wpaxiom.com/account](/account) and open the **Licenses** tab
+2. Find the site under your license and click the remove icon
+3. The slot is freed without needing access to the old site
+
+<ContactCta
+  heading="Having trouble activating?"
+  description="If activation keeps failing after trying the steps above, contact our support team with the error message shown in the Pro License card and your site URL."
+  label="Contact support"
+  href="/contact"
+/>

@@ -1,0 +1,155 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-05-12T10:00:00.000Z",
+  "__export_source": "wpaxiom-frontend:paddle-dev-helpers",
+  "resources": [
+    {
+      "_id": "wrk_wpaxiom_paddle",
+      "_type": "workspace",
+      "name": "wpaxiom — Paddle Dev",
+      "description": "Local Paddle webhook simulation. Hits /api/dev/paddle-trigger which runs the processor directly (no signature check). Edit the JSON body of each request before sending: set customer email and wc variation id to real values.",
+      "scope": "collection"
+    },
+    {
+      "_id": "fld_transactions",
+      "_type": "request_group",
+      "parentId": "wrk_wpaxiom_paddle",
+      "name": "Transactions",
+      "description": "One-time and subscription transactions. Subscription transactions (with gatewaySubscriptionId set) create a WC Subscription + parent order + license. One-time create only the order.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1000000000000
+    },
+    {
+      "_id": "fld_subscriptions",
+      "_type": "request_group",
+      "parentId": "wrk_wpaxiom_paddle",
+      "name": "Subscription lifecycle",
+      "description": "Cancel and update events. Currently ack-only — full WC subscription state sync is pending.",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -999000000000
+    },
+    {
+      "_id": "req_txn_yearly_sub",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "transaction.completed — yearly 5-sites ($119)",
+      "description": "Yearly Pro subscription for the 5-sites plan (WC variation 35). Creates WC parent order + WC Subscription. Triggers license generation via the plugin's subscription hook.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/paddle-trigger",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"gateway\": \"paddle\",\n  \"gatewayEventId\": \"evt_test_txn_yearly_5sites_001\",\n  \"type\": \"transaction.completed\",\n  \"occurredAt\": \"2026-05-12T10:00:00.000Z\",\n  \"customer\": {\n    \"gatewayCustomerId\": \"ctm_test_001\",\n    \"email\": \"test-buyer@example.com\",\n    \"name\": \"Test Buyer\"\n  },\n  \"transaction\": {\n    \"gatewayTransactionId\": \"txn_test_yearly_5sites_001\",\n    \"gatewaySubscriptionId\": \"sub_test_yearly_5sites_001\",\n    \"total\": 119,\n    \"currency\": \"USD\",\n    \"items\": [\n      {\n        \"gatewayPriceId\": \"pri_yearly_5_sites\",\n        \"wcVariationId\": 35,\n        \"quantity\": 1,\n        \"amount\": 119,\n        \"currency\": \"USD\"\n      }\n    ],\n    \"customData\": {\n      \"source\": \"insomnia-dev\",\n      \"cycle\": \"yearly\",\n      \"sites_key\": \"5-sites\"\n    }\n  }\n}"
+      },
+      "metaSortKey": -1000,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_txn_monthly_sub",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "transaction.completed — monthly subscription ($7)",
+      "description": "Monthly Pro subscription. Creates WC parent order + WC Subscription with billing_period=month.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/paddle-trigger",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"gateway\": \"paddle\",\n  \"gatewayEventId\": \"evt_test_txn_monthly_001\",\n  \"type\": \"transaction.completed\",\n  \"occurredAt\": \"2026-05-12T10:00:00.000Z\",\n  \"customer\": {\n    \"gatewayCustomerId\": \"ctm_test_001\",\n    \"email\": \"test-buyer@example.com\",\n    \"name\": \"Test Buyer\"\n  },\n  \"transaction\": {\n    \"gatewayTransactionId\": \"txn_test_monthly_001\",\n    \"gatewaySubscriptionId\": \"sub_test_monthly_001\",\n    \"total\": 7,\n    \"currency\": \"USD\",\n    \"items\": [\n      {\n        \"gatewayPriceId\": \"pri_monthly_1_site\",\n        \"wcVariationId\": 0,\n        \"quantity\": 1,\n        \"amount\": 7,\n        \"currency\": \"USD\"\n      }\n    ],\n    \"customData\": {\n      \"source\": \"insomnia-dev\",\n      \"cycle\": \"monthly\",\n      \"sites_key\": \"1-site\"\n    }\n  }\n}"
+      },
+      "metaSortKey": -900,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_txn_one_time",
+      "_type": "request",
+      "parentId": "fld_transactions",
+      "name": "transaction.completed — one-time purchase",
+      "description": "One-time purchase (no gatewaySubscriptionId). Creates a regular WC order but does NOT issue a license — the plugin only issues for subscriptions.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/paddle-trigger",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"gateway\": \"paddle\",\n  \"gatewayEventId\": \"evt_test_txn_onetime_001\",\n  \"type\": \"transaction.completed\",\n  \"occurredAt\": \"2026-05-12T10:00:00.000Z\",\n  \"customer\": {\n    \"gatewayCustomerId\": \"ctm_test_001\",\n    \"email\": \"test-buyer@example.com\",\n    \"name\": \"Test Buyer\"\n  },\n  \"transaction\": {\n    \"gatewayTransactionId\": \"txn_test_onetime_001\",\n    \"total\": 99,\n    \"currency\": \"USD\",\n    \"items\": [\n      {\n        \"gatewayPriceId\": \"pri_onetime\",\n        \"wcVariationId\": 0,\n        \"quantity\": 1,\n        \"amount\": 99,\n        \"currency\": \"USD\"\n      }\n    ],\n    \"customData\": {\n      \"source\": \"insomnia-dev\"\n    }\n  }\n}"
+      },
+      "metaSortKey": -800,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_sub_cancelled",
+      "_type": "request",
+      "parentId": "fld_subscriptions",
+      "name": "subscription.cancelled",
+      "description": "Subscription cancellation. Processor currently acks without WC update.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/paddle-trigger",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"gateway\": \"paddle\",\n  \"gatewayEventId\": \"evt_test_sub_cancel_001\",\n  \"type\": \"subscription.cancelled\",\n  \"occurredAt\": \"2026-05-12T10:00:00.000Z\",\n  \"customer\": {\n    \"gatewayCustomerId\": \"ctm_test_001\",\n    \"email\": \"test-buyer@example.com\",\n    \"name\": \"Test Buyer\"\n  },\n  \"subscription\": {\n    \"gatewaySubscriptionId\": \"sub_test_yearly_001\",\n    \"status\": \"cancelled\",\n    \"currentPeriodEnd\": \"2026-06-12T10:00:00.000Z\",\n    \"cancelAt\": \"2026-05-12T10:00:00.000Z\"\n  }\n}"
+      },
+      "metaSortKey": -700,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_sub_updated",
+      "_type": "request",
+      "parentId": "fld_subscriptions",
+      "name": "subscription.updated",
+      "description": "Subscription state change. Processor currently acks without WC update.",
+      "method": "POST",
+      "url": "http://localhost:3000/api/dev/paddle-trigger",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"gateway\": \"paddle\",\n  \"gatewayEventId\": \"evt_test_sub_update_001\",\n  \"type\": \"subscription.updated\",\n  \"occurredAt\": \"2026-05-12T10:00:00.000Z\",\n  \"customer\": {\n    \"gatewayCustomerId\": \"ctm_test_001\",\n    \"email\": \"test-buyer@example.com\",\n    \"name\": \"Test Buyer\"\n  },\n  \"subscription\": {\n    \"gatewaySubscriptionId\": \"sub_test_yearly_001\",\n    \"status\": \"active\",\n    \"currentPeriodEnd\": \"2026-06-12T10:00:00.000Z\"\n  }\n}"
+      },
+      "metaSortKey": -600,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    }
+  ]
+}

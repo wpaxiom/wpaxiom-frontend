@@ -1,0 +1,75 @@
+---
+title: Importing an OpenAPI spec
+category: Getting Started
+updatedAt: 2026-03-22
+readTime: 3
+prev:
+  title: Installing Specifico
+  slug: installing-specifico
+next:
+  title: Publishing your docs
+  slug: publishing-your-docs
+---
+
+Specifico accepts OpenAPI 3.0 and 3.1 documents in both YAML and JSON format. You can import from a file upload, a URL, or paste raw content directly. All three paths end in the same place: a versioned spec stored in your WordPress database, ready to publish.
+
+## Import from file
+
+1. In WP admin, go to **Specifico → Specs → Import**
+2. Choose **File upload**
+3. Drag your `.yaml` or `.json` file onto the drop zone
+4. Specifico validates the document and shows a preview of the parsed endpoints
+5. Click **Save as draft** or **Publish** to make it live immediately
+
+<Callout type="tip">
+  The validator runs locally — your spec is never sent to a third-party service. Validation errors appear inline with line numbers.
+</Callout>
+
+## Import from URL
+
+If your spec is served by your API gateway or a CDN:
+
+1. Choose **URL** as the source
+2. Paste the full URL including protocol
+3. Click **Fetch** — Specifico pulls the document and validates it
+4. Click **Save**
+
+Specifico can **auto-sync** from a URL on a schedule. Enable this under the spec's **Sync** tab to keep your published docs in step with your API without manual re-imports.
+
+## Import by pasting
+
+Useful during development when you don't have a stable URL yet:
+
+1. Choose **Paste raw**
+2. Paste the YAML or JSON content
+3. Click **Validate and import**
+
+```yaml
+openapi: "3.1.0"
+info:
+  title: My API
+  version: "1.0.0"
+paths:
+  /widgets:
+    get:
+      summary: List widgets
+      responses:
+        "200":
+          description: OK
+```
+
+## After import
+
+Once saved, the spec appears in **Specifico → Specs** with a status badge:
+
+| Status | Meaning |
+|--------|---------|
+| Draft | Stored, not publicly visible |
+| Published | Live at your docs URL |
+| Archived | Hidden from docs, kept for history |
+
+Click **View docs** on any published spec to see the rendered reference documentation.
+
+<Callout type="info">
+  Each import creates a new **version** — previous versions are preserved and reachable via a version switcher in the public docs UI.
+</Callout>

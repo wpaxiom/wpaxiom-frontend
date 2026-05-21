@@ -1,0 +1,49 @@
+---
+title: Installing Cartick
+category: Getting Started
+updatedAt: 2026-05-20
+readTime: 3
+next:
+  title: Enabling and configuring modules
+  slug: enabling-modules
+---
+
+Cartick is a WooCommerce enhancement plugin that adds cart features — sticky add-to-cart bars, off-canvas drawers, menu cart widgets, and button customisation — to any WooCommerce store.
+
+## Requirements
+
+- **WordPress 5.8** or newer
+- **WooCommerce 6.3** or newer
+- **PHP 7.4** or newer
+
+<Callout type="tip">
+  Not sure what version you're running? In WP admin go to **Tools → Site Health → Info** and expand the **Server** and **WordPress** sections.
+</Callout>
+
+## Install from the WordPress admin
+
+1. Go to **Plugins → Add New Plugin**
+2. Search for **Cartick**
+3. Click **Install Now** on the entry by wpaxiom, then **Activate**
+4. A new **Cartick** item appears in the admin sidebar
+
+## Manual upload
+
+1. Download the latest ZIP from your wpaxiom account or the WordPress.org page
+2. Go to **Plugins → Add New Plugin → Upload Plugin**
+3. Choose the `cartick.zip` file and click **Install Now**
+4. Click **Activate Plugin**
+
+## WP-CLI
+
+```bash
+wp plugin install cartick --activate
+```
+
+## After activation
+
+Open the new **Cartick** menu in the admin sidebar. You'll see a **Modules** page listing all available feature modules — all disabled by default. Continue to [Enabling and configuring modules](/docs/cartick/enabling-modules) to turn on the features you need.
+
+<Callout type="warning">
+  Cartick requires WooCommerce to be active. If WooCommerce is not installed, the Cartick admin page will show a dependency notice and no modules will load on the frontend.
+</Callout>

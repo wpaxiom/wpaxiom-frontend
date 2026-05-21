@@ -1,0 +1,68 @@
+---
+title: Display settings
+category: Settings
+updatedAt: 2026-05-17
+readTime: 3
+prev:
+  title: Mapping rules
+  slug: mapping-rules
+next:
+  title: Frequently asked questions
+  slug: frequently-asked-questions
+---
+
+The **Settings** screen under **Specifico → Settings** is where you set global display preferences for every specification table the plugin renders. Two settings live here today: whether to show group headings, and which visual style the table uses.
+
+Changes here affect *every* product page that displays a specification table — there's no per-product or per-table style override. If you need a different look on one product, you can do that at the theme level with CSS targeting the body class or product ID.
+
+## Enable Group Heading
+
+A specification table is made up of **groups** (Display, Performance, Camera) and the **attributes** inside each group. This toggle decides whether the group name appears as a heading row above its attributes, or whether the attributes flow through with no visual break between groups.
+
+> *Screenshot: side-by-side comparison — left shows table with "Display" / "Performance" heading rows, right shows the same attributes with no group separators*
+
+**Enabled (default):** the table looks like several mini-tables stacked, each labeled with its group name. Easier to scan when you have 20+ attributes spread across many groups.
+
+**Disabled:** the table is one continuous list of attribute rows with no group separators. Cleaner when you only have one group, or when your spec table is short enough that headings feel like noise.
+
+<Callout type="tip">
+  If you turn this off and later turn it back on, your groups are still there — group structure is data, not display. Re-enabling immediately restores the headings.
+</Callout>
+
+## Specification Styles
+
+A dropdown that picks one of five visual presets for the table. Each preset is a CSS class applied to the `<table>` element on the product page; your theme's own styles still apply on top.
+
+The five presets:
+
+- **Striped Table** — alternating light background on every other row. Good readability for long tables.
+- **Bordered Table** — visible borders around every cell. Most structured look; works well in catalogs that show many attributes.
+- **Hoverable Table** — row highlights as you mouse over it. Subtle but useful for very long tables.
+- **Condensed Table** — tighter vertical padding, more rows visible at once. Best when shoppers know which row they want and want to scan fast.
+- **Colored Table** — accented row backgrounds tied to the plugin's color palette. Use when you want the spec table to feel like a deliberate design element.
+
+> *Screenshot: five mini-thumbnails of each style applied to the same product table*
+
+Pick the one that matches the rest of your store's design. If none feel right, your theme's CSS can override Specifico's output — every preset's rules are scoped to its class name (e.g. `.specifico-bordered-table`), so you can target it precisely.
+
+## Saving changes
+
+Click **Save Setting** after either change. The button label switches to **Updating…** while the request is in flight, then back to **Save Setting** when the save completes. No page reload is needed — the next product page load picks up the new settings.
+
+If you don't see your changes reflected on the storefront:
+
+- Clear any page or object cache (caching plugins, server-side cache, or CDN). Spec settings are read at render time, so they update instantly *after* the cache layer is bypassed.
+- Check the URL of the product page itself — some themes load product templates differently for different post types.
+
+## Where these settings live (for developers)
+
+Both settings are stored together in the `_specifico_settings` WordPress option:
+
+```json
+{
+  "enable_sub_heading": true,
+  "styles": { "value": "bordered-table", "label": "Bordered Table" }
+}
+```
+
+You can read or modify this option from your own code using `get_option( '_specifico_settings' )` and `update_option()` — useful when scripting environment provisioning or building a multisite setup that needs identical settings across sites.

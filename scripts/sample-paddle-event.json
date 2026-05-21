@@ -1,0 +1,28 @@
+{
+  "gateway": "paddle",
+  "gatewayEventId": "evt_test_001",
+  "type": "transaction.completed",
+  "occurredAt": "2026-05-12T10:00:00.000Z",
+  "customer": {
+    "gatewayCustomerId": "ctm_test_001",
+    "email": "test-buyer@example.com",
+    "name": "Test Buyer"
+  },
+  "transaction": {
+    "gatewayTransactionId": "txn_test_001",
+    "total": 59,
+    "currency": "USD",
+    "items": [
+      {
+        "gatewayPriceId": "pri_test_001",
+        "wcVariationId": 0,
+        "quantity": 1,
+        "amount": 59,
+        "currency": "USD"
+      }
+    ],
+    "customData": {
+      "source": "dev-trigger"
+    }
+  }
+}

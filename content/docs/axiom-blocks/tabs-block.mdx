@@ -1,0 +1,138 @@
+---
+title: Tabs
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 5
+prev:
+  title: Activating your license
+  slug: activating-your-license
+next:
+  title: Pricing Table
+  slug: pricing-table-block
+---
+
+The Tabs block is a parent–child pair: the **Tabs** block holds the tab bar and manages state, while each **Tab Panel** holds any inner blocks you want to show when that tab is active. Both blocks are server-side rendered — the active tab is baked into the HTML and animated client-side by a lightweight script with no jQuery dependency.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Tabs**. The block drops in with one panel ready to edit. Add more from the sidebar.
+
+<Callout type="tip">
+  You can also type `/tabs` in an empty paragraph to insert the block without opening the inserter.
+</Callout>
+
+## Managing tabs
+
+The **Tabs** panel in the block sidebar is the repeater that controls every tab in the set.
+
+- **Rename** — click the text field next to any tab row and type a new label
+- **Add** — click **+ Add tab** at the bottom of the list
+- **Reorder** — use the up/down arrow buttons on each row
+- **Remove** — click the trash icon (disabled when only one tab remains)
+
+### Setting the default-open tab
+
+The **star button** on each row controls which tab is open when the page first loads. The filled star marks the current default. Click an unfilled star to promote that tab. This is saved to the block and reflected on the frontend — it is not the same as which tab you last clicked in the editor.
+
+<Callout type="tip">
+  The default-open setting is easy to miss. If visitors always land on the wrong tab, check the star in the sidebar first.
+</Callout>
+
+## Style presets
+
+Choose a preset from **Style → Preset** in the sidebar. All four presets work with both horizontal and vertical orientation.
+
+| Preset | Appearance |
+|--------|------------|
+| Default | Minimal tabs, bottom border on the active tab |
+| Pills | Filled rounded pill for the active tab |
+| Underline | Bold underline indicator, no surrounding box |
+| Boxed | Bordered tab buttons, active tab lifted into the content area |
+
+## Orientation & alignment
+
+**Style → Orientation** switches between horizontal (the default row of tabs above the content) and vertical (tabs stacked on the left, content on the right).
+
+**Alignment** — Left, Center, or Right — controls how the tab buttons are distributed along the tab bar. This setting only applies in horizontal mode; in vertical mode the column fills the available width.
+
+The **Full-width tabs** toggle stretches each tab button to fill an equal share of the bar, regardless of label length.
+
+## Content gap
+
+**Style → Content gap** (0–80 px) adds space between the tab bar and the content panel. Use this to breathe room between a bordered tab set and the content below it.
+
+## Colors
+
+Open the **Colors** panel to override any of the four color slots. Leave a field empty to fall back to your theme's colors.
+
+| Slot | What it colors |
+|------|---------------|
+| Active | Label and indicator of the selected tab |
+| Inactive | Labels of all unselected tabs |
+| Tab bar | Background behind the row of tab buttons |
+| Content | Background of the panel content area |
+
+<Callout type="tip">
+  These colors are written as CSS custom properties on the block wrapper.
+</Callout>
+
+## Typography & spacing
+
+**Tab label typography** controls the font family, weight, size, line height, letter spacing, transform, and decoration applied to every tab label in the set.
+
+**Spacing** sets per-side padding and margin on the outer block wrapper. Use this to control how the Tabs block sits in relation to surrounding content rather than adding wrapper Groups.
+
+## Block alignment
+
+The Tabs block supports **Wide** and **Full** alignment from the toolbar. This expands the outer wrapper beyond the content column width — the tab bar and panels follow.
+
+## HTML output
+
+The block renders a `<div>` wrapper with ARIA tab roles. The active tab button carries `aria-selected="true"` and its panel is the only one visible on load; the client-side script handles switching without a full page load.
+
+```html
+<div
+  class="wp-block-axiom-blocks-tabs axiom-blocks-tabs axiom-blocks-tabs--default axiom-blocks-tab--horizontal axiom-blocks-tab--align-left"
+  data-active-tab="tab-abc123"
+>
+  <div class="axiom-blocks-tabs__list" role="tablist">
+    <button
+      type="button"
+      class="axiom-blocks-tabs__tab is-active"
+      role="tab"
+      aria-selected="true"
+      aria-controls="axiom-blocks-panel-tab-abc123"
+      id="axiom-blocks-tab-tab-abc123"
+      data-tab="tab-abc123"
+    >
+      <span class="axiom-blocks-tabs__label">Features</span>
+    </button>
+    <button
+      type="button"
+      class="axiom-blocks-tabs__tab"
+      role="tab"
+      aria-selected="false"
+      aria-controls="axiom-blocks-panel-tab-def456"
+      id="axiom-blocks-tab-tab-def456"
+      data-tab="tab-def456"
+    >
+      <span class="axiom-blocks-tabs__label">Pricing</span>
+    </button>
+  </div>
+  <div class="axiom-blocks-tabs__content">
+    <!-- Tab panels rendered here -->
+  </div>
+</div>
+```
+
+## CSS custom properties
+
+Target these on `.axiom-blocks-tabs` to style tabs from your theme stylesheet or `theme.json`.
+
+| Property | Controls |
+|----------|----------|
+| `--axiom-blocks-tab-active` | Active tab label and indicator color |
+| `--axiom-blocks-tab-inactive` | Inactive tab label color |
+| `--axiom-blocks-tab-bg` | Tab bar background |
+| `--axiom-blocks-tab-content-bg` | Content panel background |
+| `--axiom-blocks-tabs-content-gap` | Gap between tab bar and content panel |

@@ -1,0 +1,301 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* RGB triplets so Tailwind's <alpha-value> syntax can plug opacity in. */
+  :root {
+    --bg-base: 255 255 255;
+    --bg-surface: 248 248 248;
+    --bg-elevated: 240 240 240;
+    --border: 229 229 229;
+    --text-primary: 15 15 15;
+    --text-muted: 102 102 102;
+    --text-subtle: 153 153 153;
+    --text-article: 75 75 75;
+  }
+
+  .dark {
+    --bg-base: 15 15 15;
+    --bg-surface: 26 26 26;
+    --bg-elevated: 36 36 36;
+    --border: 42 42 42;
+    --text-primary: 245 245 245;
+    --text-muted: 136 136 136;
+    --text-subtle: 85 85 85;
+    --text-article: 201 201 201;
+  }
+
+  html,
+  body {
+    background: rgb(var(--bg-base));
+    color: rgb(var(--text-primary));
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .focus-coral:focus-visible {
+    outline: 2px solid #e8593c;
+    outline-offset: 2px;
+  }
+
+  details > summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details[open] .cat-chev {
+    transform: rotate(90deg);
+  }
+  .cat-chev {
+    transition: transform 0.15s ease;
+  }
+}
+
+/* ===== Docs article body design system ===== */
+.article-body {
+  color: rgb(var(--text-article));
+}
+.article-body p,
+.article-body ul,
+.article-body ol,
+.article-body table {
+  font-size: 16px;
+  line-height: 1.75;
+}
+.article-body h2 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgb(var(--text-primary));
+  margin: 56px 0 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgb(var(--border));
+}
+.article-body h2:first-child {
+  margin-top: 0;
+  border-top: 0;
+  padding-top: 0;
+}
+.article-body h3 {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: rgb(var(--text-primary));
+  margin: 36px 0 12px;
+}
+.article-body p {
+  margin: 0 0 16px;
+}
+.article-body ul,
+.article-body ol {
+  padding-left: 0;
+  margin: 0 0 20px;
+}
+.article-body ul > li,
+.article-body ol > li {
+  margin-bottom: 8px;
+}
+.article-body ul {
+  list-style: none;
+}
+.article-body ul > li {
+  position: relative;
+  padding-left: 22px;
+}
+.article-body ul > li::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 13px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #E8593C;
+}
+.article-body ol {
+  list-style: none;
+  counter-reset: olc;
+}
+.article-body ol > li {
+  position: relative;
+  padding-left: 36px;
+  counter-increment: olc;
+}
+.article-body ol > li::before {
+  content: counter(olc, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 2px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: #E8593C;
+  letter-spacing: 0.04em;
+}
+.article-body :where(p, li) code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 13.5px;
+  background: rgb(var(--bg-elevated));
+  border: 1px solid rgb(var(--border));
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: #E8593C;
+}
+.article-body a {
+  color: rgb(var(--text-primary));
+  text-decoration: underline;
+  text-decoration-color: rgba(232, 89, 60, 0.5);
+  text-underline-offset: 3px;
+}
+.article-body a:hover {
+  text-decoration-color: #E8593C;
+}
+.article-body strong {
+  color: rgb(var(--text-primary));
+  font-weight: 600;
+}
+.article-body blockquote {
+  margin: 28px 0;
+  padding: 8px 0 8px 22px;
+  border-left: 2px solid #E8593C;
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgb(var(--text-article));
+  font-style: normal;
+}
+.article-body blockquote p {
+  margin: 0 0 16px;
+}
+.article-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+.article-body blockquote p:last-child:not(:first-child) {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: rgb(var(--text-muted));
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+}
+
+@layer utilities {
+  .hero-mesh {
+    background:
+      radial-gradient(1100px 500px at 78% 18%, rgba(232, 89, 60, 0.18), transparent 60%),
+      radial-gradient(900px 480px at 12% 88%, rgba(232, 89, 60, 0.08), transparent 60%),
+      radial-gradient(600px 400px at 50% 110%, rgba(255, 255, 255, 0.04), transparent 60%);
+  }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 30%, transparent 75%);
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 35%, #000 30%, transparent 75%);
+  }
+
+  .hero-dots {
+    background-image: radial-gradient(rgba(245, 245, 245, 0.1) 1px, transparent 1.4px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, #000 30%, transparent 80%);
+  }
+
+  .chev-mark {
+    background: linear-gradient(135deg, #f08a6f 0%, #e8593c 50%, #b83d24 100%);
+    clip-path: polygon(50% 0, 100% 100%, 75% 100%, 50% 38%, 25% 100%, 0 100%);
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .shimmer-line {
+    background: linear-gradient(90deg, transparent 0%, rgba(232, 89, 60, 0.5) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 6s linear infinite;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 1.5cm 2cm;
+  }
+
+  /* Force background colours and images to print */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Override dark-mode CSS vars so the invoice always prints light */
+  :root,
+  .dark {
+    --bg-base: 255 255 255;
+    --bg-surface: 255 255 255;
+    --bg-elevated: 245 245 245;
+    --border: 215 215 215;
+    --text-primary: 15 15 15;
+    --text-muted: 85 85 85;
+    --text-subtle: 130 130 130;
+  }
+
+  /* Hide everything on the page … */
+  body * {
+    visibility: hidden;
+  }
+
+  /* … then reveal only the invoice element and its children */
+  #invoice-doc,
+  #invoice-doc * {
+    visibility: visible;
+  }
+
+  /* Stretch invoice to fill the print area */
+  #invoice-doc {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Force footer to 3 columns regardless of viewport breakpoint */
+  #invoice-footer {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  /* Strip Tailwind divide-y stacking borders, use only vertical dividers */
+  #invoice-footer > * {
+    border-top: none !important;
+    border-left: none !important;
+  }
+
+  #invoice-footer > * + * {
+    border-left: 1px solid rgb(215 215 215) !important;
+  }
+
+}

@@ -1,0 +1,128 @@
+---
+title: Copy to Clipboard
+category: Axiom Blocks
+updatedAt: 2026-05-15
+readTime: 3
+prev:
+  title: Countdown Timer
+  slug: countdown-timer-block
+next:
+  title: Star Rating
+  slug: star-rating-block
+---
+
+Copy to Clipboard renders a button — or a read-only input paired with a button — that copies a preset text string to the visitor's clipboard on click. Use it for API keys, coupon codes, install commands, referral links, or any text visitors need to copy exactly.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Copy to Clipboard**. The block drops in as a button-only layout with placeholder text.
+
+## Content
+
+The **Content** panel opens by default and holds all the text settings.
+
+**Display Mode** controls the layout:
+
+| Mode | Output |
+|------|--------|
+| Button Only | A single copy button, no input visible |
+| Input + Button | A read-only text input showing the text alongside the copy button |
+
+**Input + Button** is useful when you want visitors to see exactly what they're copying before they click. The input is always `readonly` — visitors cannot edit it.
+
+**Text to Copy** — the string sent to the clipboard when the button is clicked. Can be any value: a URL, a command, a coupon code, a license key.
+
+**Placeholder** — visible only in **Input + Button** mode. Sets the text shown in the input field when **Text to Copy** is empty.
+
+**Button Label** — text shown on the button before copying. Default `Copy`.
+
+**Copied Label** — text shown briefly after a successful copy. Default `Copied!`. The button reverts to the original label after 2 seconds.
+
+## Icon
+
+**Show Icon** toggles the clipboard icon on the button. When enabled, **Icon Position** places it to the **Left** or **Right** of the label text. The icon automatically swaps to a checkmark when the copy succeeds and reverts when the button resets.
+
+## Style
+
+**Alignment** — positions the button or input row within the block: **Left** (default), **Center**, or **Right**.
+
+**Button Style**:
+
+| Style | Appearance |
+|-------|------------|
+| Filled | Solid background with contrasting text |
+| Outline | Transparent background with a border, text in the button color |
+
+**Button Color** — the fill color in Filled mode, or the border and text color in Outline mode. Default `#7c3aed`.
+
+**Text Color** — the label color in Filled mode only. Default `#ffffff`.
+
+**Success Color** — the background the button flashes on a successful copy. Default `#00a32a`. In Outline mode the border also switches to this color on success.
+
+**Border Radius** — rounds the button (and input) corners. Default `4px`. Accepts any CSS value — e.g. `8px`, `50%`, `999px` for a pill.
+
+## Button typography
+
+Full control over font family, size, weight, line height, letter spacing, transform, and decoration for the button label text.
+
+## Spacing
+
+Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+
+## HTML output
+
+**Button-only mode:**
+
+```html
+<div class="wp-block-axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard--align-left">
+  <button
+    class="axiom-blocks-copy-to-clipboard__button"
+    type="button"
+    data-text="npm install @axiom/blocks"
+    data-success="Copied!"
+    data-original="Copy"
+    data-copied-bg="#00a32a"
+    style="background-color: #7c3aed; color: #ffffff; border: none; border-radius: 4px; padding: 10px 20px; ..."
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+    </svg>
+    <span class="axiom-blocks-copy-to-clipboard__text">Copy</span>
+  </button>
+</div>
+```
+
+**Input + button mode:**
+
+```html
+<div class="wp-block-axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard--align-left">
+  <div class="axiom-blocks-copy-to-clipboard__input-row">
+    <label for="axiom-blocks-ctc-input-1" class="screen-reader-text">Text to copy</label>
+    <input
+      type="text"
+      id="axiom-blocks-ctc-input-1"
+      value="npm install @axiom/blocks"
+      placeholder="Enter text to copy..."
+      readonly
+      class="axiom-blocks-copy-to-clipboard__input"
+      style="border-radius: 4px; font-size: 14px;"
+    />
+    <button
+      class="axiom-blocks-copy-to-clipboard__button"
+      type="button"
+      data-text="npm install @axiom/blocks"
+      data-success="Copied!"
+      data-original="Copy"
+      data-copied-bg="#00a32a"
+      style="..."
+    >
+      <span class="axiom-blocks-copy-to-clipboard__text">Copy</span>
+    </button>
+  </div>
+</div>
+```
+
+<Callout type="info">
+  The copy action uses the modern `navigator.clipboard` API on HTTPS and falls back to `document.execCommand('copy')` on HTTP or older browsers.
+</Callout>

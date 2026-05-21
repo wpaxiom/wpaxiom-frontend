@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<title>Order {{order_number}} confirmed</title>
+<!--
+  Subject:   Order {{order_number}} confirmed
+  Preheader: We received your payment. Your license will arrive in a moment.
+-->
+<style>
+  @media (max-width: 600px) {
+    .container { width: 100% !important; }
+    .px-pad { padding-left: 24px !important; padding-right: 24px !important; }
+    .stack { display: block !important; width: 100% !important; padding-right: 0 !important; }
+    .stack + .stack { padding-top: 16px !important; }
+    .h1 { font-size: 24px !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background:#f8f8f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#404040;-webkit-font-smoothing:antialiased;">
+<span style="display:none!important;font-size:0;line-height:0;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">We received your payment. Your license will arrive in a moment.</span>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8f8f8;">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+      <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background:#ffffff;border:1px solid #e5e5e5;">
+
+        <tr>
+          <td class="px-pad" style="padding:24px 40px;border-bottom:1px solid #e5e5e5;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+              <td style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;font-weight:600;color:#0f0f0f;letter-spacing:-0.01em;"><img src="{{logo_url}}" alt="" width="24" height="20" style="display:inline-block;border:0;margin-right:10px;vertical-align:-5px;" />WPAxiom</td>
+              <td align="right" style="font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;font-size:11px;color:#999999;letter-spacing:0.08em;text-transform:uppercase;">//&nbsp;order&nbsp;confirmed</td>
+            </tr></table>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="px-pad" style="padding:40px 40px 8px 40px;">
+            <p style="margin:0 0 14px 0;font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;font-size:11px;color:#666666;letter-spacing:0.1em;text-transform:uppercase;">// Order&nbsp;·&nbsp;{{order_number}}</p>
+            <h1 class="h1" style="margin:0 0 16px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:28px;font-weight:600;color:#0f0f0f;letter-spacing:-0.015em;line-height:1.2;">Payment received.</h1>
+            <p style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.65;color:#404040;">Hi {{customer_name}} — we've got your order for {{plan_name}}. Your license key is being generated and will land in your inbox within the next few minutes. No action needed.</p>
+          </td>
+        </tr>
+
+        <!-- Order details card -->
+        <tr>
+          <td class="px-pad" style="padding:32px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8f8f8;border:1px solid #e5e5e5;">
+              <tr>
+                <td style="padding:20px 24px 8px 24px;font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;font-size:10px;color:#999999;letter-spacing:0.12em;text-transform:uppercase;">// Receipt</td>
+              </tr>
+              <tr>
+                <td style="padding:0 24px 4px 24px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td style="padding:8px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:#666666;width:40%;">Order number</td>
+                      <td style="padding:8px 0;font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;font-size:13px;color:#0f0f0f;text-align:right;">{{order_number}}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:8px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:#666666;border-top:1px solid #e5e5e5;">Date</td>
+                      <td style="padding:8px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:#0f0f0f;text-align:right;border-top:1px solid #e5e5e5;">{{order_date}}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:8px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:#666666;border-top:1px solid #e5e5e5;">Plan</td>
+                      <td style="padding:8px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:#0f0f0f;text-align:right;border-top:1px solid #e5e5e5;">{{plan_name}} · {{plan_cycle}}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:8px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:#666666;border-top:1px solid #e5e5e5;">Billing email</td>
+                      <td style="padding:8px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:#0f0f0f;text-align:right;border-top:1px solid #e5e5e5;word-break:break-all;">{{billing_email}}</td>
+                    </tr>
+                    <tr>
+                      <td style="padding:12px 0 16px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;color:#0f0f0f;border-top:1px solid #e5e5e5;">Total charged</td>
+                      <td style="padding:12px 0 16px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:16px;font-weight:600;color:#0f0f0f;text-align:right;border-top:1px solid #e5e5e5;">{{order_total}}</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Next note -->
+        <tr>
+          <td class="px-pad" style="padding:24px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:rgba(232,89,60,0.08);border:1px solid rgba(232,89,60,0.25);">
+              <tr>
+                <td style="padding:14px 18px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;line-height:1.55;color:#404040;">
+                  <span style="font-family:ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;color:#e8593c;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;">// Next&nbsp;&nbsp;</span>
+                  License delivery email arrives within ~30 seconds. Check spam if it hasn't appeared in 5 minutes.
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="px-pad" style="padding:24px 40px 0 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="background:#e8593c;border-radius:6px;">
+              <a href="{{view_order_url}}" style="display:inline-block;padding:12px 24px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;border-radius:6px;">View order</a>
+            </td></tr></table>
+          </td>
+        </tr>
+
+        <tr><td class="px-pad" style="padding:32px 40px 0 40px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-top:1px solid #e5e5e5;font-size:0;line-height:0;height:1px;">&nbsp;</td></tr></table></td></tr>
+
+        <tr>
+          <td class="px-pad" style="padding:20px 40px 28px 40px;">
+            <p style="margin:0 0 6px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:12px;color:#666666;line-height:1.6;">Need help with this order? Write to <a href="mailto:support@wpaxiom.com" style="color:#666666;text-decoration:underline;">support@wpaxiom.com</a>.</p>
+            <p style="margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:12px;color:#999999;line-height:1.6;">WPAxiom</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
