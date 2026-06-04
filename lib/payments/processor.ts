@@ -10,8 +10,6 @@ import type { NormalizedEvent } from "./types";
 import {
   createCustomer,
   createSubscription,
-  createRenewalOrder,
-  updateOrder,
   updateSubscription,
   getCustomerByEmail,
   listSubscriptions,
@@ -22,7 +20,7 @@ import {
 import {
   generatePasswordResetLink,
   issueLicensesForSubscription,
-  renewLicensesForSubscription,
+  processSubscriptionRenewal,
   refundByTransaction,
   type IssuedLicense,
 } from "@/lib/wpaxiom-admin";
@@ -324,18 +322,14 @@ async function handleRenewal(
     if (wcSub) {
       wcSubscriptionId = wcSub.id;
 
-      // Step 1: WC REST API creates renewal order + marks completed
-      // → WC Subscriptions updates next_payment_date automatically.
-      const renewalOrder = await createRenewalOrder(wcSub.id);
-      if (renewalOrder) {
-        await updateOrder(renewalOrder.id, { status: "completed", transaction_id: transactionId });
-        console.log(`[processor] renewal: WC renewal order ${renewalOrder.id} created and completed`);
+      // Single call: creates renewal order + updates subscription dates +
+      // extends license. WC REST API has no POST on /subscriptions/{id}/orders.
+      const result = await processSubscriptionRenewal(wcSub.id, transactionId);
+      if (result.ok) {
+        console.log(`[processor] renewal: order ${result.renewal_order_id} created, next_payment ${result.next_payment}`);
+      } else {
+        console.warn(`[processor] renewal: processSubscriptionRenewal failed: ${result.body}`);
       }
-
-      // Step 2: Extend license — WC doesn't know about our license table.
-      const expiresAt = mysqlUtc(next);
-      await renewLicensesForSubscription(wcSub.id, expiresAt);
-      console.log(`[processor] renewal: license extended to ${expiresAt}`);
     } else {
       console.warn(`[processor] renewal: could not find WC subscription for Paddle sub ${paddleSubId}`);
     }

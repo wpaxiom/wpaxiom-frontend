@@ -191,49 +191,6 @@ export async function listRecentlyExpiredLicenses(
   }
 }
 
-type SubscriptionActionResult =
-  | { ok: true; subscription_id: number; status: string }
-  | { ok: false; status: number; body: string };
-
-async function subscriptionAction(
-  path: string,
-  body: Record<string, unknown>
-): Promise<SubscriptionActionResult> {
-  if (!WPAXIOM_ADMIN_SECRET) {
-    return { ok: false, status: 0, body: "WPAXIOM_ADMIN_SECRET not configured" };
-  }
-  const url = `${WORDPRESS_API_URL}/wpaxiom/v1${path}`;
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "X-Wpaxiom-Admin-Secret": WPAXIOM_ADMIN_SECRET,
-      },
-      body: JSON.stringify(body),
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      console.warn(`[wpaxiom-admin] ${path} ${res.status}: ${text.slice(0, 300)}`);
-      return { ok: false, status: res.status, body: text.slice(0, 500) };
-    }
-    return (await res.json()) as SubscriptionActionResult;
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    return { ok: false, status: 0, body: `fetch error: ${msg}` };
-  }
-}
-
-export async function cancelSubscription(subscriptionId: number): Promise<SubscriptionActionResult> {
-  return subscriptionAction("/admin/subscriptions/cancel", { subscription_id: subscriptionId });
-}
-
-export async function activateSubscription(subscriptionId: number): Promise<SubscriptionActionResult> {
-  return subscriptionAction("/admin/subscriptions/activate", { subscription_id: subscriptionId });
-}
-
 export async function refundByTransaction(
   transactionId: string
 ): Promise<{ ok: boolean; order_id?: number; body?: string }> {
@@ -265,7 +222,7 @@ export async function refundByTransaction(
 }
 
 export type ProcessRenewalResult =
-  | { ok: true; subscription_id: number; renewal_order_id: number }
+  | { ok: true; subscription_id: number; renewal_order_id: number; next_payment: string }
   | { ok: false; status: number; body: string };
 
 export async function processSubscriptionRenewal(

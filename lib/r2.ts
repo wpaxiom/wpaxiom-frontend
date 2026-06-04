@@ -21,9 +21,13 @@ export async function generatePresignedDownloadUrl(
   return getSignedUrl(r2Client, command, { expiresIn: expiresInSeconds });
 }
 
-// Maps product_name (lowercase, trimmed) → R2 object key.
+// Maps WC product_name (lowercase, trimmed) → R2 object key.
+// NOTE: the paid product in this store is named "Axiom Blocks" (a variable
+// subscription) and it delivers the "axiom-blocks-pro" plugin zip. Both name
+// variants are mapped so a rename of the display name doesn't break downloads.
 // Add new pro plugins here as the catalog grows.
 export const PRODUCT_R2_KEYS: Record<string, string> = {
+  "axiom blocks": "axiom-blocks-pro.zip",
   "axiom blocks pro": "axiom-blocks-pro.zip",
 };
 
@@ -34,6 +38,12 @@ export const PLUGIN_R2_KEYS: Record<string, string> = {
 
 export function productNameToR2Key(productName: string): string | null {
   return PRODUCT_R2_KEYS[productName.toLowerCase().trim()] ?? null;
+}
+
+// "axiom-blocks-pro.zip" → "axiom-blocks-pro" (the slug used by the
+// authenticated /api/account/download route).
+export function r2KeyToPluginSlug(r2Key: string): string {
+  return r2Key.replace(/\.zip$/i, "");
 }
 
 /**

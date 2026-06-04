@@ -122,8 +122,13 @@ export type WCCustomer = {
 };
 
 export async function getCustomerByEmail(email: string): Promise<WCCustomer | null> {
+  // role=all is required: WC's /customers endpoint defaults to role=customer,
+  // so an existing buyer who already has any other role (admin, shop_manager,
+  // subscriber) is invisible to the default filter. That makes the processor
+  // try to createCustomer, which then 400s with "email exists". Querying all
+  // roles finds the existing WP user so we reuse it instead of re-creating.
   const list = await wcFetch<WCCustomer[]>(
-    `/customers?email=${encodeURIComponent(email)}&per_page=1`
+    `/customers?email=${encodeURIComponent(email)}&per_page=1&role=all`
   );
   return list?.[0] ?? null;
 }
@@ -238,57 +243,6 @@ export async function listSubscriptions(args: {
   return (
     (await wcFetch<WCSubscriptionListItem[]>(`/subscriptions?${params.toString()}`)) ?? []
   );
-}
-
-export async function createRenewalOrder(
-  subscriptionId: number
-): Promise<{ id: number } | null> {
-  const url = `${WORDPRESS_API_URL}/wc/v3/subscriptions/${subscriptionId}/orders`;
-  const auth = buildAuthHeader();
-  if (!auth) return null;
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { ...FETCH_HEADERS_BASE, Authorization: auth, "Content-Type": "application/json" },
-      body: JSON.stringify({}),
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      console.warn(`[wp-api] createRenewalOrder ${subscriptionId} ${res.status}: ${text.slice(0, 300)}`);
-      return null;
-    }
-    return (await res.json()) as { id: number };
-  } catch (e) {
-    console.warn(`[wp-api] createRenewalOrder ${subscriptionId} failed:`, e);
-    return null;
-  }
-}
-
-export async function updateOrder(
-  orderId: number,
-  data: { status?: string; transaction_id?: string }
-): Promise<boolean> {
-  const url = `${WORDPRESS_API_URL}/wc/v3/orders/${orderId}`;
-  const auth = buildAuthHeader();
-  if (!auth) return false;
-  try {
-    const res = await fetch(url, {
-      method: "PUT",
-      headers: { ...FETCH_HEADERS_BASE, Authorization: auth, "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      cache: "no-store",
-    });
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      console.warn(`[wp-api] updateOrder ${orderId} ${res.status}: ${text.slice(0, 300)}`);
-      return false;
-    }
-    return true;
-  } catch (e) {
-    console.warn(`[wp-api] updateOrder ${orderId} failed:`, e);
-    return false;
-  }
 }
 
 export async function updateSubscription(

@@ -1,7 +1,7 @@
 import { auth } from "./auth";
 import { getMyDownloads, type WPAxiomDownload } from "./wpaxiom-downloads";
 import { getMyLicenses } from "./wpaxiom-licenses";
-import { generatePresignedDownloadUrl, productNameToR2Key } from "./r2";
+import { productNameToR2Key, r2KeyToPluginSlug } from "./r2";
 
 export type AccountDownload = {
   id: string;
@@ -67,22 +67,19 @@ export async function getDownloadsForCurrentUser(): Promise<AccountDownload[]> {
     if (!r2Key) continue;
     if (seenNames.has(productName.toLowerCase().trim())) continue;
 
-    let downloadUrl = "#";
-    let available = false;
-    try {
-      downloadUrl = await generatePresignedDownloadUrl(r2Key, 900); // 15-min expiry
-      available = true;
-    } catch {
-      // R2 unavailable — render unavailable state rather than crashing
-    }
+    // Point at a stable internal route, not a pre-generated presigned URL.
+    // The route re-checks the license and mints a fresh 60s presigned URL at
+    // click time — so the link can't go stale even if this page is cached or
+    // left open. See app/api/account/download/route.ts.
+    const slug = r2KeyToPluginSlug(r2Key);
 
     items.push({
       id: `r2-${lic.id}`,
       pluginName: productName || "Axiom Blocks Pro",
       version: process.env.AXIOM_BLOCKS_PRO_VERSION ?? null,
       releasedAt: null,
-      downloadUrl,
-      available,
+      downloadUrl: `/api/account/download?plugin=${encodeURIComponent(slug)}`,
+      available: true,
     });
 
     seenNames.add(productName.toLowerCase().trim());
