@@ -10,9 +10,11 @@ import type { NormalizedEvent } from "./types";
 import {
   createCustomer,
   createSubscription,
+  createRenewalOrder,
+  updateOrder,
+  updateSubscription,
   getCustomerByEmail,
   listSubscriptions,
-  updateSubscription,
   type CreateSubscriptionLineItem,
   type WCCustomer,
   type WCSubscriptionListItem,
@@ -20,9 +22,7 @@ import {
 import {
   generatePasswordResetLink,
   issueLicensesForSubscription,
-  processSubscriptionRenewal,
-  cancelSubscription,
-  activateSubscription,
+  renewLicensesForSubscription,
   refundByTransaction,
   type IssuedLicense,
 } from "@/lib/wpaxiom-admin";
@@ -161,8 +161,8 @@ async function handleSubscriptionCancelled(event: NormalizedEvent): Promise<Proc
     accessUntilDate: formatHumanDate(accessUntil),
   });
 
-  // cancel_order() fires woocommerce_subscription_status_cancelled (or
-  // pending-cancel) → wpaxiom-licensing sets license status to "cancelled".
+  // PUT /wc/v3/subscriptions/{id} status=cancelled → WC fires
+  // woocommerce_subscription_status_cancelled → license set to cancelled.
   const paddleSubId = event.subscription.gatewaySubscriptionId;
   let wcSubscriptionId: number | undefined;
 
@@ -172,14 +172,10 @@ async function handleSubscriptionCancelled(event: NormalizedEvent): Promise<Proc
       const wcSub = await findWcSubByPaddleId(customer.id, paddleSubId);
       if (wcSub) {
         wcSubscriptionId = wcSub.id;
-        const result = await cancelSubscription(wcSub.id);
-        if (result.ok) {
-          console.log(`[processor] cancellation: WC sub ${wcSub.id} status → ${result.status}`);
-        } else {
-          console.warn(`[processor] cancellation: cancelSubscription failed for WC sub ${wcSub.id}: ${result.body}`);
-        }
+        await updateSubscription(wcSub.id, { status: "cancelled" });
+        console.log(`[processor] cancellation: WC sub ${wcSub.id} set to cancelled`);
       } else {
-        console.warn(`[processor] cancellation: could not find WC subscription for Paddle sub ${paddleSubId}`);
+        console.warn(`[processor] cancellation: could not find WC sub for Paddle sub ${paddleSubId}`);
       }
     }
   }
@@ -192,6 +188,8 @@ async function handleSubscriptionActivated(event: NormalizedEvent): Promise<Proc
     return { ok: false, reason: "subscription.activated event missing subscription data" };
   }
 
+  // PUT /wc/v3/subscriptions/{id} status=active → WC fires
+  // woocommerce_subscription_status_active → license set to active.
   const paddleSubId = event.subscription.gatewaySubscriptionId;
   let wcSubscriptionId: number | undefined;
 
@@ -201,14 +199,10 @@ async function handleSubscriptionActivated(event: NormalizedEvent): Promise<Proc
       const wcSub = await findWcSubByPaddleId(customer.id, paddleSubId);
       if (wcSub) {
         wcSubscriptionId = wcSub.id;
-        const result = await activateSubscription(wcSub.id);
-        if (result.ok) {
-          console.log(`[processor] activation: WC sub ${wcSub.id} status → ${result.status}`);
-        } else {
-          console.warn(`[processor] activation: activateSubscription failed for WC sub ${wcSub.id}: ${result.body}`);
-        }
+        await updateSubscription(wcSub.id, { status: "active" });
+        console.log(`[processor] activation: WC sub ${wcSub.id} set to active`);
       } else {
-        console.warn(`[processor] activation: could not find WC subscription for Paddle sub ${paddleSubId}`);
+        console.warn(`[processor] activation: could not find WC sub for Paddle sub ${paddleSubId}`);
       }
     }
   }
@@ -329,15 +323,19 @@ async function handleRenewal(
     const wcSub = await findWcSubByPaddleId(wcCustomer.id, paddleSubId);
     if (wcSub) {
       wcSubscriptionId = wcSub.id;
-      // Single call: creates renewal order + marks paid → WC fires
-      // woocommerce_subscription_payment_complete → license extended +
-      // next_payment_date updated automatically by WC Subscriptions.
-      const result = await processSubscriptionRenewal(wcSub.id, transactionId);
-      if (result.ok) {
-        console.log(`[processor] renewal: WC sub ${wcSub.id} renewal order ${result.renewal_order_id} created and paid`);
-      } else {
-        console.warn(`[processor] renewal: processSubscriptionRenewal failed for WC sub ${wcSub.id}: ${result.body}`);
+
+      // Step 1: WC REST API creates renewal order + marks completed
+      // → WC Subscriptions updates next_payment_date automatically.
+      const renewalOrder = await createRenewalOrder(wcSub.id);
+      if (renewalOrder) {
+        await updateOrder(renewalOrder.id, { status: "completed", transaction_id: transactionId });
+        console.log(`[processor] renewal: WC renewal order ${renewalOrder.id} created and completed`);
       }
+
+      // Step 2: Extend license — WC doesn't know about our license table.
+      const expiresAt = mysqlUtc(next);
+      await renewLicensesForSubscription(wcSub.id, expiresAt);
+      console.log(`[processor] renewal: license extended to ${expiresAt}`);
     } else {
       console.warn(`[processor] renewal: could not find WC subscription for Paddle sub ${paddleSubId}`);
     }

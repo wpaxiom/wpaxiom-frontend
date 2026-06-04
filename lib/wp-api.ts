@@ -240,6 +240,57 @@ export async function listSubscriptions(args: {
   );
 }
 
+export async function createRenewalOrder(
+  subscriptionId: number
+): Promise<{ id: number } | null> {
+  const url = `${WORDPRESS_API_URL}/wc/v3/subscriptions/${subscriptionId}/orders`;
+  const auth = buildAuthHeader();
+  if (!auth) return null;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { ...FETCH_HEADERS_BASE, Authorization: auth, "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.warn(`[wp-api] createRenewalOrder ${subscriptionId} ${res.status}: ${text.slice(0, 300)}`);
+      return null;
+    }
+    return (await res.json()) as { id: number };
+  } catch (e) {
+    console.warn(`[wp-api] createRenewalOrder ${subscriptionId} failed:`, e);
+    return null;
+  }
+}
+
+export async function updateOrder(
+  orderId: number,
+  data: { status?: string; transaction_id?: string }
+): Promise<boolean> {
+  const url = `${WORDPRESS_API_URL}/wc/v3/orders/${orderId}`;
+  const auth = buildAuthHeader();
+  if (!auth) return false;
+  try {
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: { ...FETCH_HEADERS_BASE, Authorization: auth, "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.warn(`[wp-api] updateOrder ${orderId} ${res.status}: ${text.slice(0, 300)}`);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.warn(`[wp-api] updateOrder ${orderId} failed:`, e);
+    return false;
+  }
+}
+
 export async function updateSubscription(
   subscriptionId: number,
   data: { status?: string; next_payment_date?: string }
