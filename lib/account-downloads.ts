@@ -1,5 +1,7 @@
 import { auth } from "./auth";
 import { getMyDownloads, type WPAxiomDownload } from "./wpaxiom-downloads";
+import { getMyLicenses } from "./wpaxiom-licenses";
+import { generatePresignedDownloadUrl, productNameToR2Key } from "./r2";
 
 export type AccountDownload = {
   id: string;
@@ -46,6 +48,45 @@ export async function getDownloadsForCurrentUser(): Promise<AccountDownload[]> {
   const session = await auth();
   const token = session?.user?.wpToken;
   if (!token) return [];
-  const downloads = await getMyDownloads(token);
-  return downloads.map(mapDownload);
+
+  const [wcDownloads, licenses] = await Promise.all([
+    getMyDownloads(token),
+    getMyLicenses(token),
+  ]);
+
+  const items: AccountDownload[] = wcDownloads.map(mapDownload);
+
+  // Track names already covered by WC downloads to avoid duplicates.
+  const seenNames = new Set(items.map((i) => i.pluginName.toLowerCase().trim()));
+
+  for (const lic of licenses) {
+    if (lic.status !== "active" && lic.status !== "grace") continue;
+
+    const productName = lic.product_name ?? "";
+    const r2Key = productNameToR2Key(productName);
+    if (!r2Key) continue;
+    if (seenNames.has(productName.toLowerCase().trim())) continue;
+
+    let downloadUrl = "#";
+    let available = false;
+    try {
+      downloadUrl = await generatePresignedDownloadUrl(r2Key, 900); // 15-min expiry
+      available = true;
+    } catch {
+      // R2 unavailable — render unavailable state rather than crashing
+    }
+
+    items.push({
+      id: `r2-${lic.id}`,
+      pluginName: productName || "Axiom Blocks Pro",
+      version: process.env.AXIOM_BLOCKS_PRO_VERSION ?? null,
+      releasedAt: null,
+      downloadUrl,
+      available,
+    });
+
+    seenNames.add(productName.toLowerCase().trim());
+  }
+
+  return items;
 }

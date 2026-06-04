@@ -100,6 +100,26 @@ export type ActivateResult =
       message: string;
     };
 
+export async function validateLicenseSite(
+  licenseKey: string,
+  siteUrl: string
+): Promise<boolean> {
+  const url = `${WORDPRESS_API_URL}/wpaxiom/v1/license/validate`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { ...BASE_HEADERS, "Content-Type": "application/json" },
+      body: JSON.stringify({ license_key: licenseKey, site_url: siteUrl }),
+      cache: "no-store",
+    });
+    if (!res.ok) return false;
+    const body = (await res.json().catch(() => ({}))) as Record<string, unknown>;
+    return body.valid === true;
+  } catch {
+    return false;
+  }
+}
+
 export async function activateLicenseSite(
   licenseKey: string,
   siteUrl: string
