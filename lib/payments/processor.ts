@@ -11,12 +11,19 @@ import {
   createCustomer,
   createSubscription,
   getCustomerByEmail,
+  listSubscriptions,
+  updateSubscription,
   type CreateSubscriptionLineItem,
   type WCCustomer,
+  type WCSubscriptionListItem,
 } from "@/lib/wp-api";
 import {
   generatePasswordResetLink,
   issueLicensesForSubscription,
+  processSubscriptionRenewal,
+  cancelSubscription,
+  activateSubscription,
+  refundByTransaction,
   type IssuedLicense,
 } from "@/lib/wpaxiom-admin";
 import { sendEmail } from "@/lib/emails/send";
@@ -65,6 +72,24 @@ type WCOrderCreateBody = {
   meta_data: { key: string; value: string }[];
 };
 
+function mysqlUtc(d: Date): string {
+  return d.toISOString().replace("T", " ").replace(/\.\d+Z$/, "");
+}
+
+async function findWcSubByPaddleId(
+  customerId: number,
+  paddleSubId: string
+): Promise<WCSubscriptionListItem | null> {
+  const subs = await listSubscriptions({ customerId, status: "any", perPage: 50 });
+  return (
+    subs.find((s) =>
+      s.meta_data.some(
+        (m) => m.key === "_paddle_subscription_id" && String(m.value) === paddleSubId
+      )
+    ) ?? null
+  );
+}
+
 export async function processEvent(event: NormalizedEvent): Promise<ProcessResult> {
   switch (event.type) {
     case "transaction.completed":
@@ -73,9 +98,11 @@ export async function processEvent(event: NormalizedEvent): Promise<ProcessResul
       return handlePaymentFailed(event);
     case "subscription.cancelled":
       return handleSubscriptionCancelled(event);
-    case "subscription.updated":
     case "subscription.activated":
+      return handleSubscriptionActivated(event);
     case "refund.issued":
+      return handleRefund(event);
+    case "subscription.updated":
       console.log(`[processor] event ${event.type} acknowledged but not yet handled`);
       return { ok: true, skipped: `${event.type} not yet handled` };
     default:
@@ -122,10 +149,6 @@ async function handleSubscriptionCancelled(event: NormalizedEvent): Promise<Proc
     event.customer.name?.trim().split(/\s+/)[0] ||
     event.customer.email.split("@")[0];
 
-  // Paddle keeps access through the end of the paid period. If we don't have
-  // currentPeriodEnd, fall back to "the end of your current billing period" by
-  // using occurredAt + best-guess (we choose to show the cancellation date so
-  // copy is still factually correct; template will read "Access until: …").
   const cancellationDate = new Date(event.subscription.cancelAt ?? event.occurredAt);
   const accessUntil = event.subscription.currentPeriodEnd
     ? new Date(event.subscription.currentPeriodEnd)
@@ -138,13 +161,76 @@ async function handleSubscriptionCancelled(event: NormalizedEvent): Promise<Proc
     accessUntilDate: formatHumanDate(accessUntil),
   });
 
-  // TODO: also mark the WC subscription status = "cancelled" so the renewal
-  // cron stops considering it. Without that, the WC subscription stays "active"
-  // and the renewal-upcoming cron may still fire for it.
-  return {
-    ok: true,
-    skipped: "cancellation email sent; WC subscription status update is a TODO",
-  };
+  // cancel_order() fires woocommerce_subscription_status_cancelled (or
+  // pending-cancel) → wpaxiom-licensing sets license status to "cancelled".
+  const paddleSubId = event.subscription.gatewaySubscriptionId;
+  let wcSubscriptionId: number | undefined;
+
+  if (paddleSubId) {
+    const customer = await getCustomerByEmail(event.customer.email);
+    if (customer) {
+      const wcSub = await findWcSubByPaddleId(customer.id, paddleSubId);
+      if (wcSub) {
+        wcSubscriptionId = wcSub.id;
+        const result = await cancelSubscription(wcSub.id);
+        if (result.ok) {
+          console.log(`[processor] cancellation: WC sub ${wcSub.id} status → ${result.status}`);
+        } else {
+          console.warn(`[processor] cancellation: cancelSubscription failed for WC sub ${wcSub.id}: ${result.body}`);
+        }
+      } else {
+        console.warn(`[processor] cancellation: could not find WC subscription for Paddle sub ${paddleSubId}`);
+      }
+    }
+  }
+
+  return { ok: true, subscriptionId: wcSubscriptionId };
+}
+
+async function handleSubscriptionActivated(event: NormalizedEvent): Promise<ProcessResult> {
+  if (!event.subscription) {
+    return { ok: false, reason: "subscription.activated event missing subscription data" };
+  }
+
+  const paddleSubId = event.subscription.gatewaySubscriptionId;
+  let wcSubscriptionId: number | undefined;
+
+  if (paddleSubId) {
+    const customer = await getCustomerByEmail(event.customer.email);
+    if (customer) {
+      const wcSub = await findWcSubByPaddleId(customer.id, paddleSubId);
+      if (wcSub) {
+        wcSubscriptionId = wcSub.id;
+        const result = await activateSubscription(wcSub.id);
+        if (result.ok) {
+          console.log(`[processor] activation: WC sub ${wcSub.id} status → ${result.status}`);
+        } else {
+          console.warn(`[processor] activation: activateSubscription failed for WC sub ${wcSub.id}: ${result.body}`);
+        }
+      } else {
+        console.warn(`[processor] activation: could not find WC subscription for Paddle sub ${paddleSubId}`);
+      }
+    }
+  }
+
+  return { ok: true, subscriptionId: wcSubscriptionId };
+}
+
+async function handleRefund(event: NormalizedEvent): Promise<ProcessResult> {
+  if (!event.transaction) {
+    return { ok: false, reason: "refund.issued event missing transaction data" };
+  }
+
+  const transactionId = event.transaction.gatewayTransactionId;
+  const result = await refundByTransaction(transactionId);
+
+  if (result.ok) {
+    console.log(`[processor] refund: order ${result.order_id} marked refunded for transaction ${transactionId}`);
+  } else {
+    console.warn(`[processor] refund: refundByTransaction failed for ${transactionId}: ${result.body}`);
+  }
+
+  return { ok: true };
 }
 
 async function handleTransactionCompleted(event: NormalizedEvent): Promise<ProcessResult> {
@@ -218,9 +304,6 @@ async function handleRenewal(
     event.customer.name?.trim().split(/\s+/)[0] ||
     event.customer.email.split("@")[0];
 
-  // next_renewal_date: derive from billing cycle in customData. customData on
-  // renewals is inherited from the original checkout, so the cycle is there.
-  // Falls back to "yearly" if missing.
   const cycle = readString(event.transaction.customData, "cycle") ?? "yearly";
   const next = new Date(event.occurredAt);
   if (cycle === "monthly") {
@@ -238,10 +321,32 @@ async function handleRenewal(
     invoiceUrl: `${SITE_URL}/account/invoices`,
   });
 
+  const paddleSubId = event.transaction.gatewaySubscriptionId;
+  const transactionId = event.transaction.gatewayTransactionId;
+  let wcSubscriptionId: number | undefined;
+
+  if (paddleSubId && wcCustomer) {
+    const wcSub = await findWcSubByPaddleId(wcCustomer.id, paddleSubId);
+    if (wcSub) {
+      wcSubscriptionId = wcSub.id;
+      // Single call: creates renewal order + marks paid → WC fires
+      // woocommerce_subscription_payment_complete → license extended +
+      // next_payment_date updated automatically by WC Subscriptions.
+      const result = await processSubscriptionRenewal(wcSub.id, transactionId);
+      if (result.ok) {
+        console.log(`[processor] renewal: WC sub ${wcSub.id} renewal order ${result.renewal_order_id} created and paid`);
+      } else {
+        console.warn(`[processor] renewal: processSubscriptionRenewal failed for WC sub ${wcSub.id}: ${result.body}`);
+      }
+    } else {
+      console.warn(`[processor] renewal: could not find WC subscription for Paddle sub ${paddleSubId}`);
+    }
+  }
+
   return {
     ok: true,
     customerId: wcCustomer?.id,
-    skipped: "renewal — receipt email sent; WC subscription update is a TODO",
+    subscriptionId: wcSubscriptionId,
   };
 }
 
@@ -328,10 +433,6 @@ async function createOrderAndSubscription(
   } else {
     next.setUTCMonth(next.getUTCMonth() + 1);
   }
-  // WC Subscriptions expects MySQL UTC datetime format ("YYYY-MM-DD HH:MM:SS"),
-  // not ISO 8601 with the "T" separator.
-  const mysqlUtc = (d: Date) =>
-    d.toISOString().replace("T", " ").replace(/\.\d+Z$/, "");
 
   const subscriptionLineItems: CreateSubscriptionLineItem[] = lineItems.map((li) => ({
     variation_id: li.variation_id,

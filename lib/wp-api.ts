@@ -228,14 +228,46 @@ export async function listSubscriptions(args: {
   status?: "active" | "on-hold" | "pending" | "cancelled" | "any";
   page?: number;
   perPage?: number;
+  customerId?: number;
 }): Promise<WCSubscriptionListItem[]> {
   const params = new URLSearchParams();
   params.set("status", args.status ?? "active");
   params.set("page", String(args.page ?? 1));
   params.set("per_page", String(args.perPage ?? 50));
+  if (args.customerId) params.set("customer", String(args.customerId));
   return (
     (await wcFetch<WCSubscriptionListItem[]>(`/subscriptions?${params.toString()}`)) ?? []
   );
+}
+
+export async function updateSubscription(
+  subscriptionId: number,
+  data: { status?: string; next_payment_date?: string }
+): Promise<boolean> {
+  const url = `${WORDPRESS_API_URL}/wc/v3/subscriptions/${subscriptionId}`;
+  const auth = buildAuthHeader();
+  if (!auth) return false;
+  try {
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        ...FETCH_HEADERS_BASE,
+        Authorization: auth,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.warn(`[wp-api] updateSubscription ${subscriptionId} ${res.status}: ${text.slice(0, 300)}`);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.warn(`[wp-api] updateSubscription ${subscriptionId} failed:`, e);
+    return false;
+  }
 }
 
 // Updates meta on a WC subscription. Used to record renewal-reminder dedupe
