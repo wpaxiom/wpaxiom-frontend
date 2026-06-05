@@ -46,15 +46,20 @@ export function r2KeyToPluginSlug(r2Key: string): string {
   return r2Key.replace(/\.zip$/i, "");
 }
 
+export type PluginMeta = { version: string; name: string };
+
+function slugToName(slug: string): string {
+  return slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 /**
- * Read version.json from R2 and return its contents.
+ * Read version.json from R2.
  *
- * version.json shape: { "axiom-blocks-pro": "1.1.0", ... }
- *
- * Upload a new version.json alongside the zip whenever you release —
- * no env var changes or redeploys needed.
+ * Supports both formats — upgrade when ready:
+ *   Old: { "axiom-blocks-pro": "1.1.0" }
+ *   New: { "axiom-blocks-pro": { "version": "1.1.0", "name": "Axiom Blocks Pro" } }
  */
-export async function getPluginVersions(): Promise<Record<string, string>> {
+export async function getPluginVersions(): Promise<Record<string, PluginMeta>> {
   try {
     const command = new GetObjectCommand({
       Bucket: process.env.CF_R2_BUCKET_NAME!,
@@ -63,7 +68,15 @@ export async function getPluginVersions(): Promise<Record<string, string>> {
     const response = await r2Client.send(command);
     const text = await response.Body?.transformToString("utf-8");
     if (!text) return {};
-    return JSON.parse(text) as Record<string, string>;
+    const raw = JSON.parse(text) as Record<string, string | PluginMeta>;
+    const result: Record<string, PluginMeta> = {};
+    for (const [slug, value] of Object.entries(raw)) {
+      result[slug] =
+        typeof value === "string"
+          ? { version: value, name: slugToName(slug) }
+          : value;
+    }
+    return result;
   } catch {
     return {};
   }

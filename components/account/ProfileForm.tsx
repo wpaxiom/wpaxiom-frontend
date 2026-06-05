@@ -4,14 +4,22 @@ import { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import type { ProfileData } from "@/lib/account-profile";
 
+type SaveStatus = "idle" | "saving" | "saved" | "error";
+
 const inputCls =
   "w-full px-4 py-2.5 rounded-lg bg-base border border-line text-ink placeholder:text-subtle focus:outline-none focus:border-coral transition text-sm";
 
 const saveBtnCls =
-  "px-4 py-2 rounded-lg bg-coral hover:bg-coral-hover text-white text-sm font-medium transition focus-coral";
+  "px-4 py-2 rounded-lg bg-coral hover:bg-coral-hover text-white text-sm font-medium transition focus-coral disabled:opacity-50 disabled:cursor-not-allowed";
 
 const outlineBtnCls =
-  "px-4 py-2 rounded-lg border border-line hover:border-muted text-ink text-sm font-medium transition focus-coral";
+  "px-4 py-2 rounded-lg border border-line hover:border-muted text-ink text-sm font-medium transition focus-coral disabled:opacity-50 disabled:cursor-not-allowed";
+
+function btnLabel(status: SaveStatus, idle: string): string {
+  if (status === "saving") return "Saving…";
+  if (status === "saved") return "Saved";
+  return idle;
+}
 
 export function ProfileForm({ profile }: { profile: ProfileData }) {
   // Account details
@@ -28,13 +36,60 @@ export function ProfileForm({ profile }: { profile: ProfileData }) {
   const [address1, setAddress1] = useState(profile.billing.address1);
   const [address2, setAddress2] = useState(profile.billing.address2);
   const [city, setCity] = useState(profile.billing.city);
-  const [state, setState] = useState(profile.billing.state);
+  const [billingState, setBillingState] = useState(profile.billing.state);
   const [postcode, setPostcode] = useState(profile.billing.postcode);
   const [country, setCountry] = useState(profile.billing.country);
+
+  // Password
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   // Email preferences
   const [productEmails, setProductEmails] = useState(true);
   const [marketingEmails, setMarketingEmails] = useState(true);
+
+  // Save statuses + errors
+  const [detailsStatus, setDetailsStatus] = useState<SaveStatus>("idle");
+  const [contactStatus, setContactStatus] = useState<SaveStatus>("idle");
+  const [billingStatus, setBillingStatus] = useState<SaveStatus>("idle");
+  const [passwordStatus, setPasswordStatus] = useState<SaveStatus>("idle");
+  const [detailsError, setDetailsError] = useState("");
+  const [contactError, setContactError] = useState("");
+  const [billingError, setBillingError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  async function runSave(
+    url: string,
+    method: string,
+    body: object,
+    setStatus: (s: SaveStatus) => void,
+    setError: (e: string) => void,
+    onSuccess?: () => void
+  ) {
+    setStatus("saving");
+    setError("");
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) {
+        setStatus("saved");
+        onSuccess?.();
+        setTimeout(() => setStatus("idle"), 2000);
+      } else {
+        const data = await res.json().catch(() => ({})) as { error?: string };
+        setError(data.error ?? "Failed to save. Please try again.");
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+      }
+    } catch {
+      setError("Network error. Please try again.");
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
+  }
 
   return (
     <div className="space-y-5">
@@ -121,8 +176,24 @@ export function ProfileForm({ profile }: { profile: ProfileData }) {
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end">
-          <button type="button" className={saveBtnCls}>Save changes</button>
+        <div className="mt-6 flex items-center justify-end gap-3">
+          {detailsError && <p className="text-xs text-red-500">{detailsError}</p>}
+          <button
+            type="button"
+            disabled={detailsStatus === "saving" || detailsStatus === "saved"}
+            onClick={() =>
+              runSave(
+                "/api/account/profile/details",
+                "PATCH",
+                { first_name: firstName, last_name: lastName, display_name: displayName },
+                setDetailsStatus,
+                setDetailsError
+              )
+            }
+            className={saveBtnCls}
+          >
+            {btnLabel(detailsStatus, "Save changes")}
+          </button>
         </div>
       </section>
 
@@ -165,8 +236,24 @@ export function ProfileForm({ profile }: { profile: ProfileData }) {
           </Field>
         </div>
 
-        <div className="mt-6 flex justify-end">
-          <button type="button" className={saveBtnCls}>Save changes</button>
+        <div className="mt-6 flex items-center justify-end gap-3">
+          {contactError && <p className="text-xs text-red-500">{contactError}</p>}
+          <button
+            type="button"
+            disabled={contactStatus === "saving" || contactStatus === "saved"}
+            onClick={() =>
+              runSave(
+                "/api/account/profile/contact",
+                "PATCH",
+                { phone, company, website },
+                setContactStatus,
+                setContactError
+              )
+            }
+            className={saveBtnCls}
+          >
+            {btnLabel(contactStatus, "Save changes")}
+          </button>
         </div>
       </section>
 
@@ -208,8 +295,8 @@ export function ProfileForm({ profile }: { profile: ProfileData }) {
             <Field label="State / Province" id="state">
               <input
                 id="state"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
+                value={billingState}
+                onChange={(e) => setBillingState(e.target.value)}
                 className={inputCls}
               />
             </Field>
@@ -235,8 +322,24 @@ export function ProfileForm({ profile }: { profile: ProfileData }) {
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end">
-          <button type="button" className={saveBtnCls}>Save changes</button>
+        <div className="mt-6 flex items-center justify-end gap-3">
+          {billingError && <p className="text-xs text-red-500">{billingError}</p>}
+          <button
+            type="button"
+            disabled={billingStatus === "saving" || billingStatus === "saved"}
+            onClick={() =>
+              runSave(
+                "/api/account/profile/billing",
+                "PATCH",
+                { address1, address2, city, state: billingState, postcode, country },
+                setBillingStatus,
+                setBillingError
+              )
+            }
+            className={saveBtnCls}
+          >
+            {btnLabel(billingStatus, "Save changes")}
+          </button>
         </div>
       </section>
 
@@ -251,6 +354,8 @@ export function ProfileForm({ profile }: { profile: ProfileData }) {
               id="current-password"
               type="password"
               autoComplete="current-password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
               className={inputCls}
             />
           </Field>
@@ -259,13 +364,32 @@ export function ProfileForm({ profile }: { profile: ProfileData }) {
               id="new-password"
               type="password"
               autoComplete="new-password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className={inputCls}
             />
           </Field>
         </div>
 
-        <div className="mt-6 flex justify-end">
-          <button type="button" className={outlineBtnCls}>Update password</button>
+        <div className="mt-6 flex items-center justify-end gap-3">
+          {passwordError && <p className="text-xs text-red-500">{passwordError}</p>}
+          <button
+            type="button"
+            disabled={passwordStatus === "saving" || passwordStatus === "saved"}
+            onClick={() =>
+              runSave(
+                "/api/account/profile/password",
+                "POST",
+                { current_password: currentPassword, new_password: newPassword },
+                setPasswordStatus,
+                setPasswordError,
+                () => { setCurrentPassword(""); setNewPassword(""); }
+              )
+            }
+            className={outlineBtnCls}
+          >
+            {btnLabel(passwordStatus, "Update password")}
+          </button>
         </div>
       </section>
 

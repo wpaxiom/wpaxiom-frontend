@@ -1,6 +1,6 @@
 import { createHash } from "crypto";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth, signOut } from "@/lib/auth";
 import { AccountSidebar, AccountTabBar } from "@/components/account/AccountSidebar";
 
 function initialsFrom(name: string | null | undefined, email: string | null | undefined): string {
@@ -23,6 +23,9 @@ export default async function AccountLayout({ children }: { children: React.Reac
   const session = await auth();
   if (!session?.user) {
     redirect("/login?from=/account");
+  }
+  if (session.error === "WPTokenExpired") {
+    await signOut({ redirectTo: "/login?expired=1" });
   }
 
   const email = session.user.email ?? "";

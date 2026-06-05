@@ -44,6 +44,16 @@ async function authenticateAgainstWordPress(
   }
 }
 
+function decodeWpTokenExp(token: string): number | null {
+  try {
+    const b64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    const payload = JSON.parse(Buffer.from(b64, "base64").toString()) as { exp?: number };
+    return typeof payload.exp === "number" ? payload.exp : null;
+  } catch {
+    return null;
+  }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: { signIn: "/login" },
   session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
@@ -76,6 +86,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (user) {
         token.wpToken = user.wpToken;
         token.nicename = user.nicename;
+        token.wpTokenExp = user.wpToken ? decodeWpTokenExp(user.wpToken) ?? undefined : undefined;
+        token.error = undefined;
+      }
+      // WP JWT expired — flag it so the account layout can redirect to login
+      if (token.wpTokenExp && Math.floor(Date.now() / 1000) > token.wpTokenExp) {
+        token.error = "WPTokenExpired";
       }
       return token;
     },
@@ -84,6 +100,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.wpToken = token.wpToken;
         session.user.nicename = token.nicename;
       }
+      if (token.error) session.error = token.error;
       return session;
     },
   },

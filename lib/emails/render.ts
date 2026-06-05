@@ -71,7 +71,6 @@ async function loadTemplate(slug: TemplateSlug): Promise<string> {
 // Caller-supplied vars take precedence over these.
 function autoVars(): Record<string, string | number> {
   return {
-    logo_url: process.env.EMAIL_LOGO_URL ?? "https://wpaxiom.com/logo-icon.svg",
     brand_url: process.env.EMAIL_BRAND_URL ?? "https://wpaxiom.com",
     brand_name: "WPAxiom",
     support_email: process.env.EMAIL_REPLY_TO ?? "support@wpaxiom.com",

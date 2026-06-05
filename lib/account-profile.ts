@@ -39,6 +39,8 @@ type WPUserMe = {
 };
 
 type WCCustomerFull = {
+  first_name: string;
+  last_name: string;
   billing: {
     company: string;
     phone: string;
@@ -60,19 +62,29 @@ async function fetchWPMe(wpToken: string): Promise<WPUserMe | null> {
       },
       cache: "no-store",
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.warn(`[account-profile] fetchWPMe ${res.status}: ${body.slice(0, 200)}`);
+      return null;
+    }
     return (await res.json()) as WPUserMe;
-  } catch {
+  } catch (e) {
+    console.warn("[account-profile] fetchWPMe failed:", e);
     return null;
   }
 }
 
 async function fetchWCCustomer(email: string): Promise<WCCustomerFull | null> {
-  if (!WC_CONSUMER_KEY || !WC_CONSUMER_SECRET) return null;
+  if (!WC_CONSUMER_KEY || !WC_CONSUMER_SECRET) {
+    console.warn("[account-profile] WC credentials not configured — skipping WC customer fetch");
+    return null;
+  }
   const basicAuth = Buffer.from(`${WC_CONSUMER_KEY}:${WC_CONSUMER_SECRET}`).toString("base64");
   try {
+    // role=all is required: WC defaults to role=customer, so admin/shop_manager
+    // users are invisible without it.
     const res = await fetch(
-      `${WORDPRESS_API_URL}/wc/v3/customers?email=${encodeURIComponent(email)}&per_page=1`,
+      `${WORDPRESS_API_URL}/wc/v3/customers?email=${encodeURIComponent(email)}&per_page=1&role=all`,
       {
         headers: {
           Accept: "application/json",
@@ -81,10 +93,15 @@ async function fetchWCCustomer(email: string): Promise<WCCustomerFull | null> {
         cache: "no-store",
       }
     );
-    if (!res.ok) return null;
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.warn(`[account-profile] fetchWCCustomer ${res.status}: ${body.slice(0, 200)}`);
+      return null;
+    }
     const list = (await res.json()) as WCCustomerFull[];
     return list[0] ?? null;
-  } catch {
+  } catch (e) {
+    console.warn("[account-profile] fetchWCCustomer failed:", e);
     return null;
   }
 }
@@ -108,8 +125,8 @@ export async function getProfileForCurrentUser(): Promise<ProfileData | null> {
 
   return {
     displayName: wpMe?.name ?? session?.user?.name ?? "",
-    firstName: wpMe?.first_name ?? "",
-    lastName: wpMe?.last_name ?? "",
+    firstName: wpMe?.first_name || wcCustomer?.first_name || "",
+    lastName: wpMe?.last_name || wcCustomer?.last_name || "",
     email,
     website: wpMe?.url ?? "",
     avatarUrl,

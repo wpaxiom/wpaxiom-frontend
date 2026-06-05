@@ -1,6 +1,6 @@
 import { auth } from "./auth";
 import { getMyLicenses } from "./wpaxiom-licenses";
-import { productNameToR2Key, r2KeyToPluginSlug } from "./r2";
+import { productNameToR2Key, r2KeyToPluginSlug, getPluginVersions } from "./r2";
 
 export type AccountDownload = {
   id: string;
@@ -21,7 +21,10 @@ export async function getDownloadsForCurrentUser(): Promise<AccountDownload[]> {
   const token = session?.user?.wpToken;
   if (!token) return [];
 
-  const licenses = await getMyLicenses(token);
+  const [licenses, versions] = await Promise.all([
+    getMyLicenses(token),
+    getPluginVersions(),
+  ]);
 
   const items: AccountDownload[] = [];
   const seenKeys = new Set<string>();
@@ -40,8 +43,8 @@ export async function getDownloadsForCurrentUser(): Promise<AccountDownload[]> {
     const slug = r2KeyToPluginSlug(r2Key);
     items.push({
       id: `r2-${slug}`,
-      pluginName: productName || "Axiom Blocks Pro",
-      version: process.env.AXIOM_BLOCKS_PRO_VERSION ?? null,
+      pluginName: versions[slug]?.name || productName || "Axiom Blocks Pro",
+      version: versions[slug]?.version ?? null,
       releasedAt: null,
       downloadUrl: `/api/account/download?plugin=${encodeURIComponent(slug)}`,
       available: true,

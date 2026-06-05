@@ -6,7 +6,7 @@
 // represents a subscription transaction, we MUST create a WC Subscription
 // (not just a WC order) — otherwise no license ever gets generated.
 
-import type { NormalizedEvent } from "./types";
+import type { NormalizedEvent, NormalizedSubscription } from "./types";
 import {
   createCustomer,
   createSubscription,
@@ -101,11 +101,54 @@ export async function processEvent(event: NormalizedEvent): Promise<ProcessResul
     case "refund.issued":
       return handleRefund(event);
     case "subscription.updated":
-      console.log(`[processor] event ${event.type} acknowledged but not yet handled`);
-      return { ok: true, skipped: `${event.type} not yet handled` };
+      return handleSubscriptionUpdated(event);
     default:
       return { ok: false, reason: `unknown event type: ${(event as { type: string }).type}` };
   }
+}
+
+function mapPaddleStatus(status: NormalizedSubscription["status"]): string {
+  switch (status) {
+    case "active":
+    case "trialing":
+      return "active";
+    case "paused":
+    case "past_due":
+      return "on-hold";
+    case "cancelled":
+      return "cancelled";
+  }
+}
+
+async function handleSubscriptionUpdated(event: NormalizedEvent): Promise<ProcessResult> {
+  if (!event.subscription) {
+    return { ok: false, reason: "subscription.updated event missing subscription data" };
+  }
+
+  const paddleSubId = event.subscription.gatewaySubscriptionId;
+  const customer = await getCustomerByEmail(event.customer.email);
+  if (!customer) {
+    console.warn(`[processor] subscription.updated: no WC customer for ${event.customer.email}`);
+    return { ok: true, skipped: "WC customer not found" };
+  }
+
+  const wcSub = await findWcSubByPaddleId(customer.id, paddleSubId);
+  if (!wcSub) {
+    console.warn(`[processor] subscription.updated: no WC sub for Paddle sub ${paddleSubId}`);
+    return { ok: true, skipped: "WC subscription not found" };
+  }
+
+  const wcStatus = mapPaddleStatus(event.subscription.status);
+  const updates: { status?: string; next_payment_date?: string } = { status: wcStatus };
+
+  if (event.subscription.currentPeriodEnd) {
+    updates.next_payment_date = mysqlUtc(new Date(event.subscription.currentPeriodEnd));
+  }
+
+  await updateSubscription(wcSub.id, updates);
+  console.log(`[processor] subscription.updated: WC sub ${wcSub.id} → ${wcStatus}`);
+
+  return { ok: true, subscriptionId: wcSub.id, customerId: customer.id };
 }
 
 async function handlePaymentFailed(event: NormalizedEvent): Promise<ProcessResult> {
@@ -296,26 +339,15 @@ async function handleRenewal(
     event.customer.name?.trim().split(/\s+/)[0] ||
     event.customer.email.split("@")[0];
 
-  const cycle = readString(event.transaction.customData, "cycle") ?? "yearly";
-  const next = new Date(event.occurredAt);
-  if (cycle === "monthly") {
-    next.setUTCMonth(next.getUTCMonth() + 1);
-  } else {
-    next.setUTCFullYear(next.getUTCFullYear() + 1);
-  }
-
-  await sendRenewalSuccessfulEmail({
-    to: event.customer.email,
-    customerName,
-    amount: formatAmount(event.transaction.total, event.transaction.currency),
-    renewalDate: formatHumanDate(new Date(event.occurredAt)),
-    nextRenewalDate: formatHumanDate(next),
-    invoiceUrl: `${SITE_URL}/account/invoices`,
-  });
-
   const paddleSubId = event.transaction.gatewaySubscriptionId;
   const transactionId = event.transaction.gatewayTransactionId;
   let wcSubscriptionId: number | undefined;
+
+  // Process the renewal FIRST so the receipt email can report the authoritative
+  // next-payment date the endpoint returns (it anchors off the subscription's
+  // real schedule). Sending the email before this — and guessing the date in JS
+  // — is what made the receipt disagree with the actual subscription.
+  let nextPaymentDate: Date | null = null;
 
   if (paddleSubId && wcCustomer) {
     const wcSub = await findWcSubByPaddleId(wcCustomer.id, paddleSubId);
@@ -326,6 +358,8 @@ async function handleRenewal(
       // extends license. WC REST API has no POST on /subscriptions/{id}/orders.
       const result = await processSubscriptionRenewal(wcSub.id, transactionId);
       if (result.ok) {
+        // result.next_payment is "YYYY-MM-DD HH:MM:SS" UTC.
+        nextPaymentDate = new Date(result.next_payment.replace(" ", "T") + "Z");
         console.log(`[processor] renewal: order ${result.renewal_order_id} created, next_payment ${result.next_payment}`);
       } else {
         console.warn(`[processor] renewal: processSubscriptionRenewal failed: ${result.body}`);
@@ -334,6 +368,30 @@ async function handleRenewal(
       console.warn(`[processor] renewal: could not find WC subscription for Paddle sub ${paddleSubId}`);
     }
   }
+
+  // Fallback estimate only if the endpoint date is unavailable (sub not found /
+  // call failed), so the email still shows a sensible next date.
+  if (!nextPaymentDate || Number.isNaN(nextPaymentDate.getTime())) {
+    const cycle = readString(event.transaction.customData, "cycle") ?? "yearly";
+    const est = new Date(event.occurredAt);
+    if (cycle === "monthly") {
+      est.setUTCMonth(est.getUTCMonth() + 1);
+    } else {
+      est.setUTCFullYear(est.getUTCFullYear() + 1);
+    }
+    nextPaymentDate = est;
+  }
+
+  await sendRenewalSuccessfulEmail({
+    to: event.customer.email,
+    customerName,
+    // amount comes from the gateway event — the real charged amount in
+    // production. (In a hand-crafted dev-trigger payload it's whatever you set.)
+    amount: formatAmount(event.transaction.total, event.transaction.currency),
+    renewalDate: formatHumanDate(new Date(event.occurredAt)),
+    nextRenewalDate: formatHumanDate(nextPaymentDate),
+    invoiceUrl: `${SITE_URL}/account/invoices`,
+  });
 
   return {
     ok: true,

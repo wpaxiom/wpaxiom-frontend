@@ -16,6 +16,7 @@ declare module "next-auth" {
       wpToken?: string;
       nicename?: string;
     };
+    error?: string;
   }
 }
 
@@ -23,5 +24,7 @@ declare module "next-auth/jwt" {
   interface JWT {
     wpToken?: string;
     nicename?: string;
+    wpTokenExp?: number; // unix seconds — decoded from WP JWT on sign-in
+    error?: string;
   }
 }

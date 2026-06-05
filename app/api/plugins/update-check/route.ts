@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
   const meta = PLUGIN_META[plugin];
   const versions = await getPluginVersions();
   // Fall back to env var if version.json is missing or R2 is unreachable
-  const latestVersion = versions[plugin] ?? process.env.AXIOM_BLOCKS_PRO_VERSION ?? "1.0.0";
+  const latestVersion = versions[plugin]?.version ?? process.env.AXIOM_BLOCKS_PRO_VERSION ?? "1.0.0";
   const noUpdate = compareVersions(clientVersion, latestVersion) >= 0;
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://wpaxiom.com";

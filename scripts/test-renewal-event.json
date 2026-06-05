@@ -1,0 +1,31 @@
+{
+  "gateway": "paddle",
+  "gatewayEventId": "evt_test_renewal_PLACEHOLDER",
+  "type": "transaction.completed",
+  "occurredAt": "2026-06-04T16:45:00.000Z",
+  "customer": {
+    "gatewayCustomerId": "ctm_demo",
+    "email": "info@wpaxiom.com",
+    "name": "Demo Buyer"
+  },
+  "transaction": {
+    "gatewayTransactionId": "txn_test_renewal_PLACEHOLDER",
+    "gatewaySubscriptionId": "sub_01kt9p611xkh931x0q7tj270f7",
+    "total": 59,
+    "currency": "USD",
+    "items": [
+      {
+        "gatewayPriceId": "pri_01kre2sx6w9vwm166wjgyt4ywx",
+        "wcVariationId": 33,
+        "quantity": 1,
+        "amount": 59,
+        "currency": "USD"
+      }
+    ],
+    "customData": {
+      "source": "dev-trigger-renewal",
+      "cycle": "yearly"
+    },
+    "isRenewal": true
+  }
+}
