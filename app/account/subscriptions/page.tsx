@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, RefreshCw } from "lucide-react";
-import { getSubscriptionsForCurrentUser } from "@/lib/account-subscriptions";
+import { RefreshCw } from "lucide-react";
+import { getSubscriptionsForCurrentUser, type Subscription } from "@/lib/account-subscriptions";
+import { SubscriptionActions } from "@/components/account/SubscriptionActions";
 
 export const metadata: Metadata = {
   title: "Subscriptions — wpaxiom account",
@@ -25,11 +26,26 @@ export default async function SubscriptionsPage() {
       ) : (
         <div className="space-y-5">
           {subs.map((sub) => (
-            <article key={sub.id} className="rounded-2xl border border-line bg-surface p-6">
+            <article
+              key={sub.id}
+              className={`rounded-2xl border bg-surface p-6 ${
+                sub.status === "cancelled" || sub.status === "expired"
+                  ? "border-line opacity-75"
+                  : "border-line"
+              }`}
+            >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div className="flex items-start gap-4">
                   <div className="w-11 h-11 rounded-lg bg-elevated border border-line flex items-center justify-center flex-none">
-                    <RefreshCw size={20} strokeWidth={1.7} className="text-coral" />
+                    <RefreshCw
+                      size={20}
+                      strokeWidth={1.7}
+                      className={
+                        sub.status === "cancelled" || sub.status === "expired"
+                          ? "text-muted"
+                          : "text-coral"
+                      }
+                    />
                   </div>
                   <div>
                     <h2 className="text-lg font-medium text-ink tracking-tight">{sub.pluginName}</h2>
@@ -40,12 +56,15 @@ export default async function SubscriptionsPage() {
                       <span className="text-xs text-muted font-mono">
                         {sub.cycle === "yearly" ? "Yearly" : "Monthly"} · {sub.amount}
                       </span>
+                      <StatusBadge status={sub.status} />
                     </div>
                   </div>
                 </div>
                 <div className="text-right text-sm">
                   <div className="text-[11px] font-mono uppercase tracking-wider text-subtle">
-                    Next renewal
+                    {sub.status === "cancelled" || sub.status === "expired"
+                      ? "Access until"
+                      : "Next renewal"}
                   </div>
                   <div className="text-ink mt-0.5">{sub.nextRenewal}</div>
                   {sub.paymentLast4 ? (
@@ -56,32 +75,50 @@ export default async function SubscriptionsPage() {
                 </div>
               </div>
 
-              <div className="mt-6 pt-5 border-t border-line flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-line hover:border-muted text-ink text-sm transition focus-coral"
-                >
-                  Manage billing
-                  <ArrowUpRight size={13} strokeWidth={2} />
-                </button>
-                <Link
-                  href="/plugins/axiom-blocks/pricing"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-line hover:border-muted text-ink text-sm transition focus-coral"
-                >
-                  Upgrade plan
-                </Link>
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-err/90 hover:text-err hover:bg-err/5 text-sm transition"
-                >
-                  Cancel subscription
-                </button>
-              </div>
+              <SubscriptionActions wcSubId={sub.wcSubId} status={sub.status} />
             </article>
           ))}
         </div>
       )}
     </>
+  );
+}
+
+function StatusBadge({ status }: { status: Subscription["status"] }) {
+  if (status === "active") return null;
+
+  const config: Record<string, { label: string; classes: string }> = {
+    cancelled: {
+      label: "Cancelled",
+      classes: "bg-muted/10 text-muted border-line",
+    },
+    expired: {
+      label: "Expired",
+      classes: "bg-muted/10 text-muted border-line",
+    },
+    on_hold: {
+      label: "On hold",
+      classes: "bg-amber-500/10 text-amber-600 border-amber-500/25",
+    },
+    past_due: {
+      label: "Past due",
+      classes: "bg-err/10 text-err border-err/25",
+    },
+    pending: {
+      label: "Pending",
+      classes: "bg-muted/10 text-muted border-line",
+    },
+  };
+
+  const c = config[status];
+  if (!c) return null;
+
+  return (
+    <span
+      className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-mono border ${c.classes}`}
+    >
+      {c.label}
+    </span>
   );
 }
 

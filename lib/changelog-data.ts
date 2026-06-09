@@ -18,7 +18,7 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'axiom-blocks',
     version: '1.0.0',
-    date: '2026-05-15',
+    date: '2026-06-10',
     latest: true,
     summary: 'Initial release — 12 blocks for the WordPress block editor',
     changes: [

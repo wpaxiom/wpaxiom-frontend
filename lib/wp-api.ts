@@ -227,6 +227,12 @@ export type WCSubscriptionListItem = {
   meta_data: WCMetaData[];
 };
 
+export async function getSubscriptionById(
+  id: number
+): Promise<WCSubscriptionListItem | null> {
+  return wcFetch<WCSubscriptionListItem>(`/subscriptions/${id}`);
+}
+
 // Lists WC subscriptions, paginated. Used by the daily renewal-reminder cron.
 // Returns at most `perPage` per call; iterate via `page` parameter to walk.
 export async function listSubscriptions(args: {

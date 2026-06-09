@@ -10,7 +10,7 @@ export function Hero() {
           <div className="lg:col-span-7">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ok/10 border border-ok/25 text-[11px] font-mono uppercase tracking-wider text-ok">
-                <span className="w-1.5 h-1.5 rounded-full bg-ok" /> Coming Soon
+                <span className="w-1.5 h-1.5 rounded-full bg-ok" /> v1.0.0
               </span>
               <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-elevated border border-line text-[11px] font-mono uppercase tracking-wider text-muted">
                 Free
@@ -30,9 +30,12 @@ export function Hero() {
             </div>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-line text-muted font-medium cursor-default select-none">
-                Coming soon to WordPress.org
-              </span>
+              <a
+                href="https://wordpress.org/plugins/axiom-blocks/"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-coral hover:bg-coral-hover text-white font-medium transition focus-coral"
+              >
+                Get it on WordPress.org
+              </a>
             </div>
           </div>
 

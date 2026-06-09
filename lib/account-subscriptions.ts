@@ -6,6 +6,7 @@ import {
 
 export type Subscription = {
   id: string;
+  wcSubId: number;
   pluginName: string;
   planLabel: string;
   cycle: "monthly" | "yearly" | "other";
@@ -73,6 +74,7 @@ function mapSubscription(sub: WPAxiomSubscription): Subscription {
   const firstItem = sub.items[0];
   return {
     id: `sub-${sub.id}`,
+    wcSubId: sub.id,
     pluginName: firstItem?.product_name ?? `Subscription #${sub.id}`,
     planLabel: planLabelForMaxSites(firstItem?.max_activations ?? 0),
     cycle: deriveCycle(sub.billing_period),
