@@ -1,0 +1,65 @@
+---
+title: Icon
+category: Axiom Blocks
+updatedAt: 2026-06-12
+readTime: 3
+prev:
+  title: Advanced Button
+  slug: advanced-button-block
+next:
+  title: Icon List
+  slug: icon-list-block
+---
+
+Icon places a single icon on the page — chosen from the built-in library or pasted as your own SVG — and lets you style its size, color, rotation, shape background, border, and link. Use it for feature bullets, social links, or decorative accents.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Icon**. It drops in with a star — click **Replace** to open the icon picker.
+
+## Icon source
+
+**Type** — **Library** or **Custom SVG**.
+
+- **Library** — search the icon picker and click to select. The chosen icon is stored by slug, so it stays crisp at any size.
+- **Custom SVG** — paste raw `<svg>` markup. It's sanitized through the same allow-list used everywhere in the plugin, so only safe SVG elements and attributes survive.
+
+**Accessibility label** — optional. When set, the icon is exposed to screen readers (via `role="img"` and `aria-label`, or as the link's label); when empty, the icon is treated as decorative and hidden with `aria-hidden`.
+
+## Icon style
+
+- **Size** — any CSS length.
+- **Color** and **Hover color**.
+- **Rotation** — degrees.
+- **Alignment** — left, center, or right within the block.
+
+## Shape
+
+**Shape** — wrap the icon in a background shape: **None**, **Circle**, **Square**, or **Rounded**. Enabling a shape reveals:
+
+- **Background** and **Background hover** colors.
+- **Padding** — space between the icon and the shape edge.
+- **Radius** — corner rounding (for the rounded/square shapes).
+- **Border** — color, width, and style.
+
+## Link
+
+- **URL** — turns the icon into a link.
+- **Open in new tab** — adds `target="_blank"` with `rel="noopener noreferrer"`.
+- **Nofollow** / **Sponsored** — append the matching `rel` tokens.
+
+## Spacing
+
+Per-side padding and margin on the wrapper. The block supports **Wide** and **Full** alignment and an HTML anchor.
+
+## HTML output
+
+```html
+<div class="wp-block-axiom-blocks-icon ab-icon ab-icon--align-center">
+  <a href="https://example.com" class="ab-icon__box ab-icon--circle">
+    <span class="ab-icon__glyph" aria-hidden="true"><svg>…</svg></span>
+  </a>
+</div>
+```
+
+When there's no link, the box is a `<span>` instead of an `<a>`. Size, colors, rotation, and the shape background are all driven by `--ab-icon-*` custom properties on the wrapper, so the hover color is handled in pure CSS.

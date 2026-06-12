@@ -1,0 +1,83 @@
+---
+title: Advanced Button
+category: Axiom Blocks
+updatedAt: 2026-06-12
+readTime: 4
+prev:
+  title: Advanced Heading
+  slug: advanced-heading-block
+next:
+  title: Icon
+  slug: icon-block
+---
+
+Advanced Button is a call-to-action button with the extras core's button can't do: a **leading or trailing icon**, an optional **sub-caption** under the label, **style and size presets**, hover states, shadows, and an **icon-only** mode. It can render as a link or as a form submit button.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Advanced Button**. Edit the label inline.
+
+## Content
+
+**Text** — the button label, edited inline.
+
+**Sub-caption** — enable **Show sub-caption** to reveal a smaller second line beneath the label (e.g. "No credit card required"). It sits inside the button under the main text.
+
+## Link
+
+- **URL** — where the button points.
+- **Open in new tab** — adds `target="_blank"` with `rel="noopener noreferrer"`.
+- **Nofollow** / **Sponsored** — append the matching `rel` tokens.
+- **Download** — adds the `download` attribute so the link saves the file instead of navigating.
+- **Button type** — switch from a **Link** (`<a>`) to a **Submit** button (`<button type="submit">`) for use inside forms.
+
+## Icon
+
+- **Icon** — pick from the button icon set. Leave empty for a text-only button.
+- **Position** — **Left** or **Right** of the label.
+- **Size** and **Gap** — the icon size and the space between icon and text.
+- **Icon only** — hides the label visually and uses it as the `aria-label`, giving a compact square button.
+
+## Presets
+
+**Style preset** — **Fill**, **Outline**, **Ghost**, and similar starting points. **Size preset** — small, medium, or large padding and font scaling. Presets set sensible defaults that the color, border, and typography panels below can override.
+
+## Colors & border
+
+Base and hover values for **text**, **background**, and **border** colors, plus **border width/style/radius**. A **hover effect** (grow, sweep, etc.) and **shadow** / **hover shadow** presets round out the interaction styling.
+
+<Callout type="info">
+  Colors are applied as CSS custom properties (`--ab-advbtn-bg`, `--ab-advbtn-h-bg`, …), so the hover state is pure CSS — no JavaScript and no layout shift.
+</Callout>
+
+## Typography & spacing
+
+Full typography panel (family, weight, size, line height, letter spacing, transform, decoration, alignment) and per-side padding and margin. The block supports **Wide** and **Full** alignment and an HTML anchor.
+
+## Arranging multiple buttons
+
+Advanced Button sits inside a lightweight group wrapper, so adding a second button next to the first gives you a button row automatically. Select the wrapper to control how the buttons sit together:
+
+- **Orientation** — a horizontal row or a vertical stack.
+- **Alignment** — left, center, right, or spread.
+- **Gap** — the space between buttons.
+- **Stack on mobile** — collapse a row into a stack on narrow screens so buttons never overflow.
+
+Each button keeps its own icon, preset, and color settings — the wrapper only controls layout.
+
+## HTML output
+
+```html
+<a
+  href="https://example.com/pricing"
+  class="ab-adv-btn ab-adv-btn--fill ab-adv-btn--md"
+>
+  <span class="ab-adv-btn__content">
+    <span class="ab-adv-btn__text">Start free trial</span>
+    <span class="ab-adv-btn__sub">No credit card required</span>
+  </span>
+  <span class="ab-adv-btn__icon"><svg>…</svg></span>
+</a>
+```
+
+With **Button type → Submit**, the same markup renders as `<button type="submit">…</button>` instead of an anchor.

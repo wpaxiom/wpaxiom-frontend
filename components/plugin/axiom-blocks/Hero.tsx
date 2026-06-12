@@ -9,9 +9,6 @@ export function Hero() {
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-7">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-ok/10 border border-ok/25 text-[11px] font-mono uppercase tracking-wider text-ok">
-                <span className="w-1.5 h-1.5 rounded-full bg-ok" /> v1.0.0
-              </span>
               <span className="inline-flex items-center px-2.5 py-1 rounded-md bg-elevated border border-line text-[11px] font-mono uppercase tracking-wider text-muted">
                 Free
               </span>

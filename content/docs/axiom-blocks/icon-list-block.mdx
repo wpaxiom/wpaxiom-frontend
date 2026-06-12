@@ -1,0 +1,68 @@
+---
+title: Icon List
+category: Axiom Blocks
+updatedAt: 2026-06-12
+readTime: 3
+prev:
+  title: Icon
+  slug: icon-block
+---
+
+Icon List is a list with a custom icon on every row — for feature lists, benefit checklists, and spec rows. Each item has its own icon and text, and the whole list shares layout, spacing, and typography controls.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Icon List**. It starts with three checkmark rows. Use the **Add item** control to append rows; each row has its own icon picker, text field, and optional link.
+
+## Items
+
+Each item has:
+
+- **Icon** — picked per row from the icon library.
+- **Text** — edited inline.
+- **URL** — optional; wraps the row in a link.
+
+## Layout
+
+**Layout** — **Vertical** (stacked rows) or **Horizontal** (inline, wrapping items — good for tag-style lists).
+
+**Icon position** — **Left** or **Right** of the text.
+
+**Alignment** — left, center, or right.
+
+**Gap** — space between the icon and its text. **Row gap** — space between rows.
+
+## Dividers
+
+**Show divider** draws a line between rows; **Divider color** sets its color. Dividers are most useful on vertical layouts.
+
+## Colors & typography
+
+Separate **text**, **link**, and **link hover** colors, an **icon color** that applies to every row's icon, and a full typography panel (family, weight, size, line height, letter spacing, transform, decoration, alignment) shared across all items.
+
+<Callout type="tip">
+  The icon color is one control for the whole list — change it once and every row's icon updates. Set per-row icons from each item's picker, but the color stays consistent across the list.
+</Callout>
+
+## Spacing
+
+Per-side padding and margin on the outer list. The block supports **Wide** and **Full** alignment and an HTML anchor.
+
+## HTML output
+
+```html
+<ul class="ab-icon-list ab-icon-list--vertical ab-icon-list--icon-left ab-icon-list--align-left">
+  <li class="ab-icon-list__item">
+    <span class="ab-icon-list__icon"><svg>…</svg></span>
+    <span class="ab-icon-list__text">Unlimited projects</span>
+  </li>
+  <li class="ab-icon-list__item">
+    <a class="ab-icon-list__link" href="https://example.com">
+      <span class="ab-icon-list__icon"><svg>…</svg></span>
+      <span class="ab-icon-list__text">Priority support</span>
+    </a>
+  </li>
+</ul>
+```
+
+Rows with a URL render as an `<a class="ab-icon-list__link">`; rows without one render the icon and text directly inside the `<li>`. Icon size, icon color, gaps, and the divider color are all `--ab-il-*` custom properties on the list.

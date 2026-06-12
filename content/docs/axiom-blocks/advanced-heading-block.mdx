@@ -1,0 +1,73 @@
+---
+title: Advanced Heading
+category: Axiom Blocks
+updatedAt: 2026-06-12
+readTime: 4
+prev:
+  title: Free Shipping Progress
+  slug: free-shipping-progress-block
+next:
+  title: Advanced Button
+  slug: advanced-button-block
+---
+
+Advanced Heading is a heading with the controls core leaves out: inline **highlight spans**, an optional **sub-heading** above or below the title, an **accent line**, and full typography control over both the heading and the sub-heading. Use it for section titles, hero headlines, and anywhere a plain Heading block isn't enough.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Advanced Heading**. Type directly into the heading — select any run of text and use the **Highlight** toolbar button to wrap it in a highlight span.
+
+## Heading
+
+**Heading text** — edited inline in the canvas, not the sidebar.
+
+**HTML tag** — the element the heading renders as: `h1`–`h6`, `p`, or `div`. Choose the tag that fits your document outline; the visual size is controlled separately by typography, so picking `h2` for SEO doesn't lock you into a size.
+
+<Callout type="tip">
+  Highlighted text is wrapped in `<mark class="ab-ah-highlight">`. Set the highlight text and background colors once under **Colors** and every highlight span in the heading inherits them.
+</Callout>
+
+## Sub-heading
+
+**Enable sub-heading** reveals a secondary line with its own controls:
+
+- **Sub text** — the sub-heading content.
+- **Tag** — `h1`–`h6`, `p`, or `div`.
+- **Position** — **Above** or **Below** the main heading.
+
+The sub-heading has a complete, independent typography panel (family, size, weight, line height, letter spacing, transform, decoration, alignment).
+
+## Accent line
+
+**Enable accent** adds a short rule next to the heading:
+
+- **Position** — above or below the heading.
+- **Alignment** — left, center, or right.
+- **Width** and **Thickness** — any CSS length.
+- **Color**.
+
+## Colors
+
+Separate color controls for the **heading**, **sub-heading**, **highlight text**, **highlight background**, **links**, and **link hover**. Link colors apply to any anchors inside the heading or sub-heading text.
+
+## Typography
+
+The heading and the sub-heading each get their own typography panel — font family, weight, size, line height, letter spacing, text transform, text decoration, and alignment.
+
+## Spacing
+
+Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
+
+## HTML output
+
+```html
+<div class="wp-block-axiom-blocks-advanced-heading ab-ah">
+  <span class="ab-ah__accent is-accent-left" aria-hidden="true"></span>
+  <h2 class="ab-ah__heading">
+    The blocks core <mark class="ab-ah-highlight">forgot</mark>
+  </h2>
+  <p class="ab-ah__sub">Plus a few you can't get anywhere else.</p>
+</div>
+```
+
+Highlight colors, link colors, and the accent line are driven by CSS custom properties (`--ab-ah-hl-color`, `--ab-ah-accent-color`, …) on the wrapper, so they cascade to every matching element without inline styles on each span.

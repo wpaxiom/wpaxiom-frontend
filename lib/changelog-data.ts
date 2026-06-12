@@ -17,9 +17,22 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'axiom-blocks',
+    version: '1.0.1',
+    date: '2026-06-12',
+    latest: true,
+    summary: 'Five new blocks and an opt-in deactivation feedback form',
+    changes: [
+      { type: 'Added', text: 'Advanced Heading block — highlight spans, an optional sub-heading above or below, an accent line, and independent typography control on both the heading and sub-heading' },
+      { type: 'Added', text: 'Icon block — pick from the icon library or paste your own SVG, with size, color, rotation, hover color, shape backgrounds, border, and link options' },
+      { type: 'Added', text: 'Icon List block — a per-row icon for features, benefits, or checklists, in vertical or horizontal layout, with optional dividers and independent icon and text styling' },
+      { type: 'Added', text: 'Advanced Button block — leading or trailing icons, an optional sub-caption, style and size presets, hover states, shadows, an icon-only mode, and row or stack layout with alignment and gap controls when you add more than one' },
+      { type: 'Added', text: 'Optional, opt-in deactivation feedback form — nothing is sent unless you choose a reason and submit, and no personal data or site content is ever collected' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
     version: '1.0.0',
     date: '2026-06-10',
-    latest: true,
     summary: 'Initial release — 12 blocks for the WordPress block editor',
     changes: [
       { type: 'Added', text: 'Tabs block — horizontal and vertical orientations, four style presets, keyboard navigation, and ARIA tab roles' },
