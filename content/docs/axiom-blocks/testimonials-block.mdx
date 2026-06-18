@@ -1,0 +1,83 @@
+---
+title: Testimonials
+category: Axiom Blocks
+updatedAt: 2026-06-18
+readTime: 5
+prev:
+  title: Counter
+  slug: counter-group-block
+---
+
+Testimonials displays customer quotes as social proof — in a static grid, an auto-playing carousel, or a continuous marquee. Each card carries a quote, author details, an avatar, a star rating, and optional verified-source badges.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Testimonials**. It starts with a few cards. Each testimonial is its own inner block.
+
+## Testimonial cards
+
+Each card has:
+
+- **Quote** — the testimonial text.
+- **Name**, **Role**, and **Company** — the author's details.
+- **Avatar** — upload an image, or leave it empty to show colored initials generated from the name.
+- **Rating** — 0–5 with half-star precision.
+- **Date** — optional review date.
+- **Source** — Google, Trustpilot, G2, Capterra, or a custom label, with an optional **Verified** badge.
+- **Link** — optional URL that makes the whole card clickable, with an open-in-new-tab option.
+
+## Layout
+
+Choose a **layout**:
+
+- **Grid** — a static responsive grid. Set **Columns** and **Gap**, and **Stack on mobile** to collapse to one column.
+- **Carousel** — a sliding track with **autoplay** (and speed), **loop**, **pause on hover**, **arrows**, **dots**, and slide speed.
+- **Marquee** — a continuous scroll with **speed**, **reverse** direction, and **pause on hover**.
+
+## Card style
+
+**Avatar position** (top or left) and **avatar shape** (circle, rounded, square), card **background**, **border** (color, width, radius), **shadow**, and per-side card **padding**.
+
+## Display options
+
+- **Show rating** — toggle the stars, with a **rating color**.
+- **Show quote icon** — toggle the decorative quotation mark, with a **quote icon color**.
+- **Read more** — clamp long quotes to a set number of **lines** with an expand control.
+
+## Review schema
+
+<Callout type="tip">
+  Turn on **Review schema** to output Review and AggregateRating structured data (JSON-LD). Set an **Item name** to attach the reviews to a specific Product; leave it blank to attach them to your Organization. Only use this for genuine customer reviews of the named item.
+</Callout>
+
+## Colors & typography
+
+Separate colors for the **name**, **role**, **company**, and **quote**, plus independent typography panels for each of those four text groups (family, weight, size, line height, letter spacing, transform, decoration, alignment).
+
+## Spacing
+
+Per-side padding and margin on the group. Testimonials supports **Wide** and **Full** alignment and an HTML anchor.
+
+## HTML output
+
+```html
+<div class="ab-testimonials ab-testimonials--carousel ab-testimonials--avatar-top ab-testimonials--shape-circle has-shadow" data-layout="carousel" data-columns="3" data-autoplay="1">
+  <div class="ab-testimonial">
+    <span class="ab-testimonial__quote-icon"><svg>…</svg></span>
+    <div class="ab-testimonial__rating" role="img" aria-label="Rated 4.5 out of 5">…</div>
+    <blockquote class="ab-testimonial__quote">Absolutely brilliant product.</blockquote>
+    <div class="ab-testimonial__person">
+      <span class="ab-testimonial__avatar"><img src="…" alt="Jane Doe" loading="lazy" /></span>
+      <span class="ab-testimonial__identity">
+        <span class="ab-testimonial__name">Jane Doe</span>
+        <span class="ab-testimonial__author-line">
+          <span class="ab-testimonial__role">CTO</span>
+          <span class="ab-testimonial__company">Acme</span>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+```
+
+The carousel and marquee behavior is driven by the `data-*` attributes on the wrapper. Columns, gap, card styling, rating color, and the four text-group colors are all `--ab-tst-*` custom properties. When review schema is enabled, a `<script type="application/ld+json">` with the AggregateRating data is printed after the block.

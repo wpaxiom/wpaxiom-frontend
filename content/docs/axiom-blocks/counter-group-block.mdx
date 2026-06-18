@@ -1,0 +1,72 @@
+---
+title: Counter
+category: Axiom Blocks
+updatedAt: 2026-06-18
+readTime: 4
+prev:
+  title: Notice / Alert
+  slug: notice-block
+next:
+  title: Testimonials
+  slug: testimonials-block
+---
+
+Counter shows animated count-up statistics — the kind of "10,000+ customers / 99.9% uptime / 24 awards" row you see on landing pages. Each stat counts up from a start value to its target when it scrolls into view. Add as many stats as you need in a responsive row.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Counter**. It starts with a few stat items. Each stat is its own inner block with its own number, label, and icon.
+
+## Stats
+
+Each stat item has:
+
+- **Start value** and **End value** — the animation counts from start to end.
+- **Decimals** — how many decimal places to show.
+- **Prefix** and **Suffix** — text wrapped around the number, e.g. `$` or `+` or `%`.
+- **Label** — caption under (or beside) the number.
+- **Icon** — optional, picked from the library.
+
+The number animates only on the front end; in the editor it shows the final value so you can style it.
+
+## Layout
+
+- **Columns** — stats per row.
+- **Gap** — space between stats.
+- **Stack on mobile** — collapse to one column on small screens.
+- **Show divider** — draw a line between stats, with a **divider color**.
+- **Icon position** — **Top** or **Left** of the number.
+- **Label position** — **Below**, **Above**, **Left**, or **Right** of the number.
+
+## Animation & number format
+
+- **Duration** — how long the count-up runs, in milliseconds.
+- **Easing** — the animation curve.
+- **Thousands separator** — toggle grouping, and choose the **separator character** (comma, period, space, or apostrophe).
+- **Decimal separator** — choose the decimal character (period or comma) for locale-correct formatting.
+
+<Callout type="tip">
+  For European-style numbers, set the thousands separator to a period or space and the decimal separator to a comma — `1.234,5` or `1 234,5`. The same setting drives both the static value and the animation.
+</Callout>
+
+## Cards, colors & typography
+
+The **Box** panel wraps each stat in a card with its own background, border (color, width, radius), shadow preset (small, medium, large), and per-side padding. Set separate **number**, **label**, and **icon** colors plus **hover** colors for each, and independent typography panels for the number and the label (family, weight, size, line height, letter spacing, transform, decoration, alignment).
+
+## Spacing
+
+Per-side padding and margin on the group. Counter supports **Wide** and **Full** alignment and an HTML anchor.
+
+## HTML output
+
+```html
+<div class="ab-counter-group ab-counter-group--icon-top ab-counter-group--label-below is-stack-mobile" data-duration="2000" data-easing="ease-out" data-thousands-sep="," data-decimal-sep=".">
+  <div class="ab-counter">
+    <span class="ab-counter__icon"><svg>…</svg></span>
+    <span class="ab-counter__number" data-start="0" data-end="1234.5" data-decimals="1" data-prefix="$" data-suffix="+">$1,234.5+</span>
+    <div class="ab-counter__label">Customers</div>
+  </div>
+</div>
+```
+
+The animation reads `data-start`, `data-end`, `data-decimals`, and the separators from the group. Columns, gap, colors, hover colors, and card styling are all `--ab-counter-*` custom properties on the wrapper. The count-up respects `prefers-reduced-motion`.

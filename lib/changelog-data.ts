@@ -17,10 +17,22 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'axiom-blocks',
+    version: '1.0.2',
+    date: '2026-06-18',
+    latest: true,
+    summary: 'Four new blocks — Accordion, Notice / Alert, Counter, and Testimonials',
+    changes: [
+      { type: 'Added', text: 'Accordion block — collapsible panels for FAQs and disclosures, with single-open mode, first-panel-open, heading level, icon position and rotation, expand/collapse all, deep linking, and optional FAQ schema (JSON-LD) for rich results' },
+      { type: 'Added', text: 'Notice / Alert block — info, success, warning, or error styles with a matching icon, optional title, dismiss button, and custom colors, border radius, and typography' },
+      { type: 'Added', text: 'Counter block — animated count-up statistics that run when scrolled into view, with icons, labels, prefixes and suffixes, custom decimal and thousands separators, per-stat cards, hover colors, and label positioning in a responsive row' },
+      { type: 'Added', text: 'Testimonials block — social proof in a grid, carousel, or continuous marquee, with avatars or initials fallback, star ratings, quote icons, verified source badges, read-more clamping, and opt-in review schema (AggregateRating)' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
     version: '1.0.1',
     date: '2026-06-12',
-    latest: true,
-    summary: 'Five new blocks and an opt-in deactivation feedback form',
+    summary: 'Four new blocks and an opt-in deactivation feedback form',
     changes: [
       { type: 'Added', text: 'Advanced Heading block — highlight spans, an optional sub-heading above or below, an accent line, and independent typography control on both the heading and sub-heading' },
       { type: 'Added', text: 'Icon block — pick from the icon library or paste your own SVG, with size, color, rotation, hover color, shape backgrounds, border, and link options' },

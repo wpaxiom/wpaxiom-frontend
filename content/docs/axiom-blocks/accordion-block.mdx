@@ -1,0 +1,75 @@
+---
+title: Accordion
+category: Axiom Blocks
+updatedAt: 2026-06-18
+readTime: 4
+prev:
+  title: Icon List
+  slug: icon-list-block
+next:
+  title: Notice / Alert
+  slug: notice-block
+---
+
+Accordion is a set of collapsible panels for FAQs, product details, and any content you want to tuck away until clicked. It's built on the native `<details>`/`<summary>` elements, so panels open and close even before JavaScript loads — the block layers on smooth animation, single-open behavior, and optional FAQ schema on top.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Accordion**. It starts with a couple of items. Each item is its own inner block: type the question into the header, and add any blocks you like inside the body.
+
+## Items
+
+Add or remove panels like any inner blocks. Each item has:
+
+- **Title** — the header text, edited inline.
+- **Body** — any blocks (paragraphs, lists, images, other Axiom blocks).
+- **HTML anchor** — set one on an item to link straight to it (see Deep linking).
+
+## Behavior
+
+- **Close others** — keeps only one panel open at a time (accordion mode). Turn it off to allow several open at once.
+- **First item open** — the first panel starts expanded on load.
+- **Expand / collapse all** — adds a toggle button above the panels.
+- **Deep linking** — when on, opening a panel updates the URL hash, and loading the page with a matching `#anchor` opens that panel and scrolls to it.
+- **Collapse on mobile** — forces all panels closed on small screens regardless of the first-open setting.
+- **Animation duration** — milliseconds for the open/close transition.
+
+## Icon
+
+**Show icon** toggles the indicator. Pick any icon from the library (default is a chevron), set its **position** (left or right of the title), and choose whether it **rotates** when the panel opens. **Icon color** and **icon size** are separate controls.
+
+## Heading level
+
+**Heading level** sets the title's tag (`h2`–`h6`) so the accordion fits your page outline correctly for accessibility and SEO.
+
+## FAQ schema
+
+<Callout type="tip">
+  Turn on **FAQ schema** to output FAQPage structured data (JSON-LD) built from each item's title and body. This makes the accordion eligible for FAQ rich results in search. Use it only for genuine question-and-answer content — one FAQ block per page is the safe choice.
+</Callout>
+
+## Colors, borders & typography
+
+Separate colors for the header, active header, body, icon, and borders. Set per-side **header padding** and **body padding**, **item gap**, item **border** (color, width, radius), and an outer **container border**. A full typography panel controls the header text (family, weight, size, line height, letter spacing, transform, decoration, alignment).
+
+## Spacing
+
+Per-side padding and margin on the outer block. Accordion supports **Wide** and **Full** alignment and an HTML anchor.
+
+## HTML output
+
+```html
+<div class="ab-accordion has-icon ab-accordion--icon-right ab-accordion--rotate" data-close-others="1" data-duration="300">
+  <details class="ab-accordion__item" open>
+    <summary class="ab-accordion__header">
+      <h3 class="ab-accordion__title">What is your refund policy?</h3>
+      <span class="ab-accordion__icon"><svg>…</svg></span>
+    </summary>
+    <div class="ab-accordion__body">
+      <div class="ab-accordion__body-inner"><p>30 days, no questions asked.</p></div>
+    </div>
+  </details>
+</div>
+```
+
+When FAQ schema is enabled, a `<script type="application/ld+json">` with the FAQPage data is printed after the block. Header colors, padding, borders, and icon size are all `--ab-acc-*` custom properties on the wrapper.

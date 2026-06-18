@@ -1,0 +1,64 @@
+---
+title: Notice / Alert
+category: Axiom Blocks
+updatedAt: 2026-06-18
+readTime: 3
+prev:
+  title: Accordion
+  slug: accordion-block
+next:
+  title: Counter
+  slug: counter-group-block
+---
+
+Notice / Alert highlights an important message — a tip, a success confirmation, a warning, or an error. It comes with four colored presets, a matching icon, an optional title, and a dismiss button.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Notice / Alert**. Type your message inline; add a title above it if you want one.
+
+## Type
+
+Pick one of four **types** — **Info**, **Success**, **Warning**, or **Error**. Each sets the preset color scheme and a default icon (info, check, alert triangle, and circle-x respectively).
+
+## Content
+
+- **Title** — optional bold heading line.
+- **Message** — the body text; basic inline formatting (bold, italic, links) is allowed.
+
+A notice with neither a title nor a message renders nothing, so an empty block never leaves an empty box on the page.
+
+## Icon
+
+**Show icon** toggles the leading icon. By default each type uses its own icon, but you can override it with any icon from the library and set a custom **icon color** and **icon size**.
+
+## Dismissible
+
+Turn on **Dismissible** to add a close button. When a visitor dismisses the notice, it's hidden for that session.
+
+<Callout type="tip">
+  Use **Error** and **Warning** sparingly — they carry the most visual weight. For everyday tips and callouts, **Info** keeps the page calm.
+</Callout>
+
+## Colors & typography
+
+Override the **background**, **text**, and **accent** colors, set a **border radius**, and style the **title** and **content** independently with full typography panels (family, weight, size, line height, letter spacing, transform, decoration, alignment).
+
+## Spacing
+
+Per-side padding and margin on the block. Notice / Alert supports **Wide** and **Full** alignment and an HTML anchor.
+
+## HTML output
+
+```html
+<div class="ab-notice ab-notice--warning has-icon" data-dismissible="1">
+  <span class="ab-notice__icon" aria-hidden="true"><svg>…</svg></span>
+  <div class="ab-notice__content">
+    <div class="ab-notice__title">Heads up</div>
+    <div class="ab-notice__message">This is a <strong>warning</strong> message.</div>
+  </div>
+  <button type="button" class="ab-notice__dismiss" aria-label="Dismiss this notice"><svg>…</svg></button>
+</div>
+```
+
+The type modifier class (`ab-notice--info|success|warning|error`) drives the preset colors; background, text, accent, icon color, and radius are `--ab-notice-*` custom properties on the wrapper.
