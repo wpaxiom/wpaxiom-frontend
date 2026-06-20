@@ -1,0 +1,64 @@
+---
+title: Info Box
+category: Axiom Blocks
+updatedAt: 2026-06-19
+readTime: 4
+prev:
+  title: Testimonials
+  slug: testimonials-block
+---
+
+Info Box is a styled box that holds an icon, heading, text, and button as **fully editable blocks** — the building block for feature grids, service lists, and "why choose us" sections. Because the contents are real blocks, you get all of their controls, plus one simple gap setting for the spacing between them.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Info Box** (hover it for a live preview). It drops in pre-filled with a ready-made template — an **Icon**, an **Advanced Heading**, a paragraph, and an **Advanced Button** — so you can start editing immediately. Add or remove any block inside whenever you like. To build a row of boxes, place several inside a columns layout.
+
+## What's inside
+
+The starting template uses our own blocks where they add value and core blocks for the basics:
+
+- **Icon** — pick any glyph, size, color, and shape.
+- **Advanced Heading** — heading with highlight spans, sub-heading, and typography.
+- **Paragraph** — your descriptive text.
+- **Advanced Button** — the call to action, with icons, hover states, and style presets.
+
+You're free to remove any of these, reorder them, or add other blocks — a list, an image, more buttons — the box doesn't lock you to the template.
+
+## Spacing between items
+
+The **Gap between items** control (in the **Layout** panel) sets a single, consistent space between the icon, heading, text, and button. It overrides the blocks' individual margins, so the spacing stays even no matter what's inside.
+
+## Layout
+
+- **Direction** — **Stack** (vertical) for classic feature cards, or **Row** (horizontal) to put the icon beside the text.
+- **Alignment** — align the contents **Left**, **Center**, or **Right** (in row mode this controls vertical alignment).
+
+## Styles
+
+Pick a predefined look from the block's **Styles** panel to start from a polished base:
+
+- **Default** — no box chrome.
+- **Bordered** — a light hairline border.
+- **Card** — white background with a soft shadow and rounded corners.
+- **Accent** — a tinted background with a colored left border.
+
+Styles just set sensible defaults — anything you then change in the **Box** panel still wins.
+
+## Box
+
+Style the box itself with a **background** color, **border** color and width, **corner radius**, and a **shadow** preset (**None**, **Small**, **Medium**, or **Large**). Per-side **padding** and **margin** are available, and Info Box supports **Wide** and **Full** alignment plus an HTML anchor.
+
+<Callout type="tip">
+  Building a feature grid? Style one Info Box exactly how you want it, then duplicate it across your columns so every card matches.
+</Callout>
+
+## HTML output
+
+```html
+<div class="ab-ibox ab-ibox--column ab-ibox--align-center has-shadow-md">
+  <!-- your inner blocks render here: Icon, Advanced Heading, paragraph, Advanced Button -->
+</div>
+```
+
+The `ab-ibox--column|row`, `ab-ibox--align-*`, and `has-shadow-*` modifier classes drive layout and the shadow preset; the gap, background, border, and radius are `--ab-ibox-*` custom properties on the wrapper. The inner blocks keep their own markup and styling.

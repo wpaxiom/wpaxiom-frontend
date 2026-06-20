@@ -17,9 +17,18 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'axiom-blocks',
+    version: '1.0.3',
+    date: '2026-06-19',
+    latest: true,
+    summary: 'New Info Box block — a styled container for an icon, heading, text, and button',
+    changes: [
+      { type: 'Added', text: 'Info Box block — a styled box that holds an Icon, Advanced Heading, text, and Advanced Button as fully editable blocks, with predefined Default / Bordered / Card / Accent styles and a live inserter preview. A single gap control sets the spacing between items, with stack or row direction, alignment, and box background, border, corner radius, and shadow presets' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
     version: '1.0.2',
     date: '2026-06-18',
-    latest: true,
     summary: 'Four new blocks — Accordion, Notice / Alert, Counter, and Testimonials',
     changes: [
       { type: 'Added', text: 'Accordion block — collapsible panels for FAQs and disclosures, with single-open mode, first-panel-open, heading level, icon position and rotation, expand/collapse all, deep linking, and optional FAQ schema (JSON-LD) for rich results' },
