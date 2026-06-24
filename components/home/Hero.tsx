@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { CHANGELOG } from "@/lib/changelog-data";
+import { CHANGELOG, PLUGINS } from "@/lib/changelog-data";
 import { SITE_STATS, WP_PROFILE_URL } from "@/lib/site-data";
 
 function WordPressIcon({ size = 16 }: { size?: number }) {
@@ -11,7 +11,12 @@ function WordPressIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-const latestEntry = CHANGELOG.find((e) => e.latest)
+// Most recent changelog entry across all plugins, by date — so the hero badge
+// always reflects whichever plugin shipped the latest update.
+const latestEntry = [...CHANGELOG].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+)[0]
+const latestPluginLabel = PLUGINS.find((p) => p.id === latestEntry?.plugin)?.label ?? ""
 
 export function Hero() {
   return (
@@ -26,11 +31,11 @@ export function Hero() {
       <div className="relative max-w-[1280px] mx-auto px-6 pt-24 pb-28 lg:pt-32 lg:pb-36">
         {latestEntry && (
           <Link
-            href="/changelog"
+            href={`/changelog/${latestEntry.plugin}`}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface/60 text-xs text-muted font-mono hover:border-muted transition"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-coral" />
-            v{latestEntry.version} — {latestEntry.summary}
+            {latestPluginLabel} v{latestEntry.version} — {latestEntry.summary}
             <span className="text-subtle">·</span>
             <span className="text-ink/80">read changelog</span>
           </Link>

@@ -1,0 +1,50 @@
+---
+title: Shortcode
+category: Developers
+updatedAt: 2026-06-24
+readTime: 3
+prev:
+  title: Display settings
+  slug: display-settings
+next:
+  title: Hooks & template overrides
+  slug: hooks-and-templates
+---
+
+By default Specifico renders the specification table inside a **Specifications** tab on the product page. The `[specifico]` shortcode lets you place that same table **anywhere** — in the product description, a page or post, a widget, or the block editor — instead of (or in addition to) the tab.
+
+## Basic usage
+
+Drop the shortcode where you want the table to appear:
+
+```text
+[specifico]
+```
+
+Used on a single product page, it renders **that product's** specification table — resolved exactly like the tab, so per-product overrides and mapping rules all apply.
+
+## Targeting a specific product
+
+Pass an `id` to render a particular product's table from anywhere (a landing page, a comparison post, the footer, etc.):
+
+```text
+[specifico id="123"]
+```
+
+Replace `123` with the product's ID. You can find it in the URL when editing the product (`post=123`).
+
+| Attribute | Default | Description |
+| --- | --- | --- |
+| `id` | current product | The product whose specification table to render. |
+
+## Using it in the block editor
+
+On a block theme, add a **Shortcode** block where you want the table and paste `[specifico]` (or `[specifico id="123"]`). This is the recommended way to place the table when your theme's single-product template doesn't include the default product tabs.
+
+<Callout type="info">
+  The shortcode renders whenever the product has specifications, regardless of the per-product "Specifications tab" toggle — that toggle only controls the tab, while the shortcode is explicit placement. If a product has no specifications, the shortcode outputs nothing.
+</Callout>
+
+## Styling
+
+The shortcode uses the same template, styles, and hooks as the tab, so your chosen [display style](/docs/specifico/display-settings) and any [developer customizations](/docs/specifico/hooks-and-templates) apply automatically.

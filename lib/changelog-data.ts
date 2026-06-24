@@ -83,9 +83,25 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
   {
     plugin: 'specifico',
-    version: '1.0.1',
-    date: '2026-05-17',
+    version: '1.0.2',
+    date: '2026-06-24',
     latest: true,
+    summary: 'Template overrides, developer hooks, a shortcode, and new display settings',
+    changes: [
+      { type: 'Added', text: 'Theme template override support — copy the specification table template into your theme to fully customize its markup' },
+      { type: 'Added', text: 'Developer hooks (filters and actions) to rename the tab, reshape or hide rows and groups, add CSS classes, wrap the table, and format individual labels and values' },
+      { type: 'Added', text: '[specifico] shortcode to display a product’s specification table anywhere — posts, pages, widgets, or the block editor — with an optional product ID' },
+      { type: 'Added', text: 'Setting to customize the Specifications tab title' },
+      { type: 'Added', text: 'Setting to keep, always remove, or remove only when specifications exist for WooCommerce’s default Additional information tab' },
+      { type: 'Added', text: 'Documentation link on the Plugins screen' },
+      { type: 'Fixed', text: 'Mapping screen no longer locks the Values field — existing mappings are editable, and changing the Type refreshes the available values' },
+      { type: 'Improved', text: 'Consistent field and button heights, dashed section separators, and focus styles across all admin screens' },
+    ],
+  },
+  {
+    plugin: 'specifico',
+    version: '1.0.1',
+    date: '2026-06-23',
     summary: 'Editable inherited values, inline Add / Edit, and admin polish',
     changes: [
       { type: 'Added', text: 'Per-product value overrides when inheriting from a mapping — labels stay locked to the mapping while values are editable for each product' },

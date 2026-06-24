@@ -1,0 +1,131 @@
+---
+title: Hooks & template overrides
+category: Developers
+updatedAt: 2026-06-24
+readTime: 6
+prev:
+  title: Shortcode
+  slug: shortcode
+next:
+  title: Frequently asked questions
+  slug: frequently-asked-questions
+---
+
+Specifico gives developers two ways to customize the specification table: **hooks** (filters and actions) for targeted tweaks without touching markup, and a **template override** for full control of the HTML.
+
+## Hooks
+
+Hooks come in two groups. **Data hooks** run before the table renders, so they apply everywhere — including the [`[specifico]` shortcode](/docs/specifico/shortcode) — and keep working even if you override the template. **Presentation hooks** live inside the template, so they run unless you've replaced it (in which case you copy them across with the rest of the markup).
+
+## Data hooks
+
+### `specifico_tab_title` (filter)
+
+Rename the Specifications tab. Receives the title and the `WC_Product`.
+
+```php
+add_filter( 'specifico_tab_title', function ( $title, $product ) {
+    return 'Tech Specs';
+}, 10, 2 );
+```
+
+### `specifico_show_table` (filter)
+
+Decide whether the table/tab renders for a product. Receives the current boolean and the product ID.
+
+```php
+// Hide the spec table for a specific category.
+add_filter( 'specifico_show_table', function ( $show, $product_id ) {
+    if ( has_term( 'accessories', 'product_cat', $product_id ) ) {
+        return false;
+    }
+    return $show;
+}, 10, 2 );
+```
+
+### `specifico_table_groups` (filter)
+
+The most powerful hook — reshape the resolved data before it renders. Reorder, hide, or inject groups and rows. Receives the groups array and the product ID.
+
+```php
+add_filter( 'specifico_table_groups', function ( $groups, $product_id ) {
+    // Drop any group titled "Internal".
+    return array_values( array_filter( $groups, function ( $group ) {
+        return ( $group['title'] ?? '' ) !== 'Internal';
+    } ) );
+}, 10, 2 );
+```
+
+## Presentation hooks
+
+### `specifico_before_table` / `specifico_after_table` (actions)
+
+Output content immediately before or after the `<table>`. Each receives the groups array and product ID.
+
+```php
+add_action( 'specifico_after_table', function ( $groups, $product_id ) {
+    echo '<a class="datasheet" href="/datasheets/' . esc_attr( $product_id ) . '.pdf">Download datasheet</a>';
+}, 10, 2 );
+```
+
+### `specifico_table_classes` (filter)
+
+Add CSS classes to the `<table>`. Receives the current class array and the style slug.
+
+```php
+add_filter( 'specifico_table_classes', function ( $classes, $style ) {
+    $classes[] = 'my-custom-spec-table';
+    return $classes;
+}, 10, 2 );
+```
+
+### `specifico_row_label` / `specifico_row_value` (filters)
+
+Format an individual cell. Each receives the value, the row data, and the product ID. The returned value is sanitized with `wp_kses_post()`, so links and basic HTML are allowed.
+
+```php
+// Turn a "Datasheet" row's value into a link.
+add_filter( 'specifico_row_value', function ( $value, $row, $product_id ) {
+    if ( ( $row[0]['value'] ?? '' ) === 'Datasheet' ) {
+        return '<a href="' . esc_url( $value ) . '">Download PDF</a>';
+    }
+    return $value;
+}, 10, 3 );
+```
+
+## Hook reference
+
+| Hook | Type | Arguments |
+| --- | --- | --- |
+| `specifico_show_table` | filter | `$show`, `$product_id` |
+| `specifico_tab_title` | filter | `$title`, `$product` |
+| `specifico_table_groups` | filter | `$groups`, `$product_id` |
+| `specifico_table_classes` | filter | `$classes`, `$style` |
+| `specifico_row_label` | filter | `$label`, `$row`, `$product_id` |
+| `specifico_row_value` | filter | `$value`, `$row`, `$product_id` |
+| `specifico_before_table` | action | `$groups`, `$product_id` |
+| `specifico_after_table` | action | `$groups`, `$product_id` |
+
+## Template override
+
+For full control of the markup, copy the plugin's template into your theme:
+
+```text
+wp-content/plugins/specifico/templates/specification-table.php
+  → wp-content/themes/your-theme/specifico/specification-table.php
+```
+
+Specifico loads the theme copy if it exists, otherwise its own — the same mechanism WooCommerce uses, so it works on both classic and block themes. Edit your copy freely.
+
+The following variables are available inside the template:
+
+| Variable | Type | Description |
+| --- | --- | --- |
+| `$groups` | array | Render-ready groups, each with `title` and `inputGroups` (label/value rows). |
+| `$style` | string | The selected table style slug. |
+| `$show_sub` | bool | Whether group sub-headings should render. |
+| `$product_id` | int | The product the table is being rendered for. |
+
+<Callout type="warning">
+  When you override the template you take ownership of the presentation hooks (`specifico_before_table`, `specifico_after_table`, `specifico_table_classes`, `specifico_row_label`, `specifico_row_value`). Copy their calls into your version if you want them to keep firing. The data hooks (`specifico_table_groups`, etc.) run regardless. After a plugin update, check the template's `@version` header against your copy in case the markup changed.
+</Callout>

@@ -1,17 +1,17 @@
 ---
 title: Display settings
 category: Settings
-updatedAt: 2026-05-17
-readTime: 3
+updatedAt: 2026-06-24
+readTime: 4
 prev:
   title: Mapping rules
   slug: mapping-rules
 next:
-  title: Frequently asked questions
-  slug: frequently-asked-questions
+  title: Shortcode
+  slug: shortcode
 ---
 
-The **Settings** screen under **Specifico → Settings** is where you set global display preferences for every specification table the plugin renders. Two settings live here today: whether to show group headings, and which visual style the table uses.
+The **Settings** screen under **Specifico → Settings** is where you set global display preferences for every specification table the plugin renders: whether to show group headings, which visual style the table uses, what the product tab is called, and how to handle WooCommerce's default "Additional information" tab.
 
 Changes here affect *every* product page that displays a specification table — there's no per-product or per-table style override. If you need a different look on one product, you can do that at the theme level with CSS targeting the body class or product ID.
 
@@ -45,6 +45,24 @@ The five presets:
 
 Pick the one that matches the rest of your store's design. If none feel right, your theme's CSS can override Specifico's output — every preset's rules are scoped to its class name (e.g. `.specifico-bordered-table`), so you can target it precisely.
 
+## Specifications Tab Title
+
+By default the product tab that holds the specification table is labelled **Specifications**. Use this field to rename it to whatever fits your store — for example *Tech Specs*, *Details*, or *Spec Sheet*.
+
+Leave it empty to keep the default "Specifications" label. The change applies to every product that shows a specification table.
+
+<Callout type="tip">
+  Developers can override this per product (or conditionally) with the `specifico_tab_title` filter — see [Hooks & template overrides](/docs/specifico/hooks-and-templates).
+</Callout>
+
+## Additional Information Tab
+
+WooCommerce adds its own **Additional information** tab to product pages whenever a product has a weight, dimensions, or attributes. When you also show a Specifications tab, that built-in tab can feel redundant. This dropdown controls what happens to it:
+
+- **Keep it** (default) — leave WooCommerce's Additional information tab exactly as it is.
+- **Always remove** — hide the Additional information tab on every product.
+- **Remove when product has specifications** — hide it only on products that show a Specifico table, and leave it in place on products that don't. This is usually the best of both worlds: your spec table replaces the built-in tab where it exists, without losing the attribute display on products that have no specifications.
+
 ## Saving changes
 
 Click **Save Setting** after either change. The button label switches to **Updating…** while the request is in flight, then back to **Save Setting** when the save completes. No page reload is needed — the next product page load picks up the new settings.
@@ -61,8 +79,12 @@ Both settings are stored together in the `_specifico_settings` WordPress option:
 ```json
 {
   "enable_sub_heading": true,
-  "styles": { "value": "bordered-table", "label": "Bordered Table" }
+  "styles": { "value": "bordered-table", "label": "Bordered Table" },
+  "tab_title": "Tech Specs",
+  "wc_additional_info": "remove_if_specs"
 }
 ```
+
+`wc_additional_info` accepts `keep`, `remove`, or `remove_if_specs`. `tab_title` is a plain string (empty falls back to "Specifications").
 
 You can read or modify this option from your own code using `get_option( '_specifico_settings' )` and `update_option()` — useful when scripting environment provisioning or building a multisite setup that needs identical settings across sites.
