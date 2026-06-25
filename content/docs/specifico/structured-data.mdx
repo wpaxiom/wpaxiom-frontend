@@ -1,0 +1,75 @@
+---
+title: Structured data (SEO)
+category: Developers
+updatedAt: 2026-06-25
+readTime: 4
+prev:
+  title: Hooks & template overrides
+  slug: hooks-and-templates
+next:
+  title: Frequently asked questions
+  slug: frequently-asked-questions
+---
+
+Specifico automatically adds your product specifications to the page's [Schema.org](https://schema.org/Product) structured data, so search engines can read them as machine-readable product attributes. There's nothing to configure — it works as soon as a product has specifications.
+
+## What it does
+
+WooCommerce already outputs `Product` structured data (JSON-LD) on each product page. Specifico **adds to that existing block** rather than printing a separate one, appending every specification as an `additionalProperty` entry. This keeps a single `Product` entity per page, which is what search engines expect.
+
+The output reflects the specifications shown on the product page — if the Specifications tab is hidden for a product, nothing is added.
+
+## Example
+
+For a product with a few specifications, the structured data looks like this:
+
+```json
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "Example Laptop",
+  "additionalProperty": [
+    { "@type": "PropertyValue", "name": "RAM", "value": "16 GB" },
+    { "@type": "PropertyValue", "name": "Internal Storage", "value": "256 GB" },
+    { "@type": "PropertyValue", "name": "Expandable", "value": "Up to 1 TB" },
+    { "@type": "PropertyValue", "name": "GPU", "value": "Integrated" }
+  ]
+}
+</script>
+```
+
+Specification values are output as plain text, so any links or formatting in a value are stripped in the structured data even though they still display in the visible table.
+
+## Verifying the output
+
+1. Open a product page on your store front end.
+2. View the page source and search for `additionalProperty` (it sits inside the `application/ld+json` block).
+3. Paste that block into [Google's Rich Results Test](https://search.google.com/test/rich-results) or the [Schema Markup Validator](https://validator.schema.org/) to confirm it's valid.
+
+<Callout type="info">
+  WooCommerce only outputs `Product` structured data on the standard single-product page. If your theme or a page builder replaces that template, the structured data — and Specifico's additions — may not appear.
+</Callout>
+
+## Customizing or disabling it
+
+Use the `specifico_structured_data` filter to modify the properties before they're added, or return an empty array to turn the feature off.
+
+```php
+// Disable Specifico's structured data entirely.
+add_filter( 'specifico_structured_data', '__return_empty_array' );
+```
+
+```php
+// Add a custom property alongside the specifications.
+add_filter( 'specifico_structured_data', function ( $properties, $product_id ) {
+    $properties[] = [
+        '@type' => 'PropertyValue',
+        'name'  => 'Warranty',
+        'value' => '2 years',
+    ];
+    return $properties;
+}, 10, 2 );
+```
+
+The specifications themselves come from the same resolved data as the table, so the [`specifico_table_groups`](/docs/specifico/hooks-and-templates) filter also affects what's emitted here.

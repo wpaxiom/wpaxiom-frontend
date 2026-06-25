@@ -83,9 +83,18 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
   {
     plugin: 'specifico',
+    version: '1.0.3',
+    date: '2026-06-25',
+    latest: true,
+    summary: 'Schema.org structured data for product specifications',
+    changes: [
+      { type: 'Added', text: 'Schema.org structured data — each product’s specifications are added to its existing Product structured data (JSON-LD) as additionalProperty entries, helping search engines understand the specs. It enriches WooCommerce’s structured data rather than adding a separate block, so there is only one Product entity per page, and the output mirrors the specifications shown on the page. Developers can adjust or disable it with the new specifico_structured_data filter' },
+    ],
+  },
+  {
+    plugin: 'specifico',
     version: '1.0.2',
     date: '2026-06-24',
-    latest: true,
     summary: 'Template overrides, developer hooks, a shortcode, and new display settings',
     changes: [
       { type: 'Added', text: 'Theme template override support — copy the specification table template into your theme to fully customize its markup' },

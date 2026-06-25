@@ -88,7 +88,7 @@ export const DOC_NAV: Record<string, PluginNav> = {
   },
   specifico: {
     label: 'Specifico',
-    version: 'v1.0.2',
+    version: 'v1.0.3',
     icon: 'specifico',
     categories: [
       {
@@ -121,6 +121,7 @@ export const DOC_NAV: Record<string, PluginNav> = {
         articles: [
           { slug: 'shortcode', title: 'Shortcode' },
           { slug: 'hooks-and-templates', title: 'Hooks & template overrides' },
+          { slug: 'structured-data', title: 'Structured data (SEO)' },
         ],
       },
       {
