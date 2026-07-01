@@ -291,6 +291,48 @@ export async function renewLicensesForSubscription(
   }
 }
 
+// Persists a docs "was this helpful" vote in the wpaxiom-licensing WP table.
+// Best-effort telemetry: never throws, returns false on any failure so the
+// caller (a fire-and-forget API route) can stay silent.
+export async function recordDocFeedback(args: {
+  plugin: string;
+  slug: string;
+  vote: "yes" | "no";
+  ipHash?: string;
+}): Promise<boolean> {
+  if (!WPAXIOM_ADMIN_SECRET) {
+    console.warn("[wpaxiom-admin] WPAXIOM_ADMIN_SECRET not configured");
+    return false;
+  }
+  const url = `${WORDPRESS_API_URL}/wpaxiom/v1/admin/docs/feedback`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-Wpaxiom-Admin-Secret": WPAXIOM_ADMIN_SECRET,
+      },
+      body: JSON.stringify({
+        plugin: args.plugin,
+        slug: args.slug,
+        vote: args.vote,
+        ip_hash: args.ipHash,
+      }),
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.warn(`[wpaxiom-admin] recordDocFeedback ${res.status}: ${text.slice(0, 300)}`);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.warn("[wpaxiom-admin] recordDocFeedback failed:", e);
+    return false;
+  }
+}
+
 export async function issueLicensesForSubscription(
   subscriptionId: number
 ): Promise<IssueLicensesResult> {

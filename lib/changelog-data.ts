@@ -17,9 +17,24 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'axiom-blocks',
+    version: '1.0.4',
+    date: '2026-06-29',
+    latest: true,
+    summary: 'Responsive per-device controls, a shared custom icon library, and full deactivation survival',
+    changes: [
+      { type: 'Added', text: 'Responsive controls — set typography, columns, gap, alignment, spacing, and sizes independently for desktop, tablet, and mobile, with live previews that follow the editor’s device switcher' },
+      { type: 'Added', text: 'Shared custom icon library — upload an SVG once and reuse it across any icon-supporting block (Icon, Icon List, Accordion, Notice, Counter, and Advanced Button); Advanced Button now draws from the full icon library' },
+      { type: 'Improved', text: 'Deactivation survival — content authored in Axiom blocks stays visible on the front end even if the plugin is deactivated, across every block that previously depended on plugin markup' },
+      { type: 'Improved', text: 'Advanced Section focal point picker replaced with native Axiom range controls for a consistent look' },
+      { type: 'Fixed', text: 'Conditional-assets gate — eight blocks no longer render unstyled when used as the only Axiom block on a page' },
+      { type: 'Fixed', text: 'Testimonials continuous marquee layout and Shape Divider transform rendering' },
+      { type: 'Fixed', text: 'Color picker reset links now match each field’s default value, and spacing and typography reset buttons behave consistently' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
     version: '1.0.3',
     date: '2026-06-19',
-    latest: true,
     summary: 'New Info Box block — a styled container for an icon, heading, text, and button',
     changes: [
       { type: 'Added', text: 'Info Box block — a styled box that holds an Icon, Advanced Heading, text, and Advanced Button as fully editable blocks, with predefined Default / Bordered / Card / Accent styles and a live inserter preview. A single gap control sets the spacing between items, with stack or row direction, alignment, and box background, border, corner radius, and shadow presets' },
@@ -83,9 +98,21 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
   {
     plugin: 'specifico',
+    version: '1.0.4',
+    date: '2026-06-30',
+    latest: true,
+    summary: 'Export / import, migration from other specification plugins, and a redesigned admin UI',
+    changes: [
+      { type: 'Added', text: 'Export — download all your specification tables, groups, mapping rules, and settings (optionally including per-product specification data) as a single JSON file for backup or moving to another site' },
+      { type: 'Added', text: 'Import — upload a Specifico export to restore it on any site; tables, groups, and products are matched by slug, so re-importing is safe and never creates duplicates' },
+      { type: 'Added', text: 'Import from other specification plugins — upload a compatible JSON export and Specifico auto-detects the format and imports its tables, groups, and per-product specifications' },
+      { type: 'Improved', text: 'Redesigned admin UI across every screen — cleaner layout, refined typography, an updated colour palette, consistent field heights, and better spacing' },
+    ],
+  },
+  {
+    plugin: 'specifico',
     version: '1.0.3',
     date: '2026-06-25',
-    latest: true,
     summary: 'Schema.org structured data for product specifications',
     changes: [
       { type: 'Added', text: 'Schema.org structured data — each product’s specifications are added to its existing Product structured data (JSON-LD) as additionalProperty entries, helping search engines understand the specs. It enriches WooCommerce’s structured data rather than adding a separate block, so there is only one Product entity per page, and the output mirrors the specifications shown on the page. Developers can adjust or disable it with the new specifico_structured_data filter' },

@@ -9,6 +9,7 @@ import { DOC_NAV, findArticleInNav } from '@/lib/docs-nav'
 import { mdxComponents } from '@/components/docs/MdxComponents'
 import { DocSidebar } from '@/components/docs/DocSidebar'
 import { TableOfContents } from '@/components/docs/TableOfContents'
+import { ArticleFeedback } from '@/components/docs/ArticleFeedback'
 
 type Props = { params: Promise<{ plugin: string; slug: string }> }
 
@@ -130,30 +131,7 @@ export default async function DocArticlePage({ params }: Props) {
             </article>
 
             {/* Feedback */}
-            <section aria-label="Article feedback" className="mt-16 pt-8 border-t border-line">
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-mono uppercase tracking-wider text-subtle mb-2">// Feedback</p>
-                  <p className="text-base text-ink m-0">Was this article helpful?</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button type="button" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-line hover:border-coral/50 hover:bg-coral/[0.04] text-muted hover:text-ink text-sm transition focus-coral">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z" />
-                      <path d="M7 10v12" />
-                    </svg>
-                    Yes
-                  </button>
-                  <button type="button" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-line hover:border-coral/50 hover:bg-coral/[0.04] text-muted hover:text-ink text-sm transition focus-coral">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z" />
-                      <path d="M17 14V2" />
-                    </svg>
-                    No
-                  </button>
-                </div>
-              </div>
-            </section>
+            <ArticleFeedback plugin={plugin} slug={slug} />
 
             {/* Prev / Next */}
             {(frontmatter.prev || frontmatter.next) && (
