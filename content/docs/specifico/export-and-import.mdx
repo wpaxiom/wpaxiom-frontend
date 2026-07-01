@@ -1,0 +1,109 @@
+---
+title: Export & Import
+category: Backup & Migration
+updatedAt: 2026-07-01
+readTime: 6
+prev:
+  title: Display settings
+  slug: display-settings
+next:
+  title: Shortcode
+  slug: shortcode
+---
+
+The **Export & Import** screen under **Specifico → Export / Import** lets you save your entire Specifico setup to a single file and load it back on any site. Use it to keep a backup, move your specifications to a new site, or migrate in from another specification plugin.
+
+Everything Specifico stores travels together: specification tables, groups, mapping rules, global settings, and — if you choose — every product's customized specification data.
+
+> *Screenshot: Export & Import page with two cards, "Export" above "Import"*
+
+## Export
+
+The **Export** card downloads all your specification tables, groups, mapping rules, and settings as a single JSON file.
+
+1. Go to **Specifico → Export / Import**.
+2. Decide whether to keep **Include per-product specification data** on (see below).
+3. Click **Download Export File**.
+
+Your browser downloads a file named `specifico-export-YYYY-MM-DD.json` (the date is today's). Keep it somewhere safe — that one file is a complete snapshot.
+
+### Include per-product specification data
+
+This toggle controls whether each product's *customized* specification data is bundled into the export.
+
+| Toggle | What the file contains |
+| --- | --- |
+| **On** (default) | Tables, groups, mapping, settings **and** every product that has its own customized specifications |
+| **Off** | Just the reusable structure — tables, groups, mapping, and settings |
+
+Leave it **on** for a full backup or a site move. Turn it **off** when you only want to copy your table/group *structure* to another site and don't want to carry that site's product data with it.
+
+<Callout type="tip">
+  A structure-only export (toggle off) is the fastest way to set up a staging or second store with the same specification tables, without dragging along product-specific overrides that wouldn't match anyway.
+</Callout>
+
+## Import
+
+The **Import** card reads an export file and recreates its contents on the current site.
+
+1. Go to **Specifico → Export / Import**.
+2. Drag a `.json` file onto the dropzone, or click **browse** to pick one.
+3. Specifico reads the file, detects its format, and shows a preview of what will be created or updated.
+4. Click **Import Now**.
+
+> *Screenshot: Import card showing the detected format and a preview list of tables, groups, and products*
+
+### The preview
+
+Before anything is written, Specifico shows what the file holds — for example:
+
+- **3 specification tables**
+- **5 groups** (28 attributes)
+- **12 products**
+
+Review this, then click **Import Now** to proceed, or **Choose another** to pick a different file. Nothing is changed on your site until you click **Import Now**.
+
+### Progress and large files
+
+Large imports run in **small batches with a progress bar**, phase by phase (Groups → Specifications → Mapping rules → Products), so a big dataset never hits a PHP timeout. You can watch each phase tick off as it completes.
+
+## Re-importing is safe
+
+Tables, groups, and products are matched **by slug**, not by internal ID. That means:
+
+- Re-importing the same file **updates** the existing tables and groups instead of creating duplicates.
+- Moving an export between sites lines everything up by slug, so cross-references (table → group, mapping → table) are rebuilt correctly on the target site.
+
+<Callout type="info">
+  Because matching is by slug, an import **overwrites** a table or group on the target site that shares a slug with one in the file. If you're importing into a site that already has specifications, make sure the incoming slugs are the ones you intend to update.
+</Callout>
+
+## Migrating from another plugin
+
+Specifico can also import from the **Product Specifications** plugin. Just upload that plugin's export file the same way — Specifico auto-detects the format and imports its tables, groups, and per-product specifications.
+
+When a competitor file is recognized, the preview shows a notice so you know it will be migrated:
+
+> *This file looks like an export from the "Product Specifications" plugin. Specifico will import its tables, groups and product specifications.*
+
+If a file isn't a Specifico export or a recognized compatible format, the preview reports **"This file format isn't recognised."** and nothing is imported.
+
+## What gets matched — and what can be skipped
+
+Some data is re-resolved against the target site on import. When a reference can't be found, that item is skipped (and reported in the import summary) rather than failing the whole import:
+
+| Data | How it's matched on import | Skipped when |
+| --- | --- | --- |
+| Tables & groups | By slug (created if missing, updated if present) | — |
+| Per-product specifications | Matched to a product by slug | No product on this site has that slug |
+| Mapping values (category, tag, product) | Re-resolved by slug | The category, tag, or product doesn't exist on this site |
+
+After import, the summary lists any skips — for example *"2 product(s) skipped — no matching product found."* This is expected when the target site doesn't yet have the same products as the source.
+
+<Callout type="warning">
+  Import **products after** the matching products exist on the target site. If you import specification data before creating the products, every product row is skipped because there's nothing to attach it to. Set up (or import) your WooCommerce products first, then run the Specifico import.
+</Callout>
+
+## Audit log
+
+Every export and import is written to the WooCommerce log under the `specifico` source. To review a run — including any per-item failures — go to **WooCommerce → Status → Logs** and pick the `specifico` log. This is where to look if an import didn't include everything you expected.

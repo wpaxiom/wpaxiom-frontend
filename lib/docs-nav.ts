@@ -117,6 +117,12 @@ export const DOC_NAV: Record<string, PluginNav> = {
         ],
       },
       {
+        label: 'Backup & Migration',
+        articles: [
+          { slug: 'export-and-import', title: 'Export & Import' },
+        ],
+      },
+      {
         label: 'Developers',
         articles: [
           { slug: 'shortcode', title: 'Shortcode' },

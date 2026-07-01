@@ -37,9 +37,9 @@ const PLUGIN_CARDS = [
   {
     key: 'specifico',
     name: 'Specifico',
-    description: 'API spec management for WordPress — OpenAPI import, diff view, public docs.',
+    description: 'Product specification tables for WooCommerce — reusable groups, category mapping, and per-product overrides.',
     articleCount: 21,
-    tags: ['Import', 'Export', 'CLI'],
+    tags: ['Getting started', 'Mapping', 'Import & Export'],
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8593C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -55,7 +55,7 @@ const POPULAR_ARTICLES = [
   { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Advanced', title: 'Using Query Loop Pro filters', excerpt: 'Filter posts by ACF fields, taxonomies, post meta, and arbitrary query vars.', readTime: 8, slug: 'acf-field-filters' },
   { plugin: 'cartick', pluginLabel: 'Cartick', category: 'Guides', title: 'Migrating from EDD to Cartick', excerpt: 'CSV import for products, customers, licenses, and historical orders.', readTime: 12, slug: 'migrating-from-edd' },
   { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Patterns', title: 'Conditional visibility patterns', excerpt: 'Show or hide blocks based on device, user role, or URL query parameters.', readTime: 5, slug: 'conditional-visibility-overview' },
-  { plugin: 'specifico', pluginLabel: 'Specifico', category: 'Getting started', title: 'Importing an OpenAPI spec', excerpt: 'Drop a YAML or JSON file, then publish to a versioned public docs URL.', readTime: 3, slug: 'importing-an-openapi-spec' },
+  { plugin: 'specifico', pluginLabel: 'Specifico', category: 'Getting started', title: 'Creating your first table', excerpt: 'Build a specification table from reusable groups and show it on your products.', readTime: 5, slug: 'creating-your-first-table' },
   { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Troubleshooting', title: 'License activation troubleshooting', excerpt: 'Common reasons activation fails and how to resolve each one quickly.', readTime: 4, slug: 'license-activation-troubleshooting' },
   { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Pro', title: 'White-label mode for agencies', excerpt: 'Rename and rebrand the plugin for client builds with a single toggle.', readTime: 5, slug: 'role-based-visibility' },
 ]
