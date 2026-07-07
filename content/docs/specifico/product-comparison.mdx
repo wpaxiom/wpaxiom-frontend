@@ -1,0 +1,72 @@
+---
+title: Product comparison
+category: Comparison
+updatedAt: 2026-07-07
+readTime: 6
+prev:
+  title: Display settings
+  slug: display-settings
+next:
+  title: Export & Import
+  slug: export-and-import
+---
+
+Product comparison lets shoppers pick several products and view their specification tables **side by side**, with the rows that differ highlighted so the meaningful differences stand out. Compared specs are resolved exactly the same way as the Specifications tab — through your mapping rules and per-product overrides — so what a shopper compares always matches what each product shows on its own page.
+
+Comparison is off by default. Turn it on under **Specifico → Settings**, then decide where the **Add to compare** buttons appear.
+
+## How it works for shoppers
+
+1. A shopper clicks **Add to compare** on a product (on the product page or in the shop/archive loop). The product is added to a small **compare tray** that persists in their browser.
+2. When they open the tray, a **slide-in drawer** fetches and renders the selected products' specification tables side by side.
+3. Rows whose values differ across the compared products are highlighted, so differences are easy to spot at a glance.
+
+The tray is stored client-side (in `localStorage`), so a shopper's selection survives page navigation without needing an account or a server-side session.
+
+<Callout type="tip">
+  Because comparison reuses the same resolver as the Specifications tab, you don't build a separate "comparison table" — any product that already shows specs can be compared, and per-product overrides are respected automatically.
+</Callout>
+
+## Enabling comparison
+
+In **Specifico → Settings**, the comparison options are:
+
+- **Enable comparison** — the master switch. When off, no compare buttons, tray, or drawer are rendered anywhere.
+- **Show on single product page** — adds an **Add to compare** button on individual product pages.
+- **Show on shop / archive loop** — adds the button to product cards on shop and category/tag archive pages.
+- **Maximum products** — how many products a shopper can compare at once (2–4, default 4). Adding more than the limit shows a short notice instead.
+- **Highlight differences** — when on, rows whose values differ across the compared products are visually emphasised.
+
+Each surface is independent — for example, you can enable comparison on the shop loop only, or on single product pages only.
+
+## The compare button style
+
+The compare button has its own visual style, separate from the specification table style. Pick a preset — or choose **Custom** to set your own colours, padding, radius, and border. See [Display settings → Custom appearance](/docs/specifico/display-settings) for how the custom style controls work; the compare button uses the same per-property model, and any value you leave blank falls back to a sensible default.
+
+You can set a different button style for the single product page and for the shop/archive loop, so the button fits each context.
+
+## Embedding a comparison anywhere
+
+Use the **`[specifico_compare]`** shortcode (or the matching block) to render a comparison table directly in page content — handy for a curated "compare these models" landing page:
+
+```text
+[specifico_compare ids="12,34,56"]
+```
+
+- `ids` — a comma-separated list of product IDs to compare, in the order you want the columns.
+
+You can also designate a **dedicated compare page** in Settings (a page holding the `[specifico_compare]` shortcode or block). When set, the drawer's "View full comparison" link points shoppers there.
+
+## Developer hooks
+
+Comparison behaviour can be adjusted in code with these filters:
+
+- `specifico_compare_max` — change the maximum number of products that can be compared.
+- `specifico_compare_highlight` — force the difference highlighting on or off.
+- `specifico_compare_on_single` — control whether the button renders on single product pages.
+- `specifico_compare_on_archive` — control whether the button renders on shop/archive cards.
+- `specifico_compare_button_style` — override the compare button's style preset (receives the current `context`, `single` or `archive`).
+
+<Callout type="info">
+  The drawer loads its data from the REST endpoint `GET specifico/v1/compare`, which returns the rendered comparison table for the requested product IDs — the same markup the `[specifico_compare]` shortcode produces.
+</Callout>

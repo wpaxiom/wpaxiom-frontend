@@ -88,7 +88,7 @@ export const DOC_NAV: Record<string, PluginNav> = {
   },
   specifico: {
     label: 'Specifico',
-    version: 'v1.0.4',
+    version: 'v1.0.5',
     icon: 'specifico',
     categories: [
       {
@@ -114,6 +114,12 @@ export const DOC_NAV: Record<string, PluginNav> = {
         label: 'Settings',
         articles: [
           { slug: 'display-settings', title: 'Display settings' },
+        ],
+      },
+      {
+        label: 'Comparison',
+        articles: [
+          { slug: 'product-comparison', title: 'Product comparison' },
         ],
       },
       {

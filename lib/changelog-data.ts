@@ -98,9 +98,22 @@ export const CHANGELOG: ChangelogEntry[] = [
   },
   {
     plugin: 'specifico',
+    version: '1.0.5',
+    date: '2026-07-07',
+    latest: true,
+    summary: 'Side-by-side product comparison, custom table and button styling, and full localization',
+    changes: [
+      { type: 'Added', text: 'Product comparison — shoppers add products to a compare tray and view their specification tables side by side in a slide-in drawer, with differing rows highlighted. Compared specs reuse the same mapping resolution as the Specifications tab, so what shoppers compare always matches what each product shows' },
+      { type: 'Added', text: '“Add to compare” buttons for the single product page and the shop / archive loop, each independently toggled from Settings, plus a configurable maximum (2–4) of products per comparison' },
+      { type: 'Added', text: '[specifico_compare ids="1,2,3"] shortcode and block to embed a comparison table on any page, and an optional dedicated compare page the drawer links to' },
+      { type: 'Added', text: 'Custom appearance controls — pick a “Custom” style for the specification table and for the compare button, then set per-property values (padding, radius, colours, borders) that render as CSS custom properties; unset values fall back to sensible defaults' },
+      { type: 'Improved', text: 'Full localization support — all remaining strings are translatable and the specifico.pot template is regenerated on build' },
+    ],
+  },
+  {
+    plugin: 'specifico',
     version: '1.0.4',
     date: '2026-06-30',
-    latest: true,
     summary: 'Export / import, migration from other specification plugins, and a redesigned admin UI',
     changes: [
       { type: 'Added', text: 'Export — download all your specification tables, groups, mapping rules, and settings (optionally including per-product specification data) as a single JSON file for backup or moving to another site' },

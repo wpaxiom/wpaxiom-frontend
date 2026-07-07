@@ -1,14 +1,14 @@
 ---
 title: Display settings
 category: Settings
-updatedAt: 2026-06-24
-readTime: 4
+updatedAt: 2026-07-07
+readTime: 5
 prev:
   title: Mapping rules
   slug: mapping-rules
 next:
-  title: Export & Import
-  slug: export-and-import
+  title: Product comparison
+  slug: product-comparison
 ---
 
 The **Settings** screen under **Specifico → Settings** is where you set global display preferences for every specification table the plugin renders: whether to show group headings, which visual style the table uses, what the product tab is called, and how to handle WooCommerce's default "Additional information" tab.
@@ -31,19 +31,30 @@ A specification table is made up of **groups** (Display, Performance, Camera) an
 
 ## Specification Styles
 
-A dropdown that picks one of five visual presets for the table. Each preset is a CSS class applied to the `<table>` element on the product page; your theme's own styles still apply on top.
+A dropdown that picks a visual preset for the table. Each preset is a CSS class applied to the `<table>` element on the product page; your theme's own styles still apply on top.
 
-The five presets:
+The presets:
 
 - **Striped Table** — alternating light background on every other row. Good readability for long tables.
 - **Bordered Table** — visible borders around every cell. Most structured look; works well in catalogs that show many attributes.
 - **Hoverable Table** — row highlights as you mouse over it. Subtle but useful for very long tables.
 - **Condensed Table** — tighter vertical padding, more rows visible at once. Best when shoppers know which row they want and want to scan fast.
 - **Colored Table** — accented row backgrounds tied to the plugin's color palette. Use when you want the spec table to feel like a deliberate design element.
+- **Custom** — set your own appearance. Choosing Custom reveals per-property controls (see below).
 
-> *Screenshot: five mini-thumbnails of each style applied to the same product table*
+> *Screenshot: mini-thumbnails of each style applied to the same product table*
 
 Pick the one that matches the rest of your store's design. If none feel right, your theme's CSS can override Specifico's output — every preset's rules are scoped to its class name (e.g. `.specifico-bordered-table`), so you can target it precisely.
+
+## Custom appearance
+
+When you pick the **Custom** style, Specifico shows a set of per-property controls for the table — cell padding, corner radius, text colour, cell background, striped-row background, border colour, and header background. Each value you set is emitted as a **CSS custom property** on the table element; anything you leave blank falls back to the default declared in the stylesheet, so a mostly-blank Custom table still renders sensibly.
+
+The same custom-appearance model is available for the **compare button** (Settings → Compare button style) — see [Product comparison](/docs/specifico/product-comparison). Only the properties you actually set are emitted, and the property names are fixed by the plugin, so the settings payload can never inject an arbitrary CSS property.
+
+<Callout type="tip">
+  Custom appearance is a global setting like the presets — it applies to every specification table. For a one-off tweak on a single product, target the product's body class or ID in your theme CSS instead.
+</Callout>
 
 ## Specifications Tab Title
 
