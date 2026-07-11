@@ -1,0 +1,73 @@
+---
+title: Content Slider
+category: Axiom Blocks
+updatedAt: 2026-07-11
+readTime: 5
+prev:
+  title: Info Box
+  slug: info-box-block
+next:
+  title: Table of Contents
+  slug: table-of-contents-block
+---
+
+Content Slider turns **any blocks** into a slider or carousel — each slide is a container you can fill with images, text, buttons, or whole layouts. It runs on a lightweight, no-jQuery engine (no bundled library), with slide, fade, and coverflow effects, autoplay, arrows, pagination, drag/swipe, and an optional click-to-zoom lightbox.
+
+## How to add
+
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Content Slider** (hover it for a live preview). It drops in with a couple of starter slides. Select a slide and add whatever blocks you want inside it; use the block toolbar to add or remove slides.
+
+## Effects
+
+Pick a transition in the **Slider** panel:
+
+- **Slide** — the classic horizontal (or vertical) track.
+- **Fade** — slides cross-fade in place.
+- **Coverflow** — a 3D, depth-stacked carousel.
+
+Set **Orientation** to **Horizontal** or **Vertical** for the slide and coverflow effects.
+
+## Slides per view & scrolling
+
+- **Slides per view** — show one slide at a time or several side by side, set independently for **desktop**, **tablet**, and **mobile**.
+- **Slides to scroll** — how many slides advance per step.
+- **Gap** — the space between slides.
+- **Adaptive height** — the slider grows and shrinks to fit the current slide instead of using a fixed height.
+
+## Autoplay
+
+Turn on **Autoplay** and set the **delay** between slides. Options include **Loop** (wrap around to the start), **Pause on hover**, and an optional **play/pause button** for accessibility. **Transition speed** controls how fast each slide animates.
+
+## Navigation
+
+- **Arrows** — previous/next controls with an adjustable **offset** and their own **colour** and **background**.
+- **Pagination** — choose **dots**, a **fraction** (`2 / 6`), or a **progress bar**, with colour controls for the resting and active states.
+- **Drag & swipe** — pointer and touch dragging, on by default.
+- **Keyboard** — arrow keys move between slides when the slider is focused.
+
+## Lightbox
+
+Enable **Lightbox** to make images inside slides open in a full-screen zoom view, with keyboard (arrow keys and <kbd>Esc</kbd>) navigation.
+
+## Styling
+
+Give the slider a fixed **height**, a **border** (colour, width, radius), and per-side **padding** and **margin**. Content Slider supports **Wide** and **Full** alignment plus an HTML anchor. Motion is disabled automatically when the visitor prefers reduced motion.
+
+<Callout type="tip">
+  Building a testimonial or logo carousel? Set **Slides per view** higher on desktop and lower on mobile so it stays readable on small screens.
+</Callout>
+
+## HTML output
+
+```html
+<div class="ab-slider ab-slider--slide" data-autoplay="1" data-loop="1">
+  <div class="ab-slider__viewport">
+    <div class="ab-slider__track">
+      <!-- each slide renders your inner blocks -->
+    </div>
+  </div>
+  <!-- arrows + pagination render here -->
+</div>
+```
+
+The `ab-slider--slide|fade|coverflow` and `ab-slider--vertical` modifier classes drive the effect and orientation; behaviour is read from `data-*` attributes by the view script, and colours, gap, height, and border are `--ab-slider-*` custom properties on the wrapper. Each slide keeps its own inner-block markup.

@@ -17,9 +17,20 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'axiom-blocks',
+    version: '1.0.5',
+    date: '2026-07-11',
+    latest: true,
+    summary: 'Two new blocks — Content Slider and Table of Contents — and a redesigned colour picker',
+    changes: [
+      { type: 'Added', text: 'Content Slider block — a slider/carousel that holds any blocks per slide, with slide, fade, and coverflow effects, autoplay with loop and pause-on-hover, arrows and pagination (dots, fraction, or progress bar), drag and swipe, keyboard control, vertical orientation, responsive slides-per-view for desktop/tablet/mobile, adaptive height, and an optional click-to-zoom lightbox' },
+      { type: 'Added', text: 'Table of Contents block — auto-built from your page headings, with numbered, bullet, or plain markers, nesting by heading level, smooth scroll with an adjustable offset, active-section highlight, a sticky sidebar that scrolls internally, a collapsible panel, a per-section reading-progress rail, copy-link on each heading, back-to-top, a mobile dock bar, and light or dark colour schemes' },
+      { type: 'Improved', text: 'Redesigned colour picker on every colour control — an HSV canvas, the theme palette, Hex / RGB / HSL inputs, alpha, an eyedropper, and recent colours' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
     version: '1.0.4',
     date: '2026-06-29',
-    latest: true,
     summary: 'Responsive per-device controls, a shared custom icon library, and full deactivation survival',
     changes: [
       { type: 'Added', text: 'Responsive controls — set typography, columns, gap, alignment, spacing, and sizes independently for desktop, tablet, and mobile, with live previews that follow the editor’s device switcher' },
