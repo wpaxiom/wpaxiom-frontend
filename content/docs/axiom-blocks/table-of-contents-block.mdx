@@ -1,56 +1,86 @@
 ---
 title: Table of Contents
 category: Axiom Blocks
-updatedAt: 2026-07-11
-readTime: 5
+updatedAt: 2026-08-06
+readTime: 6
 prev:
   title: Content Slider
   slug: content-slider-block
 ---
 
-Table of Contents builds an automatic, linked index from the **headings already on your page** — no manual list to maintain. It scans the content, adds anchor links, and keeps the list in sync as you edit. It adds smooth scrolling, active-section highlighting, a sticky sidebar, a collapsible panel, and a mobile bar on top.
+Table of Contents builds an automatic, linked index from the **headings already on your page** — no manual list to maintain. It scans the content, adds anchor links, and keeps the list in sync as you edit. On top of that it adds smooth scrolling, active-section highlighting, a sticky panel, a collapsible list, and a mobile dock bar.
 
 ## How to add
 
 Open the block inserter, switch to the **Axiom Blocks** category, and click **Table of Contents**. Place it wherever the index should appear — inline near the top of an article, or in a sidebar column. The editor previews the list live from your page's headings; on the front end the links and anchors are generated automatically.
 
-## Choosing headings
+## Structure
 
-In the **Structure** panel, toggle which heading levels to include (**H1**–**H6**; H2–H4 by default). Only the levels you enable appear, and deeper levels are indented to show the hierarchy. Each included heading gets a stable `id` so its anchor link keeps working — existing anchors are preserved.
+Toggle which heading levels to include (**H1**–**H6**; H2–H4 by default). Only the levels you enable appear, and deeper levels are indented to show the hierarchy. Each included heading gets a stable `id` so its anchor link keeps working — existing anchors are preserved.
 
-## Markers
-
-- **Numbered** — sequential numbers in a mono typeface, with an optional **number prefix** (for example, `Step `).
-- **Bullet** — a small dot.
-- **None** — text only, aligned to the rail.
-
-## Header
-
-Set an **eyebrow** label (defaults to *On this page*) and, optionally, a larger **title** below it with its own heading level. When the panel is collapsible you can show a **section count** next to the eyebrow.
+Set an **Eyebrow label** (defaults to *On this page*) and, optionally, **Show title** for a larger heading below it with its own **Title tag**. When the panel is collapsible you can also **Show section count** next to the eyebrow.
 
 ## Behaviour
 
-The **Behaviour** panel controls the interactive layer (all progressive enhancement — it degrades to plain anchor links):
+Everything here is progressive enhancement — with JavaScript off it degrades to plain anchor links.
 
-- **Smooth scroll** with an adjustable **scroll offset** to clear a fixed header.
-- **Highlight active section** — the current heading is marked as you scroll (scroll-spy).
-- **Reading-progress rail** — a sliding accent rail follows the section in view.
-- **Collapsible** — a chevron folds the list to its header; optionally **start collapsed**.
-- **Sticky on scroll** — pin the panel with a **top offset**; a long list scrolls **inside** the panel instead of running off-screen. Optionally **disable sticky on mobile**, or keep the **mobile dock bar** that opens the list as a bottom sheet and folds away after you jump.
-- **Copy-link** on each heading, **footer back-to-top**, and a **floating back-to-top** button.
+- **Smooth scroll**, with a **Scroll offset** to clear a fixed header
+- **Highlight active section** — scroll-spy marks the heading you're reading
+- **Reading-progress rail** — a sliding accent rail follows the section in view
+- **Collapsible** — a chevron folds the list to its header; optionally **Start collapsed**
+- **Sticky on scroll** — pins the panel with a **Sticky top offset**. A long list scrolls *inside* the panel instead of running off-screen.
+- **Disable sticky on mobile** — drops the pinning on small screens
+- **Mobile dock bar** — opens the list as a bottom sheet, folding away after you jump
+- **Copy-link on each item**, **Footer back-to-top**, and a **Floating back-to-top button**
 
-## Colours
+## List layout
 
-Choose a **Light** or **Dark** scheme as the starting point, then override any part — background, link, hover, active section, marker, progress, and border — with your own colours. Border width, corner radius, nesting indent, and item spacing are adjustable too.
+- **List marker** — **Numbered** (sequential numbers in a mono typeface), **Bullet** (a small dot), or **None** (text only, aligned to the rail)
+- **Number prefix** — text before each number, e.g. `Step `
+- **Nesting indent** — how far each level indents
+- **Item spacing** — vertical gap between entries
+
+## Color scheme
+
+**Color scheme** picks **Light** or **Dark** as the starting point. This is not a preset layer that overrides your choices — it sets the shipped defaults that every color row in **Styles** starts from. Switch to Dark and the swatches update to the dark palette; anything you've set yourself is untouched.
+
+## The sidebar at a glance
+
+The block sidebar is split into two tabs. **Settings** is what the index does; **Styles** is how it looks, organised by the parts you can see.
+
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Structure** | Heading levels, eyebrow, title, title tag |
+| Settings | **Behaviour** | Scrolling, highlighting, sticky, collapsible, mobile dock, back-to-top |
+| Settings | **List layout** | Marker style, number prefix, indent, item spacing |
+| Settings | **Color scheme** | Light or dark starting palette |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Container** | The panel around the list |
+| Styles | **Title** | The heading above the list |
+| Styles | **Links** | The index entries |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
+
+## Styling
+
+| Part | Rows |
+|------|------|
+| **Container** | Marker, Progress, Background, Border, Radius, Shadow, Max width (per device) |
+| **Title** | Text, Typography |
+| **Links** | Text — with **Normal / Hover / Active** — and Typography |
+
+- **Marker** colors the numbers or bullets. **Progress** colors the reading-progress rail, and the row appears only while **Reading-progress rail** is on.
+- **Links** is the stateful part. **Active** is the entry for the section currently in view, so setting Normal and Active gives you scroll-spy highlighting without writing CSS.
 
 <Callout type="tip">
-  For a docs-style layout, place the Table of Contents in a narrow sidebar column, turn on **Sticky** and **Highlight active section**, and it will track the reader down the page.
+  For a docs-style layout, place the Table of Contents in a narrow sidebar column, turn on **Sticky on scroll** and **Highlight active section**, then set the **Links → Active** color to your accent. It will track the reader down the page.
 </Callout>
+
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
 
 ## HTML output
 
 ```html
-<nav class="ab-toc ab-toc--numbered ab-toc--sticky" aria-label="Table of contents">
+<nav class="ab-toc ab-toc--numbered ab-toc--sticky ab-toc--progress" aria-label="Table of contents">
   <div class="ab-toc__head">…eyebrow + optional title…</div>
   <div class="ab-toc__body">
     <ul class="ab-toc__list-ul"><!-- generated links --></ul>
@@ -58,4 +88,4 @@ Choose a **Light** or **Dark** scheme as the starting point, then override any p
 </nav>
 ```
 
-The `ab-toc--numbered|bullet|none`, `ab-toc--sticky`, `ab-toc--progress`, and `ab-toc--dark` modifier classes drive markers, placement, the progress rail, and the colour scheme; colours and spacing are `--ab-toc-*` custom properties on the wrapper. Heading `id`s are injected into your content so the anchors resolve.
+The `ab-toc--numbered|bullet|none`, `ab-toc--sticky`, `ab-toc--progress`, and `ab-toc--dark` modifier classes drive markers, placement, the progress rail, and the color scheme. Colors and spacing are `--ab-toc-*` custom properties on the wrapper. Heading `id`s are injected into your content so the anchors resolve.

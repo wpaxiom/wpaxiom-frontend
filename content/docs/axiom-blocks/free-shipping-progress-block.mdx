@@ -1,8 +1,8 @@
 ---
 title: Free Shipping Progress
 category: Axiom Blocks
-updatedAt: 2026-05-15
-readTime: 4
+updatedAt: 2026-08-06
+readTime: 5
 prev:
   title: Trust Badges
   slug: trust-badges-block
@@ -23,8 +23,6 @@ Open the block inserter, switch to the **Axiom Blocks** category, and click **Fr
 
 ## Threshold
 
-The **Threshold** panel is open by default.
-
 **Detection mode** controls where the qualifying amount comes from:
 
 | Mode | Behavior |
@@ -36,39 +34,53 @@ The **Threshold** panel is open by default.
 
 ## Messages
 
-Two textarea fields control what the block says in each state.
+Two fields control what the block says in each state.
 
 **Before qualifying** — shown while the cart is below the threshold. Default: `Add {amount_left} more for free shipping!`
 
-Use `{amount_left}` anywhere in the message as a placeholder — it is replaced with the formatted currency amount the customer still needs to add (e.g. `$12.50`).
+Use `{amount_left}` anywhere in the message as a placeholder — it's replaced with the formatted currency amount the customer still needs to add (e.g. `$12.50`).
 
 **After qualifying** — shown once the cart reaches the threshold. Default: `You've unlocked free shipping!`
 
-## Style
-
-**Text alignment** — aligns the message text: Left, Center (default), or Right.
-
-**Bar height** — thickness of the progress bar in pixels. Range 2–32. Default 4.
-
-**Corner radius** — rounds the ends of the bar and its track. Range 0–999px. Default 999 (fully rounded pill shape). Set to 0 for a flat rectangular bar.
-
-## Colors
-
-**Progress fill** — the bar color while the cart is below the threshold. Default `#7C3AED`.
-
-**Track** — the background color of the unfilled portion of the bar. Default `#e5e7eb`.
-
-**Qualified fill** — the bar color once the cart reaches the threshold. Default `#10b981` (green). The bar switches to this color and the `is-qualified` class is added to the wrapper.
-
 ## Visibility
 
-**Hide when cart is empty** — hides the block entirely when there are no items in the cart. Useful for keeping the widget out of sight until shopping starts.
+- **Hide when cart is empty** — hides the block entirely when there are no items in the cart, keeping the widget out of sight until shopping starts.
+- **Hide once free shipping is unlocked** — hides the block once the customer qualifies. Use this if you'd rather show a separate banner or rely on the cart totals to communicate the achievement.
 
-**Hide once free shipping is unlocked** — hides the block once the customer qualifies. Use this if you'd rather show a separate banner or rely on the cart totals to communicate the achievement.
+## The sidebar at a glance
 
-## Spacing
+The block sidebar is split into two tabs. **Settings** is what the block does; **Styles** is how it looks, organised by the parts you can see.
 
-Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Threshold** | Detection mode, custom threshold |
+| Settings | **Messages** | Before and after text |
+| Settings | **Visibility** | Hide when empty, hide when qualified |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Container** | The box around the message and bar |
+| Styles | **Bar** | The progress bar and its track |
+| Styles | **Messages** | The message text |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
+
+## Styling
+
+| Part | Rows |
+|------|------|
+| **Container** | Border, Radius, Shadow, Max width (per device) |
+| **Bar** | Track, Qualified fill, Background, Radius, Height (per device) |
+| **Messages** | Text, Typography |
+
+- **Background** on the Bar is the progress fill itself — a solid color or a **gradient**, so the bar can run from one brand color to another as it fills.
+- **Track** is the unfilled remainder. Default `#e5e7eb`.
+- **Qualified fill** is the color the bar switches to once the cart qualifies. Default `#10b981`. The wrapper also picks up `is-qualified` at that point.
+- **Height** runs 2–32 px and is per-device — a 12 px bar that reads well on desktop can drop to 6 px on mobile.
+- **Radius** goes up to 999 px, which is what gives the bar its pill ends. Set it to 0 for a flat rectangular bar.
+
+<Callout type="tip">
+  Message typography is new in 1.0.6 — before this the message inherited whatever the theme gave it. If your bar sits in a sidebar or a cart drawer, set an explicit size here rather than fighting the theme.
+</Callout>
+
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
 
 ## Live updates
 
@@ -78,13 +90,14 @@ The frontend script subscribes to WooCommerce's jQuery cart events. Any time the
 
 ```html
 <div
-  class="wp-block-axiom-blocks-free-shipping-progress axiom-blocks-fsp is-align-center"
+  class="axiom-blocks-fsp is-align-center"
   style="
     --ab-fsp-bar-color: #7C3AED;
     --ab-fsp-bar-bg: #e5e7eb;
     --ab-fsp-qualified-color: #10b981;
     --ab-fsp-bar-height: 4px;
     --ab-fsp-radius: 999px;
+    --ab-fsp-msg-color: #111111;
   "
   data-ab-fsp="1"
   data-threshold-mode="auto"
@@ -114,12 +127,20 @@ Once the cart qualifies, `is-qualified` is added to the wrapper and the fill swi
 </div>
 ```
 
+The `is-align-left|center|right` class on the wrapper carries the block's stored text alignment; blocks default to `center`.
+
 ## CSS custom properties
 
 | Property | Controls |
 |----------|----------|
 | `--ab-fsp-bar-color` | Fill color while below threshold |
+| `--ab-fsp-fill-bg` | Fill background when a gradient is set |
 | `--ab-fsp-bar-bg` | Track (unfilled) background color |
-| `--ab-fsp-qualified-color` | Fill color when cart has qualified |
+| `--ab-fsp-qualified-color` | Fill color when the cart has qualified |
 | `--ab-fsp-bar-height` | Bar thickness |
-| `--ab-fsp-radius` | Bar and track corner radius |
+| `--ab-fsp-radius` / `--ab-fsp-radius-*` | Bar corner radius |
+| `--ab-fsp-cont-radius-*` | Container per-corner radius |
+| `--ab-fsp-bs` / `--ab-fsp-bc` / `--ab-fsp-bw-*` | Container border style, color, per-side width |
+| `--ab-fsp-shadow` | Container box shadow |
+| `--ab-fsp-msg-color` | Message text color |
+| `--ab-fsp-msg-*` | Message typography (family, size, weight, line height, letter spacing, transform, decoration) |

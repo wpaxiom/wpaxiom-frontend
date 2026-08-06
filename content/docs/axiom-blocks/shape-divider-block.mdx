@@ -1,8 +1,8 @@
 ---
 title: Shape Divider
 category: Axiom Blocks
-updatedAt: 2026-05-15
-readTime: 3
+updatedAt: 2026-08-06
+readTime: 4
 prev:
   title: Star Rating
   slug: star-rating-block
@@ -18,14 +18,12 @@ Shape Divider renders a full-width decorative SVG between two sections. Use it t
 Open the block inserter, switch to the **Axiom Blocks** category, and click **Shape Divider**. The block drops in as a wave shape. Set it to **Full** or **Wide** alignment from the toolbar so it spans the full content width.
 
 <Callout type="tip">
-  The typical setup: place the divider between two sections, set **Shape color** to match the background of the section below it, and set **Background** to match the section above. The shape then appears to cut cleanly between the two colors.
+  The typical setup: place the divider between two sections, set **Fill** to match the background of the section below it, and set **Behind shape** to match the section above. The shape then appears to cut cleanly between the two colors.
 </Callout>
 
 ## Shape
 
-The **Shape** panel is open by default.
-
-**Shape style** — five SVG shapes to choose from:
+**Shape style** — five SVG shapes:
 
 | Shape | Description |
 |-------|-------------|
@@ -35,30 +33,45 @@ The **Shape** panel is open by default.
 | Tilt | Straight diagonal — flat on the right edge, angled on the left |
 | Slant | Straight diagonal — flat on the left edge, angled on the right |
 
-**Height** — controls how tall the shape area is. Default `80px`. Accepts any CSS length — e.g. `120px`, `6rem`. Taller values make the shape more pronounced.
+**Flip horizontal** mirrors the shape left to right — most useful with the asymmetric shapes (Tilt, Slant) to reverse the angle. **Flip vertical** turns it upside down; use it when the divider sits at the top of a section rather than the bottom, so the shape opens downward into the section instead of upward.
 
-**Flip horizontal** — mirrors the shape left to right. Most useful with asymmetric shapes (Tilt, Slant) to reverse the direction of the angle.
+## The sidebar at a glance
 
-**Flip vertical** — flips the shape upside down. Use this when the divider sits at the top of a section rather than the bottom — the shape then opens downward into the section instead of upward.
+The block sidebar is split into two tabs. **Settings** is what the divider is; **Styles** is how it looks.
 
-## Color
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Shape** | Shape style, flip horizontal, flip vertical |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Shape** | Fill, the band behind it, and height |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
 
-**Shape color** — the fill color of the SVG path. Default `#ffffff`. Set this to match the background of the section the shape is pointing into.
+## Styling
 
-**Background** — the color behind the SVG, filling the rectangular wrapper. Default is transparent. Set this to match the background of the section the shape is pointing away from.
+| Part | Rows |
+|------|------|
+| **Shape** | Fill, Behind shape, Height (per device) |
 
-**Transparent background** — toggle to set the background to `transparent` rather than a solid color. Use this when the section above has a gradient or image background.
+- **Fill** paints the SVG path itself — the shape you see. It's a background control, so it takes a solid color or a **gradient**. Image and overlay are off; a shape path has nowhere to put them. Default `#ffffff`.
+- **Behind shape** is the band the SVG sits on, filling the rest of the rectangular wrapper. Default `#f6f7f7`. Set it to match the section the shape points away from.
+- **Height** controls how tall the shape area is, and carries a unit picker — **px**, **rem**, **vh**, or **%** — each with its own sensible range (10–500 px, 1–30 rem, 1–100 vh/%). Taller values make the shape more pronounced. Per-device, so a dramatic 200 px wave on desktop can settle to 60 px on mobile.
 
-## Spacing
+<Callout type="tip">
+  A gradient Fill is not a CSS gradient. Because the shape is an SVG `<path fill>`, which CSS gradients cannot paint, the block emits a real SVG paint server — a `<linearGradient>` or `<radialGradient>` inside `<defs>` — and points the path at it. Flat colors emit no `<defs>` at all, so simple dividers stay byte-for-byte as small as before.
+</Callout>
 
-Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar — use **Full** to break out of a constrained layout and span the viewport edge to edge.
+The block supports **Wide** and **Full** alignment from the toolbar — use **Full** to break out of a constrained layout and span the viewport edge to edge.
+
+<Callout type="info">
+  Earlier versions had a separate **Transparent background** toggle. It wasn't a stored setting of its own — it simply wrote `transparent` into the same background value. Dividers saved with it keep rendering transparent, and you can still get a transparent band by clearing the **Behind shape** swatch.
+</Callout>
 
 ## HTML output
 
 ```html
 <div
-  class="wp-block-axiom-blocks-shape-divider axiom-blocks-shape-divider axiom-blocks-shape-divider--wave"
-  style="height: 80px; background: transparent;"
+  class="axiom-blocks-shape-divider axiom-blocks-shape-divider--wave"
+  style="height: 80px; background-color: #f6f7f7;"
   aria-hidden="true"
 >
   <svg
@@ -72,10 +85,24 @@ Per-side padding and margin on the outer wrapper. The block supports **Wide** an
 </div>
 ```
 
+With a gradient Fill, the SVG carries a paint server and the path references it:
+
+```html
+<svg ... >
+  <defs>
+    <linearGradient id="ab-sd-grad-1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c3aed"></stop>
+      <stop offset="100%" stop-color="#10b981"></stop>
+    </linearGradient>
+  </defs>
+  <path d="…" fill="url(#ab-sd-grad-1)"></path>
+</svg>
+```
+
 When both flip toggles are on, the SVG receives an inline transform:
 
 ```html
 <svg ... style="transform: scaleX(-1) scaleY(-1);">
 ```
 
-The SVG uses `preserveAspectRatio="none"` so it always stretches to fill the full block width regardless of the container size.
+The SVG uses `preserveAspectRatio="none"` so it always stretches to fill the full block width regardless of container size. Per-device heights are emitted as scoped media-query rules, so the inline `height` is always the desktop value.

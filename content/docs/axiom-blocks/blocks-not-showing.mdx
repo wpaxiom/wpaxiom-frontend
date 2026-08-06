@@ -1,8 +1,8 @@
 ---
 title: Blocks not showing
 category: Troubleshooting
-updatedAt: 2026-05-15
-readTime: 3
+updatedAt: 2026-08-06
+readTime: 4
 prev:
   title: License activation
   slug: license-activation-troubleshooting
@@ -47,9 +47,19 @@ Another plugin or your active theme may be loading a script or style that interf
 
 ## Block requires WooCommerce
 
-The **Free Shipping Progress** block requires WooCommerce to be installed and active. If WooCommerce is missing or inactive the block is silently skipped on the frontend.
+Two blocks are WooCommerce-only — **Trust Badges** and **Free Shipping Progress**. If WooCommerce is missing or inactive, they are silently skipped on the frontend.
 
-Confirm WooCommerce is active under **WordPress admin → Plugins** before using this block.
+Confirm WooCommerce is active under **WordPress admin → Plugins** before using either block.
+
+## WooCommerce integration is switched off
+
+Even with WooCommerce active, both WooCommerce blocks are hidden when the plugin's own integration setting is off. This is the easiest cause to miss, because nothing appears broken — the entire WooCommerce category simply disappears from the dashboard and the inserter.
+
+1. Go to **WordPress admin → Axiom Blocks**
+2. Open the **Settings** tab
+3. Make sure **WooCommerce integration** is enabled
+
+It is on by default, so this only applies if it was turned off at some point.
 
 ## Block assets not loading
 

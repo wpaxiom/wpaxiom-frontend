@@ -1,8 +1,8 @@
 ---
 title: Counter
 category: Axiom Blocks
-updatedAt: 2026-06-18
-readTime: 4
+updatedAt: 2026-08-06
+readTime: 5
 prev:
   title: Notice / Alert
   slug: notice-block
@@ -15,58 +15,113 @@ Counter shows animated count-up statistics — the kind of "10,000+ customers / 
 
 ## How to add
 
-Open the block inserter, switch to the **Axiom Blocks** category, and click **Counter**. It starts with a few stat items. Each stat is its own inner block with its own number, label, and icon.
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Counter**. It starts with a few stat items. Each stat is its own inner block, so you add and remove them like any other blocks.
 
 ## Stats
 
-Each stat item has:
+Select an individual stat to reach its own settings:
 
-- **Start value** and **End value** — the animation counts from start to end.
-- **Decimals** — how many decimal places to show.
-- **Prefix** and **Suffix** — text wrapped around the number, e.g. `$` or `+` or `%`.
-- **Label** — caption under (or beside) the number.
-- **Icon** — optional, picked from the library.
+- **Start value** and **End value** — the animation counts from start to end
+- **Decimal places** — how many decimals to show
+- **Prefix** and **Suffix** — text wrapped around the number, e.g. `$`, `+`, `%`
+- **Icon** — optional, picked from the shared icon library
+- **Label** — the caption, edited inline on the canvas
 
 The number animates only on the front end; in the editor it shows the final value so you can style it.
 
 ## Layout
 
-- **Columns** — stats per row.
-- **Gap** — space between stats.
-- **Stack on mobile** — collapse to one column on small screens.
-- **Show divider** — draw a line between stats, with a **divider color**.
-- **Icon position** — **Top** or **Left** of the number.
-- **Label position** — **Below**, **Above**, **Left**, or **Right** of the number.
+- **Columns** — stats per row
+- **Stack on mobile** — collapse to one column on small screens
+- **Dividers between stats** — draw a line between stats
 
-## Animation & number format
+The space between stats is the **Gap between items** row in **Styles → Card**, and the divider's color is the **Divider Color** row in the same place.
 
-- **Duration** — how long the count-up runs, in milliseconds.
-- **Easing** — the animation curve.
-- **Thousands separator** — toggle grouping, and choose the **separator character** (comma, period, space, or apostrophe).
-- **Decimal separator** — choose the decimal character (period or comma) for locale-correct formatting.
+## Animation and number format
+
+- **Duration** — how long the count-up runs
+- **Easing** — the animation curve
+- **Thousands separator** — toggle grouping, then pick the **Group separator** character
+- **Decimal separator** — the decimal character, for locale-correct formatting
 
 <Callout type="tip">
-  For European-style numbers, set the thousands separator to a period or space and the decimal separator to a comma — `1.234,5` or `1 234,5`. The same setting drives both the static value and the animation.
+  For European-style numbers, set the group separator to a period or space and the decimal separator to a comma — `1.234,5` or `1 234,5`. The same setting drives both the static value and the animation.
 </Callout>
 
-## Cards, colors & typography
+## Icon and label position
 
-The **Box** panel wraps each stat in a card with its own background, border (color, width, radius), shadow preset (small, medium, large), and per-side padding. Set separate **number**, **label**, and **icon** colors plus **hover** colors for each, and independent typography panels for the number and the label (family, weight, size, line height, letter spacing, transform, decoration, alignment).
+**Icon → Position** places the icon **Top** or **Left** of the number. **Label → Position** places the caption **Below**, **Above**, **Left**, or **Right** of it.
 
-## Spacing
+## The sidebar at a glance
 
-Per-side padding and margin on the group. Counter supports **Wide** and **Full** alignment and an HTML anchor.
+The block sidebar is split into two tabs. **Settings** is what the counter does; **Styles** is how it looks, organised by the parts you can see.
+
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Layout** | Columns, stack on mobile, dividers |
+| Settings | **Animation** | Duration, easing, separators |
+| Settings | **Icon** | Icon position |
+| Settings | **Label** | Label position |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Card** | The box around each stat |
+| Styles | **Icon** | The icon and its chip |
+| Styles | **Number** | The counting figure |
+| Styles | **Label** | The caption |
+| Styles | **Spacing** | Padding and margin on the group |
+
+## Styling
+
+Every part carries a **Normal / Hover** state selector — pick the state at the top of the row and set a value for it. Hover applies when the visitor is over the stat's card.
+
+| Part | Rows |
+|------|------|
+| **Card** | Divider Color, Background, Border, Radius, Shadow, Min height (per device), Padding (per device), Gap between items (per device) |
+| **Icon** | Color, Background, Border, Radius, Padding (per device), Size (per device) |
+| **Number** | Color, Typography |
+| **Label** | Color, Typography |
+
+The **Icon** part is a chip, not just a glyph: its Background, Border, Radius, and Padding style a container drawn behind the icon. Give it a circular radius and a tinted background and you get the round icon badge that stat rows usually want — no wrapper block required.
+
+The **Card** background is the full background control — a solid color, a gradient, or an image with an overlay — and it takes a separate hover value.
+
+<Callout type="info">
+  Counters saved before 1.0.6 may carry the old **small / medium / large** shadow preset. Those keep rendering exactly as before, and the preset is no longer offered as a control. Setting any value in the **Shadow** row replaces the preset for that block — in the editor and on the front end alike.
+</Callout>
+
+Counter supports **Wide** and **Full** alignment and an HTML anchor.
 
 ## HTML output
 
 ```html
-<div class="ab-counter-group ab-counter-group--icon-top ab-counter-group--label-below is-stack-mobile" data-duration="2000" data-easing="ease-out" data-thousands-sep="," data-decimal-sep=".">
+<div
+  class="ab-counter-group ab-counter-group--icon-top ab-counter-group--label-below is-stack-mobile has-divider"
+  style="--ab-counter-cols: 3; --ab-counter-gap: 24px; --ab-counter-card-bg: #ffffff; --ab-counter-card-radius-tl: 12px;"
+  data-duration="2000"
+  data-easing="ease-out"
+  data-thousands-sep=","
+  data-decimal-sep="."
+>
   <div class="ab-counter">
-    <span class="ab-counter__icon"><svg>…</svg></span>
+    <span class="ab-counter-icon-chip"><svg>…</svg></span>
     <span class="ab-counter__number" data-start="0" data-end="1234.5" data-decimals="1" data-prefix="$" data-suffix="+">$1,234.5+</span>
     <div class="ab-counter__label">Customers</div>
   </div>
 </div>
 ```
 
-The animation reads `data-start`, `data-end`, `data-decimals`, and the separators from the group. Columns, gap, colors, hover colors, and card styling are all `--ab-counter-*` custom properties on the wrapper. The count-up respects `prefers-reduced-motion`.
+The animation reads `data-start`, `data-end`, and `data-decimals` from each stat, and the separators from the group. The count-up respects `prefers-reduced-motion`.
+
+## CSS custom properties
+
+| Property | Controls |
+|----------|----------|
+| `--ab-counter-cols` | Columns per row |
+| `--ab-counter-gap` | Space between stats |
+| `--ab-counter-divider` | Divider line color |
+| `--ab-counter-card-bg` / `--ab-counter-card-bg-hover` | Card background and hover background |
+| `--ab-counter-card-bs` / `--ab-counter-card-bd-color` / `--ab-counter-card-bw-*` | Card border style, color, per-side width |
+| `--ab-counter-card-radius-*` | Card per-corner radius |
+| `--ab-counter-card-shadow` | Card box shadow |
+| `--ab-counter-card-minh` | Card minimum height |
+| `--ab-counter-card-pt` / `-pr` / `-pb` / `-pl` | Card per-side padding |
+| `--ab-counter-icon-chip-bg` / `--ab-counter-icon-chip-bc` | Icon chip background and border color |

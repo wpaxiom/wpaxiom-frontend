@@ -18,7 +18,7 @@ export type PluginNav = {
 export const DOC_NAV: Record<string, PluginNav> = {
   'axiom-blocks': {
     label: 'Axiom Blocks',
-    version: 'v1.0.5',
+    version: 'v1.0.6',
     icon: 'axiom-blocks',
     categories: [
       {

@@ -1,8 +1,8 @@
 ---
 title: Before/After Slider
 category: Axiom Blocks
-updatedAt: 2026-05-15
-readTime: 4
+updatedAt: 2026-08-06
+readTime: 5
 prev:
   title: Advanced Section
   slug: advanced-section-block
@@ -11,7 +11,7 @@ next:
   slug: countdown-timer-block
 ---
 
-Before/After Slider is a drag-to-compare block that stacks two images in the same frame and lets visitors reveal either side by dragging a handle. Use it for product comparisons, photo retouching demos, design before/after — any two states of the same subject.
+Before/After Slider is a drag-to-compare block that stacks two images in the same frame and lets visitors reveal either side by moving a handle. Use it for product comparisons, photo retouching demos, design before/after — any two states of the same subject.
 
 ## How to add
 
@@ -34,13 +34,25 @@ Enable **Show labels** to overlay a text chip on each side of the frame.
 - **Before label** — defaults to `Before`
 - **After label** — defaults to `After`
 
-Labels are hidden by default. When disabled, neither label field appears in the sidebar.
+Labels are hidden by default. When disabled, neither label field appears in the sidebar. Their color, background, typography, and corner radius live in **Styles → Labels**.
 
-## Style
+## Behavior
+
+### Orientation
+
+- **Horizontal** — the divider runs vertically and moves left/right. The default.
+- **Vertical** — the divider runs horizontally and moves up/down, revealing the after image from the top. Useful for tall subjects — a full-length photo retouch, a landing page redesign.
+
+### Interaction
+
+- **Drag** — the visitor presses and pulls the handle. The default, and the right choice on touch.
+- **Hover** — the handle follows the pointer as it passes over the image, no click needed. Feels immediate on desktop, but has no touch equivalent, so the slider stays draggable on phones either way.
+
+## Slider
 
 ### Initial position
 
-Sets where the divider handle starts when the block first loads, as a percentage from the left edge. Default is `50` (centered). Set it lower to reveal more of the After image on load, higher to reveal more of the Before image.
+Where the handle starts when the block loads, as a percentage from the left (or from the top, in vertical orientation). Default is `50`. Set it lower to reveal more of the After image on load, higher to reveal more of the Before image.
 
 ### Aspect ratio
 
@@ -56,41 +68,58 @@ Controls the frame's height.
 
 When a fixed ratio is set, both images fill the frame with `object-fit: cover`.
 
-### Handle color
+## The sidebar at a glance
 
-The color of the circular drag handle and its arrow chevrons. Defaults to white (`#ffffff`). Set this to a contrasting color if your images are light near the center.
+The block sidebar is split into two tabs. **Settings** is what the slider does; **Styles** is how it looks, organised by the parts you can see.
 
-### Line color
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Images** | Before and After image pickers |
+| Settings | **Labels** | Show labels, label text |
+| Settings | **Behavior** | Orientation, interaction |
+| Settings | **Slider** | Initial position, aspect ratio |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Container** | The frame around both images |
+| Styles | **Labels** | The two overlay chips |
+| Styles | **Handle** | The drag handle and divider line |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
 
-The color of the vertical divider line. Defaults to white (`#ffffff`). The line inherits this color independently from the handle.
+## Styling
 
-## Spacing
+| Part | Rows |
+|------|------|
+| **Container** | Border, Radius, Shadow, Max width (per device) |
+| **Labels** | Text, Background, Typography, Radius |
+| **Handle** | Handle color, Line color |
 
-**Spacing** sets per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar to break out of the content column.
+The **Handle** and **Line** colors default to white. Set them to something contrasting if your images are light near the center — a white handle on a bright sky is invisible.
 
-## Interaction
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
 
-The slider works across pointer and touch devices.
+## Interaction and accessibility
 
-- **Drag** — click or tap anywhere on the frame and drag left or right to move the handle
-- **Click to jump** — clicking a point on the frame snaps the handle to that position immediately
-- **Keyboard** — when the frame has focus, use the arrow keys to move the handle:
+The slider works across pointer and touch devices. Dragging and click-to-jump both work regardless of the Interaction setting; **Hover** adds pointer tracking on top.
+
+- **Drag** — press anywhere on the frame and pull to move the handle
+- **Click to jump** — clicking a point on the frame snaps the handle there
+- **Keyboard** — when the frame has focus:
 
 | Key | Movement |
 |-----|----------|
-| `←` / `→` | ±2% |
-| `Page Up` / `Page Down` | ±10% |
+| `←` / `↑` | −2% |
+| `→` / `↓` | +2% |
+| `Page Down` / `Page Up` | ∓10% |
 | `Home` | Jump to 0% (full Before) |
 | `End` | Jump to 100% (full After) |
 
-The frame carries `role="slider"` and updates `aria-valuenow` on every move.
+Both arrow pairs work in either orientation, so keyboard users are never stranded by the Vertical setting. The frame carries `role="slider"` and updates `aria-valuenow` on every move.
 
 ## HTML output
 
 ```html
-<div class="wp-block-axiom-blocks-before-after-slider axiom-blocks-bas">
+<div class="axiom-blocks-bas" style="--ab-bas-radius-tl: 12px; --ab-bas-shadow: 0 10px 30px #0000001a; --ab-bas-maxw: 900px;">
   <div
-    class="axiom-blocks-bas__frame is-aspect-fixed"
+    class="axiom-blocks-bas__frame is-aspect-fixed is-vertical is-hover"
     style="--slider-pos: 50%; --handle-color: #ffffff; --line-color: #ffffff; aspect-ratio: 16 / 9;"
     role="slider"
     aria-valuemin="0"
@@ -99,36 +128,33 @@ The frame carries `role="slider"` and updates `aria-valuenow` on every move.
     aria-label="Before / after image comparison"
     tabindex="0"
   >
-    <img
-      src="/wp-content/uploads/after.jpg"
-      alt="After"
-      class="axiom-blocks-bas__img axiom-blocks-bas__img--after"
-      draggable="false"
-    />
-    <img
-      src="/wp-content/uploads/before.jpg"
-      alt="Before"
-      class="axiom-blocks-bas__img axiom-blocks-bas__img--before"
-      draggable="false"
-    />
+    <img src="/wp-content/uploads/after.jpg" alt="After"
+         class="axiom-blocks-bas__img axiom-blocks-bas__img--after" draggable="false" />
+    <img src="/wp-content/uploads/before.jpg" alt="Before"
+         class="axiom-blocks-bas__img axiom-blocks-bas__img--before" draggable="false" />
     <span class="axiom-blocks-bas__label axiom-blocks-bas__label--before">Before</span>
     <span class="axiom-blocks-bas__label axiom-blocks-bas__label--after">After</span>
     <div class="axiom-blocks-bas__line" aria-hidden="true"></div>
-    <div class="axiom-blocks-bas__handle" aria-hidden="true">
-      <!-- chevron SVG -->
-    </div>
+    <div class="axiom-blocks-bas__handle" aria-hidden="true"><!-- chevron SVG --></div>
   </div>
 </div>
 ```
 
-When **Aspect ratio** is set to **Auto**, the frame carries `is-aspect-auto` instead of `is-aspect-fixed`, and no `aspect-ratio` inline style is added.
+The frame picks up `is-aspect-auto` instead of `is-aspect-fixed` when Aspect ratio is **Auto** (and no inline `aspect-ratio`), `is-vertical` only in vertical orientation, and `is-hover` only when Interaction is Hover.
 
 ## CSS custom properties
 
-These are set on `.axiom-blocks-bas__frame`. Override them from your theme stylesheet if needed.
+The divider properties are set on `.axiom-blocks-bas__frame`; the styling properties are set on the outer wrapper.
 
 | Property | Controls |
 |----------|----------|
-| `--slider-pos` | Divider position (% from left); updated live by the frontend script |
+| `--slider-pos` | Divider position (%); updated live by the frontend script |
 | `--handle-color` | Handle circle and chevron color |
-| `--line-color` | Vertical divider line color |
+| `--line-color` | Divider line color |
+| `--ab-bas-bs` / `--ab-bas-bc` / `--ab-bas-bw-*` | Container border style, color, per-side width |
+| `--ab-bas-radius-*` | Container corner radius (`tl`, `tr`, `br`, `bl`) |
+| `--ab-bas-shadow` | Container box shadow |
+| `--ab-bas-maxw` | Container max width |
+| `--ab-bas-label-color` / `--ab-bas-label-bg` | Label text and background color |
+| `--ab-bas-label-radius-*` | Label corner radius |
+| `--ab-bas-label-ff` / `-fw` / `-fs` / `-lh` / `-ls` / `-tt` / `-td` / `-ta` | Label typography — family, weight, size, line height, letter spacing, transform, decoration, alignment |

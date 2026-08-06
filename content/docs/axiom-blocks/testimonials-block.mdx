@@ -1,8 +1,8 @@
 ---
 title: Testimonials
 category: Axiom Blocks
-updatedAt: 2026-06-18
-readTime: 5
+updatedAt: 2026-08-06
+readTime: 6
 prev:
   title: Counter
   slug: counter-group-block
@@ -15,56 +15,104 @@ Testimonials displays customer quotes as social proof — in a static grid, an a
 
 ## How to add
 
-Open the block inserter, switch to the **Axiom Blocks** category, and click **Testimonials**. It starts with a few cards. Each testimonial is its own inner block.
+Open the block inserter, switch to the **Axiom Blocks** category, and click **Testimonials**. It starts with a few cards. Each testimonial is its own inner block, so you add and remove them like any other blocks.
 
 ## Testimonial cards
 
 Each card has:
 
-- **Quote** — the testimonial text.
-- **Name**, **Role**, and **Company** — the author's details.
-- **Avatar** — upload an image, or leave it empty to show colored initials generated from the name.
-- **Rating** — 0–5 with half-star precision.
-- **Date** — optional review date.
-- **Source** — Google, Trustpilot, G2, Capterra, or a custom label, with an optional **Verified** badge.
-- **Link** — optional URL that makes the whole card clickable, with an open-in-new-tab option.
+- **Quote** — the testimonial text
+- **Name**, **Role**, and **Company** — the author's details
+- **Avatar** — upload an image, or leave it empty to show colored initials generated from the name
+- **Rating** — 0–5 with half-star precision
+- **Date** — optional review date
+- **Source** — Google, Trustpilot, G2, Capterra, or a custom label, with an optional **Verified** badge
+- **Link** — optional URL that makes the whole card clickable, with an open-in-new-tab option
 
 ## Layout
 
-Choose a **layout**:
+Choose a **Layout**:
 
-- **Grid** — a static responsive grid. Set **Columns** and **Gap**, and **Stack on mobile** to collapse to one column.
-- **Carousel** — a sliding track with **autoplay** (and speed), **loop**, **pause on hover**, **arrows**, **dots**, and slide speed.
-- **Marquee** — a continuous scroll with **speed**, **reverse** direction, and **pause on hover**.
+- **Grid** — a static responsive grid. Set **Columns**, **Gap**, and **Stack on mobile** to collapse to one column.
+- **Carousel** — a sliding track with **Autoplay** and **Autoplay delay**, **Transition speed**, **Loop**, **Pause on hover**, **Show arrows**, and **Show dots**
+- **Marquee** — a continuous scroll with **Scroll duration**, **Reverse direction**, and **Pause on hover**
 
-## Card style
+**Columns**, **Gap**, and **Card content gap** are all per-device — a three-across grid on desktop can drop to two on tablet without a second block.
 
-**Avatar position** (top or left) and **avatar shape** (circle, rounded, square), card **background**, **border** (color, width, radius), **shadow**, and per-side card **padding**.
+## Avatar
 
-## Display options
+**Position** places the avatar **Top** or **Left** of the text; **Shape** is **Circle**, **Rounded**, or **Square**. Size lives in **Styles → Avatar**.
 
-- **Show rating** — toggle the stars, with a **rating color**.
-- **Show quote icon** — toggle the decorative quotation mark, with a **quote icon color**.
-- **Read more** — clamp long quotes to a set number of **lines** with an expand control.
+## Content
+
+- **Show rating** — the star row
+- **Show quote icon** — the decorative quotation mark
+
+## Read more
+
+**Clamp long quotes** truncates to a set number of **Lines** with an expand control, so one unusually long testimonial doesn't stretch an entire grid row.
 
 ## Review schema
 
 <Callout type="tip">
-  Turn on **Review schema** to output Review and AggregateRating structured data (JSON-LD). Set an **Item name** to attach the reviews to a specific Product; leave it blank to attach them to your Organization. Only use this for genuine customer reviews of the named item.
+  Turn on **Output review schema** to emit Review and AggregateRating structured data (JSON-LD). Set a **Product / service name** to attach the reviews to a specific product; leave it blank to attach them to your Organization. Use this only for genuine customer reviews of the named item.
 </Callout>
 
-## Colors & typography
+## The sidebar at a glance
 
-Separate colors for the **name**, **role**, **company**, and **quote**, plus independent typography panels for each of those four text groups (family, weight, size, line height, letter spacing, transform, decoration, alignment).
+The block sidebar is split into two tabs. **Settings** is what the block does; **Styles** is how it looks, organised by the parts you can see.
 
-## Spacing
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Layout** | Layout mode, columns, gaps, stack on mobile |
+| Settings | **Avatar** | Position, shape |
+| Settings | **Content** | Show rating, show quote icon |
+| Settings | **Carousel** | Autoplay, loop, arrows, dots, speeds |
+| Settings | **Marquee** | Scroll duration, reverse, pause on hover |
+| Settings | **Read more** | Clamp long quotes, line count |
+| Settings | **Review schema** | Schema output, item name |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Card** | The box around each testimonial |
+| Styles | **Avatar** | The author image |
+| Styles | **Monogram** | The initials shown when there's no avatar |
+| Styles | **Stars** | The rating row |
+| Styles | **Icon (quote)** | The decorative quotation mark |
+| Styles | **Arrows / Dots** | Carousel navigation |
+| Styles | **Quote** | The testimonial text |
+| Styles | **Name** | The author's name |
+| Styles | **Role** | The author's role |
+| Styles | **Company** | The author's company |
+| Styles | **Spacing** | Padding and margin on the group |
 
-Per-side padding and margin on the group. Testimonials supports **Wide** and **Full** alignment and an HTML anchor.
+## Styling
+
+| Part | Rows |
+|------|------|
+| **Card** | Background, Border, Radius, Shadow, Min height, Padding (per device), Hover lift — with **Normal / Hover** |
+| **Avatar** | Border, Size (per device) |
+| **Monogram** | Background, Text, Typography |
+| **Stars** | Color |
+| **Icon (quote)** | Color |
+| **Arrows / Dots** | Color |
+| **Quote** / **Name** / **Role** / **Company** | Text, Typography |
+
+Ten parts is the most of any Axiom block, and it's deliberate: a testimonial card has ten things a designer will want to touch independently.
+
+- **Card** is the only stateful part. Its **Hover** state covers background, border, and radius, and **Hover lift** is a dedicated range — how far the card rises on hover, in pixels.
+- **Monogram** styles the colored initials shown when a testimonial has no avatar image. Previously these took whatever the block generated; now the background, text color, and typography are yours.
+- **Quote**, **Name**, **Role**, and **Company** are four independent text parts, each with its own color and full typography.
+
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
 
 ## HTML output
 
 ```html
-<div class="ab-testimonials ab-testimonials--carousel ab-testimonials--avatar-top ab-testimonials--shape-circle has-shadow" data-layout="carousel" data-columns="3" data-autoplay="1">
+<div
+  class="ab-testimonials ab-testimonials--carousel ab-testimonials--avatar-top ab-testimonials--shape-circle"
+  data-layout="carousel"
+  data-columns="3"
+  data-autoplay="1"
+>
   <div class="ab-testimonial">
     <span class="ab-testimonial__quote-icon"><svg>…</svg></span>
     <div class="ab-testimonial__rating" role="img" aria-label="Rated 4.5 out of 5">…</div>
@@ -83,4 +131,4 @@ Per-side padding and margin on the group. Testimonials supports **Wide** and **F
 </div>
 ```
 
-The carousel and marquee behavior is driven by the `data-*` attributes on the wrapper. Columns, gap, card styling, rating color, and the four text-group colors are all `--ab-tst-*` custom properties. When review schema is enabled, a `<script type="application/ld+json">` with the AggregateRating data is printed after the block.
+Carousel and marquee behavior is driven by the `data-*` attributes on the wrapper. Card styling, rating color, and the text-part colors are `--ab-tst-*` custom properties. Per-device columns, gaps, and avatar size are emitted as scoped media-query rules rather than inline values. When review schema is enabled, a `<script type="application/ld+json">` with the AggregateRating data is printed after the block.

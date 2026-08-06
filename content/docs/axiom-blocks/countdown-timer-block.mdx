@@ -1,8 +1,8 @@
 ---
 title: Countdown Timer
 category: Axiom Blocks
-updatedAt: 2026-05-15
-readTime: 4
+updatedAt: 2026-08-06
+readTime: 5
 prev:
   title: Before/After Slider
   slug: before-after-slider-block
@@ -19,7 +19,7 @@ Open the block inserter, switch to the **Axiom Blocks** category, and click **Co
 
 ## Target date
 
-Set the target date and time in the **Target Date** field in the sidebar. The field accepts any date-time value — pick from the date picker or type an ISO 8601 string directly. If no date is set the block defaults to seven days from the server's current time.
+Set the target in the **Date & Time** field. It accepts any date-time value — pick from the date picker or type an ISO 8601 string directly. If no date is set the block defaults to seven days from the server's current time.
 
 <Callout type="info">
   The target date is evaluated in the visitor's browser timezone via JavaScript after the initial server render. Set your deadline in UTC or account for the timezone offset in the date string to avoid off-by-one-hour surprises.
@@ -27,7 +27,7 @@ Set the target date and time in the **Target Date** field in the sidebar. The fi
 
 ## Display units
 
-Each time unit can be shown or hidden independently with its own toggle in the **Display Units** panel.
+Each time unit can be shown or hidden independently.
 
 | Toggle | Default |
 |--------|---------|
@@ -40,7 +40,7 @@ Hide **Days** for countdowns under 24 hours; hide **Seconds** for a calmer visua
 
 ## Labels
 
-The **Labels** panel has a separate text field for each unit's caption below the number.
+A separate text field for each unit's caption below the number.
 
 | Field | Default |
 |-------|---------|
@@ -49,35 +49,15 @@ The **Labels** panel has a separate text field for each unit's caption below the
 | Minutes Label | `Minutes` |
 | Seconds Label | `Seconds` |
 
-Use this to translate labels into another language or shorten them — `D`, `H`, `M`, `S` for a compact layout. Label fields are always editable regardless of whether a unit is shown or hidden.
-
-## Style
-
-### Colors
-
-- **Digit color** — the large number color. Default `#333333`.
-- **Label color** — the small unit label color. Default `#666666`.
-- **Background color** — fill color of each unit tile. Default `#f0f0f0`. Set to `transparent` to remove the tile appearance.
-
-### Size & shape
-
-- **Digit font size** — size of the countdown numbers. Default `48px`.
-- **Label font size** — size of the unit labels. Default `14px`.
-- **Border radius** — rounds the corners of each unit tile. Default `8px`. Set to `0` for square tiles or a high value (`999px`) for pill-shaped tiles.
+Use these to translate labels or shorten them — `D`, `H`, `M`, `S` for a compact layout. Label fields stay editable whether or not the unit is shown.
 
 ## Layout
 
-### Direction
+- **Layout** — **Horizontal** (default) puts units side by side; **Vertical** stacks them in a column, useful in narrow sidebars.
+- **Alignment** — positions the unit group: **Left**, **Center** (default), or **Right**. Per-device.
+- **Gap Between Units** — spacing between unit tiles. Per-device.
 
-**Horizontal** (default) — units sit side by side in a row. **Vertical** — units stack in a column, useful in narrow sidebars or alongside other vertical content.
-
-### Alignment
-
-Positions the unit group within the block: **Left**, **Center** (default), or **Right**.
-
-### Gap
-
-Controls spacing between unit tiles. Default `20px`.
+Both Alignment and Gap carry a device switcher, so a row that fits on desktop can tighten or re-align on mobile without a second block.
 
 ## Expired state
 
@@ -89,22 +69,47 @@ When the countdown reaches zero the block switches to its expired state. Set the
 | Hide Block | Removes the timer from the page entirely |
 | Redirect to URL | Navigates the visitor to the URL in **Redirect URL** |
 
-The expired state is evaluated server-side on initial render and then re-evaluated each second in the browser. A visitor who lands on the page after the deadline sees the expired state immediately.
+The expired state is evaluated server-side on initial render and re-evaluated each second in the browser, so a visitor landing after the deadline sees it immediately.
 
-## Typography
+## The sidebar at a glance
 
-Two independent typography panels — **Digits** and **Labels** — give full control over font family, weight, line height, letter spacing, transform, and decoration for each element. The **Digit font size** and **Label font size** fields in the Style panel act as the base size; the typography panel values override them when set.
+The block sidebar is split into two tabs. **Settings** is what the timer does; **Styles** is how it looks, organised by the parts you can see.
 
-## Spacing & alignment
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Target Date** | Date and time |
+| Settings | **Display Units** | Show days / hours / minutes / seconds |
+| Settings | **Labels** | Caption text per unit |
+| Settings | **Layout** | Direction, alignment, gap |
+| Settings | **Expired State** | On-expiry action, message, redirect URL |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Digits** | The number tiles |
+| Styles | **Labels** | The unit captions |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
 
-**Spacing** sets per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+## Styling
+
+| Part | Rows |
+|------|------|
+| **Digits** | Digit Color, Background, Typography, Border, Radius, Shadow, Min width (per device) |
+| **Labels** | Label Color, Typography |
+
+The **Digits** background is the full background control — not just a flat color. Each unit tile can take a solid color, a gradient, or an image with an overlay, the same control the Advanced Section uses.
+
+<Callout type="tip">
+  **Min width** on Digits is what stops the tiles from resizing as the numbers change — without it, a tile jumps narrower the moment `10` ticks down to `9`. Set it wide enough for your largest expected value.
+</Callout>
+
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
+
+<Callout type="info">
+  Timers saved before 1.0.6 may hold a free-form `borderRadius` string. Those keep rendering as before; the current Radius control is numeric per-corner, capped at 40 px.
+</Callout>
 
 ## HTML output
 
 ```html
-<div
-  class="wp-block-axiom-blocks-countdown-timer axiom-blocks-countdown axiom-blocks-countdown--horizontal axiom-blocks-countdown--align-center"
->
+<div class="axiom-blocks-countdown axiom-blocks-countdown--horizontal axiom-blocks-countdown--align-center">
   <div
     class="axiom-blocks-countdown__container"
     style="display: flex; flex-wrap: wrap; gap: 20px;"
@@ -113,22 +118,12 @@ Two independent typography panels — **Digits** and **Labels** — give full co
     data-expired-message="Time's up!"
     data-redirect-url=""
   >
-    <div class="axiom-blocks-countdown__unit" data-unit="days" style="background-color: #f0f0f0; border-radius: 8px; padding: 20px; min-width: 80px;">
-      <div class="axiom-blocks-countdown__digit" style="font-weight: bold; line-height: 1; font-size: 48px; color: #333333;">16</div>
-      <div class="axiom-blocks-countdown__label" style="text-transform: uppercase; letter-spacing: 1px; font-size: 14px; color: #666666; margin-top: 8px;">Days</div>
+    <div class="axiom-blocks-countdown__unit" data-unit="days"
+         style="--ab-cd-digit-bg: #f0f0f0; --ab-cd-radius-tl: 8px; --ab-cd-digit-minw: 80px;">
+      <div class="axiom-blocks-countdown__digit" style="--ab-cd-digit-color: #333333;">16</div>
+      <div class="axiom-blocks-countdown__label" style="--ab-cd-label-color: #666666;">Days</div>
     </div>
-    <div class="axiom-blocks-countdown__unit" data-unit="hours" style="...">
-      <div class="axiom-blocks-countdown__digit" style="...">08</div>
-      <div class="axiom-blocks-countdown__label" style="...">Hours</div>
-    </div>
-    <div class="axiom-blocks-countdown__unit" data-unit="minutes" style="...">
-      <div class="axiom-blocks-countdown__digit" style="...">42</div>
-      <div class="axiom-blocks-countdown__label" style="...">Minutes</div>
-    </div>
-    <div class="axiom-blocks-countdown__unit" data-unit="seconds" style="...">
-      <div class="axiom-blocks-countdown__digit" style="...">05</div>
-      <div class="axiom-blocks-countdown__label" style="...">Seconds</div>
-    </div>
+    <!-- hours, minutes, seconds follow the same shape -->
   </div>
 </div>
 ```
@@ -138,3 +133,17 @@ When the timer expires and the action is **Show message**:
 ```html
 <div class="axiom-blocks-countdown__expired">Time's up!</div>
 ```
+
+## CSS custom properties
+
+| Property | Controls |
+|----------|----------|
+| `--ab-cd-digit-color` | Digit color |
+| `--ab-cd-digit-bg` | Unit tile background (color, gradient, or image layer) |
+| `--ab-cd-label-color` | Unit label color |
+| `--ab-cd-bs` / `--ab-cd-bc` / `--ab-cd-bw-*` | Tile border style, color, per-side width |
+| `--ab-cd-radius-*` | Per-corner tile radius; `--ab-cd-radius` carries a legacy single value |
+| `--ab-cd-shadow` | Tile box shadow |
+| `--ab-cd-digit-minw` | Tile minimum width |
+
+Per-device Alignment, Gap, and Min width are emitted as scoped media-query rules against `.axiom-blocks-countdown__container` and `.axiom-blocks-countdown__unit`, not as inline properties.

@@ -1,7 +1,7 @@
 ---
 title: Icon
 category: Axiom Blocks
-updatedAt: 2026-06-12
+updatedAt: 2026-08-06
 readTime: 3
 prev:
   title: Advanced Button
@@ -26,21 +26,32 @@ Open the block inserter, switch to the **Axiom Blocks** category, and click **Ic
 
 **Accessibility label** — optional. When set, the icon is exposed to screen readers (via `role="img"` and `aria-label`, or as the link's label); when empty, the icon is treated as decorative and hidden with `aria-hidden`.
 
-## Icon style
+## The sidebar at a glance
 
-- **Size** — any CSS length.
-- **Color** and **Hover color**.
-- **Rotation** — degrees.
-- **Alignment** — left, center, or right within the block.
+The block sidebar is split into two tabs. **Settings** is what the icon does; **Styles** is how it looks.
+
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Icon** | Icon picker, accessible label, shape, rotation |
+| Settings | **Link** | URL, open in new tab, rel |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Icon** | The glyph itself |
+| Styles | **Shape** | The background shape behind it |
+| Styles | **Spacing** | Padding and margin on the wrapper |
 
 ## Shape
 
-**Shape** — wrap the icon in a background shape: **None**, **Circle**, **Square**, or **Rounded**. Enabling a shape reveals:
+**Shape** in Settings wraps the icon in a background shape: **None**, **Circle**, **Square**, or **Rounded**. **Rotation** (in degrees) sits alongside it.
 
-- **Background** and **Background hover** colors.
-- **Padding** — space between the icon and the shape edge.
-- **Radius** — corner rounding (for the rounded/square shapes).
-- **Border** — color, width, and style.
+## Styling
+
+| Part | Rows |
+|------|------|
+| **Icon** | Color, Size (per device) |
+| **Shape** | Background (solid or gradient), Border, Radius, Shadow |
+| **Spacing** | Padding and margin on the wrapper |
+
+The Shape rows only have a visible effect once a shape other than **None** is selected.
 
 ## Link
 
@@ -48,9 +59,7 @@ Open the block inserter, switch to the **Axiom Blocks** category, and click **Ic
 - **Open in new tab** — adds `target="_blank"` with `rel="noopener noreferrer"`.
 - **Nofollow** / **Sponsored** — append the matching `rel` tokens.
 
-## Spacing
-
-Per-side padding and margin on the wrapper. The block supports **Wide** and **Full** alignment and an HTML anchor.
+The block supports **Wide** and **Full** alignment and an HTML anchor.
 
 ## HTML output
 

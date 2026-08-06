@@ -1,8 +1,8 @@
 ---
 title: Advanced Section
 category: Axiom Blocks
-updatedAt: 2026-05-15
-readTime: 6
+updatedAt: 2026-08-06
+readTime: 7
 prev:
   title: Pricing Table
   slug: pricing-table-block
@@ -11,110 +11,138 @@ next:
   slug: before-after-slider-block
 ---
 
-Advanced Section is a full-width container block that accepts any inner blocks and adds a rich layer of background, overlay, border, and layout controls on top of WordPress's native constrained layout system. Use it wherever a Group block isn't enough — hero sections, feature rows, CTA bands, and any section that needs a custom background or precise height control.
+Advanced Section is a container block that accepts any inner blocks and adds a rich layer of background, overlay, border, and layout controls on top of WordPress's native layout system. Use it wherever a Group block isn't enough — hero sections, feature rows, CTA bands, and any section that needs a custom background, a flex or grid arrangement, or precise height control.
 
 ## How to add
 
 Open the block inserter, switch to the **Axiom Blocks** category, and click **Advanced Section**. The block drops in empty, ready for inner blocks. Add any blocks inside it — Headings, Paragraphs, Buttons, Columns, or other Axiom blocks.
 
+## Layout
+
+**Layout** is the first control in **Settings** and it decides how the section arranges its direct children. The rest of the panel changes to match the mode you pick.
+
+### Constrained
+
+The default, and the same behavior earlier versions had: inner blocks stack vertically at the theme's content width.
+
+- **Vertical** — Top, Center, Bottom — aligns content along the vertical axis within the min-height area
+- **Horizontal** — Left, Center, Right — aligns content along the horizontal axis
+
+<Callout type="info">
+  These alignment controls position the content *within* the section height. They do not override the inner blocks' own alignment settings.
+</Callout>
+
+### Flex
+
+Arranges direct children in a flex row or column — the way you'd build a feature row or a logo strip without reaching for Columns.
+
+- **Direction** — row or column
+- **Wrap** — allow children to wrap onto new lines
+- **Justify** — distribution along the main axis
+- **Align** — alignment along the cross axis
+- **Gap** — space between children, per device
+
+### Grid
+
+Arranges direct children in an even grid.
+
+- **Columns** — number of columns, per device
+- **Align items** — cross-axis alignment within each cell
+- **Gap** — space between cells, per device
+
+### Stack below
+
+Flex and Grid both get a **Stack below** value. Below that width the section collapses to a single column, so a three-across feature row becomes a readable stack on phones. This is scoped to the individual block, so two sections on the same page can stack at different widths.
+
+## Min height
+
+Sets the minimum height of the section, with a unit switcher for **px**, **vh** (viewport height), or **rem**. A hero set to `100vh` fills the screen. Min height is a per-device control — set it once for desktop and override it on tablet or mobile using the device switcher at the top of the control.
+
 ## Background
 
-The **Background** panel in the sidebar has three modes. Switch between them with the **Type** selector.
+Background lives in **Styles → Container** and opens in its own popover. The **Type** selector switches between three modes.
 
 ### Color
 
-Picks a solid background color for the section. Leave it empty to inherit the page background.
+A solid background color. Leave it empty to inherit the page background.
 
 ### Gradient
 
-Builds a CSS gradient directly in the sidebar.
-
-- **Gradient type** — Linear (angle-based) or Radial (center-out circle)
-- **Angle** — 0–360°, only applies to linear gradients
-- **From / To** — start and end color with individual stop positions (0–100%)
-- **Use mid color** — enable to add a third color stop between From and To, with its own position slider
+Builds a CSS gradient in the sidebar — **Linear** (angle-based) or **Radial** (center-out), with color stops you can add and position individually.
 
 ### Image
 
 Picks a background image from the media library.
 
-- **Select / Replace / Remove** — media library buttons for the image
 - **Size** — Cover (fill, may crop), Contain (fit fully, may letterbox), Auto (natural size)
-- **Focal point** — drag the crosshair on the image preview to set `background-position`; or choose from nine preset positions in the dropdown
+- **Focal point** — drag the crosshair on the preview to set the background position
 - **Repeat** — No repeat, Repeat, Repeat X, Repeat Y
-- **Attachment** — Scroll (moves with page) or Fixed (stays in place as content scrolls). Hidden when Parallax is enabled since the two are mutually exclusive.
+- **Attachment** — Scroll (moves with page) or Fixed (stays put as content scrolls). Hidden when Parallax is on, since the two conflict.
 
-## Overlay
+### Overlay
 
-An overlay sits between the background and the inner content. Use it to darken an image background so text is readable, or to add a color wash over a gradient.
+An overlay sits between the background and the inner content — use it to darken an image so text stays readable, or to wash a color over a gradient. It's part of the same Background popover.
 
 - **Type** — Color or Gradient
-- **Color** — the overlay color (for Color type)
 - **Opacity** — 0–100%; at 0 the overlay is invisible regardless of color
-- **Gradient** — linear or radial, From and To colors with angle (same controls as the background gradient)
-- **Blend mode** — Normal, Multiply, Screen, Overlay, Darken, Lighten — composites the overlay onto the background layer
+- **Blend mode** — Normal, Multiply, Screen, Overlay, Darken, Lighten
 
 <Callout type="tip">
-  A common pattern: image background + black overlay at 40–60% opacity + light-colored text inside. This is more reliable than hoping the image has dark areas where the text lands.
+  A reliable pattern: image background + black overlay at 40–60% opacity + light text inside. Far more dependable than hoping the photo has dark areas exactly where your text lands.
 </Callout>
 
-## Border
+### Parallax
 
-- **Style** — None, Solid, Dashed, Dotted, Double
-- **Width** — 0–20 px (only visible when Style is not None)
-- **Color** — border color
-- **Border radius** — 0–64 px, rounds all four corners equally
-
-## Layout
-
-### Min height
-
-Sets the minimum height of the section. The unit switcher lets you choose **px**, **vh** (viewport height), or **rem**. A hero section set to `100vh` fills the full screen height.
-
-**Min height (mobile)** is an independent override that applies below 768 px. Leave it empty to use the same value as the desktop min height.
-
-### Content alignment
-
-- **Vertical** — Top, Center, Bottom — aligns inner content along the vertical axis within the min-height area
-- **Horizontal** — Left, Center, Right — aligns inner content along the horizontal axis
-
-<Callout type="info">
-  These alignment controls position the content block *within* the section height. They do not override the inner blocks' own alignment settings.
-</Callout>
-
-## Parallax
-
-Parallax is available only when the background type is **Image** and an image is selected. Enable the **Parallax** toggle in the Background panel to activate it.
-
-**Parallax speed** — 0–100%. Higher values create a more pronounced scroll effect. 20–40% is a safe starting range.
+Available only when the background type is **Image** and an image is selected. **Parallax speed** runs 0–100%; 20–40% is a safe starting range.
 
 <Callout type="warning">
-  Parallax is a frontend-only effect — it does not play in the block editor. Preview it on the frontend or in a full-screen preview. When parallax is active, **Attachment** is hidden because they conflict.
+  Parallax is a frontend-only effect — it does not play in the block editor. Preview it on the frontend or in a full-screen preview. When parallax is active, **Attachment** is hidden.
 </Callout>
 
-## Spacing & alignment
+## The sidebar at a glance
 
-**Spacing** sets per-side padding and margin on the section wrapper. The block supports **Wide** and **Full** alignment from the toolbar — useful for breaking a section to full viewport width inside a constrained layout.
+The block sidebar is split into two tabs. **Settings** is what the section does; **Styles** is how it looks, organised by the parts you can see.
+
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Layout** | Layout mode, min height, alignment, flex/grid options, gap, stack below |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Container** | The section box itself |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
+
+## Styling
+
+| Part | Rows |
+|------|------|
+| **Container** | Background (color / gradient / image + overlay + parallax), Border, Radius, Shadow, Size — Width and Max width, per device |
+| **Spacing** | Padding and margin on the outer block |
+
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
+
+<Callout type="tip">
+  **Max width** on the Container is what you want for a nested full-width row — a section set to Full alignment inside another section will otherwise run edge to edge.
+</Callout>
 
 ## HTML output
 
 ```html
 <div
-  class="wp-block-axiom-blocks-advanced-section axiom-blocks-section axiom-blocks-section--image is-h-center is-v-center has-parallax"
+  class="axiom-blocks-section axiom-blocks-section--image axiom-blocks-section--layout-grid ab-secbp-3f9c1a02 is-h-center is-v-center has-parallax"
   style="
-    background-image: none;
+    --ab-sec-bg: url('/wp-content/uploads/hero.jpg');
+    --ab-sec-overlay-bg: #00000080;
+    --ab-sec-overlay-opacity: 0.5;
+    --ab-sec-overlay-blend: normal;
+    --ab-sec-parallax: 1;
+    --ab-sec-radius: 12px;
+    --ab-sec-shadow: 0 10px 30px #0000001a;
+    --ab-sec-cols: 3;
+    --ab-sec-gap: 24px;
+    --ab-sec-mw: 1200px;
     --axiom-blocks-section-min-h: 600px;
-    --axiom-blocks-section-min-h-mobile: 400px;
     min-height: var(--axiom-blocks-section-min-h, 400px);
     --axiom-blocks-section-justify: center;
     --axiom-blocks-section-align: center;
-    --axiom-blocks-section-overlay-bg: rgba(0,0,0,0.5);
-    --axiom-blocks-section-overlay-opacity: 0.5;
-    --axiom-blocks-section-overlay-blend: normal;
-    --ab-bg-image: url('/wp-content/uploads/hero.jpg');
-    --ab-bg-size: cover;
-    --ab-bg-position: 50.0% 30.0%;
-    --ab-bg-repeat: no-repeat;
   "
   data-parallax-speed="0.30"
   id="hero"
@@ -123,38 +151,34 @@ Parallax is available only when the background type is **Image** and an image is
 </div>
 ```
 
-When parallax is **off** the image renders directly on the wrapper:
-
-```html
-<div
-  class="wp-block-axiom-blocks-advanced-section axiom-blocks-section axiom-blocks-section--image is-h-center is-v-center"
-  style="
-    background-image: url('/wp-content/uploads/hero.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    ...
-  "
->
-  <!-- inner blocks -->
-</div>
-```
+<Callout type="info">
+  Colors are emitted as hex — 8-digit hex when they carry alpha, as `#00000080` does above. WordPress strips `rgba()` and `hsl()` from inline styles, so the block never writes them.
+</Callout>
 
 ## CSS custom properties
 
-All layout and overlay values are surfaced as CSS custom properties on the wrapper so your theme stylesheet can read or override them.
+Layout, background, and border values are surfaced as custom properties on the wrapper so your theme stylesheet can read or override them.
 
 | Property | Controls |
 |----------|----------|
-| `--axiom-blocks-section-min-h` | Desktop minimum height |
-| `--axiom-blocks-section-min-h-mobile` | Mobile minimum height (≤ 768 px) |
-| `--axiom-blocks-section-justify` | Vertical content alignment (flex value) |
-| `--axiom-blocks-section-align` | Horizontal content alignment (flex value) |
-| `--axiom-blocks-section-overlay-bg` | Overlay background (color or gradient string) |
-| `--axiom-blocks-section-overlay-opacity` | Overlay opacity (0–1) |
-| `--axiom-blocks-section-overlay-blend` | Overlay blend mode |
-| `--ab-bg-image` | Background image URL (parallax mode only) |
-| `--ab-bg-size` | Background size (parallax mode only) |
-| `--ab-bg-position` | Background position (parallax mode only) |
-| `--ab-bg-repeat` | Background repeat (parallax mode only) |
+| `--ab-sec-bg` | Background layer (color, gradient, or image URL) |
+| `--ab-sec-attach` | Background attachment |
+| `--ab-sec-overlay-bg` | Overlay layer (color or gradient string) |
+| `--ab-sec-overlay-opacity` | Overlay opacity (0–1) |
+| `--ab-sec-overlay-blend` | Overlay blend mode |
+| `--ab-sec-parallax` / `--ab-sec-parallax-speed` | Parallax flag and speed |
+| `--ab-sec-bs` / `--ab-sec-bc` / `--ab-sec-bw` | Border style, color, width (per-side as `--ab-sec-bw-top` etc.) |
+| `--ab-sec-radius` | Corner radius (per-corner variants also emitted) |
+| `--ab-sec-shadow` | Box shadow |
+| `--ab-sec-w` / `--ab-sec-mw` | Width and max width |
+| `--ab-sec-ta` | Content text alignment |
+| `--ab-sec-fd` / `--ab-sec-fw` / `--ab-sec-jc` / `--ab-sec-ai` | Flex direction, wrap, justify, align |
+| `--ab-sec-cols` | Grid column count |
+| `--ab-sec-gap` | Gap between children (flex and grid) |
+| `--axiom-blocks-section-min-h` | Minimum height |
+| `--axiom-blocks-section-justify` | Vertical content alignment |
+| `--axiom-blocks-section-align` | Horizontal content alignment |
+
+<Callout type="info">
+  Sections built before 1.0.6 keep working untouched. The block reads the older background and overlay attributes and maps them onto the current ones at render time, so existing pages need no edits.
+</Callout>

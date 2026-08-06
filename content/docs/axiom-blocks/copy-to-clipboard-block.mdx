@@ -1,8 +1,8 @@
 ---
 title: Copy to Clipboard
 category: Axiom Blocks
-updatedAt: 2026-05-15
-readTime: 3
+updatedAt: 2026-08-06
+readTime: 4
 prev:
   title: Countdown Timer
   slug: countdown-timer-block
@@ -19,8 +19,6 @@ Open the block inserter, switch to the **Axiom Blocks** category, and click **Co
 
 ## Content
 
-The **Content** panel opens by default and holds all the text settings.
-
 **Display Mode** controls the layout:
 
 | Mode | Output |
@@ -30,21 +28,18 @@ The **Content** panel opens by default and holds all the text settings.
 
 **Input + Button** is useful when you want visitors to see exactly what they're copying before they click. The input is always `readonly` — visitors cannot edit it.
 
-**Text to Copy** — the string sent to the clipboard when the button is clicked. Can be any value: a URL, a command, a coupon code, a license key.
-
-**Placeholder** — visible only in **Input + Button** mode. Sets the text shown in the input field when **Text to Copy** is empty.
-
-**Button Label** — text shown on the button before copying. Default `Copy`.
-
-**Copied Label** — text shown briefly after a successful copy. Default `Copied!`. The button reverts to the original label after 2 seconds.
+- **Text to Copy** — the string sent to the clipboard. Any value: a URL, a command, a coupon code, a license key.
+- **Placeholder** — visible only in Input + Button mode. Shown in the input when Text to Copy is empty.
+- **Button Label** — text on the button before copying. Default `Copy`.
+- **Copied Label** — text shown briefly after a successful copy. Default `Copied!`. The button reverts after 2 seconds.
 
 ## Icon
 
-**Show Icon** toggles the clipboard icon on the button. When enabled, **Icon Position** places it to the **Left** or **Right** of the label text. The icon automatically swaps to a checkmark when the copy succeeds and reverts when the button resets.
+**Show Icon** toggles the clipboard icon on the button. When enabled, **Icon Position** places it **Left** or **Right** of the label. The icon swaps to a checkmark when the copy succeeds and reverts when the button resets.
 
 ## Style
 
-**Alignment** — positions the button or input row within the block: **Left** (default), **Center**, or **Right**.
+**Alignment** positions the button or input row within the block: **Left** (default), **Center**, or **Right**. It's a per-device control — set it once for desktop and override it on tablet or mobile using the device switcher at the top of the control.
 
 **Button Style**:
 
@@ -53,28 +48,45 @@ The **Content** panel opens by default and holds all the text settings.
 | Filled | Solid background with contrasting text |
 | Outline | Transparent background with a border, text in the button color |
 
-**Button Color** — the fill color in Filled mode, or the border and text color in Outline mode. Default `#7c3aed`.
+## The sidebar at a glance
 
-**Text Color** — the label color in Filled mode only. Default `#ffffff`.
+The block sidebar is split into two tabs. **Settings** is what the block does; **Styles** is how it looks, organised by the parts you can see.
 
-**Success Color** — the background the button flashes on a successful copy. Default `#00a32a`. In Outline mode the border also switches to this color on success.
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Content** | Display mode, text to copy, placeholder, labels |
+| Settings | **Icon** | Show icon, icon position |
+| Settings | **Style** | Alignment, button style |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Button** | The copy button itself |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
 
-**Border Radius** — rounds the button (and input) corners. Default `4px`. Accepts any CSS value — e.g. `8px`, `50%`, `999px` for a pill.
+## Styling
 
-## Button typography
+| Part | Rows |
+|------|------|
+| **Button** | Button Color, Text Color, Copied background, Typography, Border, Radius, Shadow |
 
-Full control over font family, size, weight, line height, letter spacing, transform, and decoration for the button label text.
+- **Button Color** — the fill in Filled mode, or the border and text color in Outline mode. Default `#7c3aed`.
+- **Text Color** — the label color in Filled mode. Default `#ffffff`.
+- **Copied background** — the background the button flashes on a successful copy. Default `#00a32a`. In Outline mode the border switches to this color too.
+- **Typography** — family, size, weight, line height, letter spacing, transform, and decoration for the label.
+- **Border** — per-side width, style, and color.
+- **Radius** — per-corner rounding, up to 40 px.
+- **Shadow** — box shadow on the button.
 
-## Spacing
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
 
-Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+<Callout type="info">
+  Blocks saved before 1.0.6 may hold a free-form `borderRadius` string such as `999px` or `50%`. Those keep rendering exactly as before. The current Radius control is a numeric per-corner control capped at 40 px — to reproduce a pill button now, set all four corners to 40 px, or keep the original value by leaving the control untouched.
+</Callout>
 
 ## HTML output
 
 **Button-only mode:**
 
 ```html
-<div class="wp-block-axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard--align-left">
+<div class="axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard--align-left">
   <button
     class="axiom-blocks-copy-to-clipboard__button"
     type="button"
@@ -82,7 +94,7 @@ Per-side padding and margin on the outer wrapper. The block supports **Wide** an
     data-success="Copied!"
     data-original="Copy"
     data-copied-bg="#00a32a"
-    style="background-color: #7c3aed; color: #ffffff; border: none; border-radius: 4px; padding: 10px 20px; ..."
+    style="--ab-ctc-bg: #7c3aed; --ab-ctc-color: #ffffff; --ab-ctc-radius-tl: 4px; --ab-ctc-shadow: 0 1px 2px #0000001a;"
   >
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
@@ -93,36 +105,19 @@ Per-side padding and margin on the outer wrapper. The block supports **Wide** an
 </div>
 ```
 
-**Input + button mode:**
-
-```html
-<div class="wp-block-axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard axiom-blocks-copy-to-clipboard--align-left">
-  <div class="axiom-blocks-copy-to-clipboard__input-row">
-    <label for="axiom-blocks-ctc-input-1" class="screen-reader-text">Text to copy</label>
-    <input
-      type="text"
-      id="axiom-blocks-ctc-input-1"
-      value="npm install @axiom/blocks"
-      placeholder="Enter text to copy..."
-      readonly
-      class="axiom-blocks-copy-to-clipboard__input"
-      style="border-radius: 4px; font-size: 14px;"
-    />
-    <button
-      class="axiom-blocks-copy-to-clipboard__button"
-      type="button"
-      data-text="npm install @axiom/blocks"
-      data-success="Copied!"
-      data-original="Copy"
-      data-copied-bg="#00a32a"
-      style="..."
-    >
-      <span class="axiom-blocks-copy-to-clipboard__text">Copy</span>
-    </button>
-  </div>
-</div>
-```
+**Input + button mode** wraps both in `.axiom-blocks-copy-to-clipboard__input-row`, with a `screen-reader-text` label bound to the readonly `<input class="axiom-blocks-copy-to-clipboard__input">`. The button carries the same `data-*` attributes in either mode.
 
 <Callout type="info">
   The copy action uses the modern `navigator.clipboard` API on HTTPS and falls back to `document.execCommand('copy')` on HTTP or older browsers.
 </Callout>
+
+## CSS custom properties
+
+| Property | Controls |
+|----------|----------|
+| `--ab-ctc-bg` | Button background (Filled mode) |
+| `--ab-ctc-color` | Button label color |
+| `--ab-ctc-bs` / `--ab-ctc-bc` | Border style and color |
+| `--ab-ctc-bw-*` | Per-side border width (`top`, `right`, `bottom`, `left`) |
+| `--ab-ctc-radius-*` | Per-corner radius (`tl`, `tr`, `br`, `bl`); `--ab-ctc-radius` carries a legacy single value |
+| `--ab-ctc-shadow` | Button box shadow |

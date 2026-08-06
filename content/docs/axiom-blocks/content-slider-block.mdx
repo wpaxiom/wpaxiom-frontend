@@ -1,8 +1,8 @@
 ---
 title: Content Slider
 category: Axiom Blocks
-updatedAt: 2026-07-11
-readTime: 5
+updatedAt: 2026-08-06
+readTime: 6
 prev:
   title: Info Box
   slug: info-box-block
@@ -17,41 +17,75 @@ Content Slider turns **any blocks** into a slider or carousel — each slide is 
 
 Open the block inserter, switch to the **Axiom Blocks** category, and click **Content Slider** (hover it for a live preview). It drops in with a couple of starter slides. Select a slide and add whatever blocks you want inside it; use the block toolbar to add or remove slides.
 
-## Effects
+## Layout
 
-Pick a transition in the **Slider** panel:
+### Effect
 
-- **Slide** — the classic horizontal (or vertical) track.
-- **Fade** — slides cross-fade in place.
-- **Coverflow** — a 3D, depth-stacked carousel.
+- **Slide** — the classic horizontal (or vertical) track
+- **Fade** — slides cross-fade in place
+- **Coverflow** — a 3D, depth-stacked carousel
 
-Set **Orientation** to **Horizontal** or **Vertical** for the slide and coverflow effects.
+**Orientation** switches between Horizontal and Vertical for the slide and coverflow effects.
 
-## Slides per view & scrolling
+### Slides per view and scrolling
 
-- **Slides per view** — show one slide at a time or several side by side, set independently for **desktop**, **tablet**, and **mobile**.
-- **Slides to scroll** — how many slides advance per step.
-- **Gap** — the space between slides.
-- **Adaptive height** — the slider grows and shrinks to fit the current slide instead of using a fixed height.
+- **Slides per view** — one slide at a time or several side by side, set per device
+- **Slides to scroll** — how many slides advance per step
+- **Gap between slides** — space separating them
+- **Slider height** — a fixed height for the frame
+- **Adaptive height** — the slider grows and shrinks to fit the current slide instead of holding a fixed height
 
-## Autoplay
+<Callout type="info">
+  **Slider height** lives in Settings rather than Styles because it's coupled to vertical mode — a vertical slider needs a height to have anywhere to scroll.
+</Callout>
 
-Turn on **Autoplay** and set the **delay** between slides. Options include **Loop** (wrap around to the start), **Pause on hover**, and an optional **play/pause button** for accessibility. **Transition speed** controls how fast each slide animates.
+## Behaviour
+
+- **Autoplay** — with an **Autoplay delay**, **Pause on hover**, and an optional play/pause button for accessibility
+- **Loop** — wrap around from the last slide to the first
+- **Draggable / swipe** — pointer and touch dragging, on by default
+- **Transition speed** — how fast each slide animates
+- **Lightbox on click** — images inside slides open in a full-screen zoom view, with arrow-key and <kbd>Esc</kbd> navigation
 
 ## Navigation
 
-- **Arrows** — previous/next controls with an adjustable **offset** and their own **colour** and **background**.
-- **Pagination** — choose **dots**, a **fraction** (`2 / 6`), or a **progress bar**, with colour controls for the resting and active states.
-- **Drag & swipe** — pointer and touch dragging, on by default.
-- **Keyboard** — arrow keys move between slides when the slider is focused.
+- **Show arrows** — previous/next controls, with **Arrow side spacing** to push them in or out from the edge
+- **Show pagination** — choose **Dots**, a **Fraction** (`2 / 6`), or a **Progress bar**
+- **Spacing above pagination** — the gap between the slides and the pagination row
+- **Space between dots** — dot-to-dot spacing
 
-## Lightbox
+Arrow and dot colors live in **Styles**, not here.
 
-Enable **Lightbox** to make images inside slides open in a full-screen zoom view, with keyboard (arrow keys and <kbd>Esc</kbd>) navigation.
+## The sidebar at a glance
+
+The block sidebar is split into two tabs. **Settings** is what the slider does; **Styles** is how it looks, organised by the parts you can see.
+
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Layout** | Effect, orientation, slides per view, slides to scroll, gap, height, adaptive height |
+| Settings | **Behaviour** | Autoplay, loop, drag, transition speed, lightbox |
+| Settings | **Navigation** | Arrows, pagination style, spacing |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Container** | The slider frame |
+| Styles | **Arrows** | The previous/next buttons |
+| Styles | **Dots** | The pagination dots |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
 
 ## Styling
 
-Give the slider a fixed **height**, a **border** (colour, width, radius), and per-side **padding** and **margin**. Content Slider supports **Wide** and **Full** alignment plus an HTML anchor. Motion is disabled automatically when the visitor prefers reduced motion.
+Rows marked with a state selector carry extra states — pick the state at the top of the row and set a value for it.
+
+| Part | Rows |
+|------|------|
+| **Container** | Border, Radius, Shadow, Max width (per device) |
+| **Arrows** | Color, Background, Radius — Color and Background with **Normal / Hover** |
+| **Dots** | Color with **Normal / Active** |
+
+<Callout type="tip">
+  The **Active** state on Dots is what marks the current slide. Set Normal to a muted tone and Active to your accent color and the position indicator reads instantly.
+</Callout>
+
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor. Motion is disabled automatically when the visitor prefers reduced motion.
 
 <Callout type="tip">
   Building a testimonial or logo carousel? Set **Slides per view** higher on desktop and lower on mobile so it stays readable on small screens.
@@ -60,7 +94,21 @@ Give the slider a fixed **height**, a **border** (colour, width, radius), and pe
 ## HTML output
 
 ```html
-<div class="ab-slider ab-slider--slide" data-autoplay="1" data-loop="1">
+<div
+  class="ab-slider ab-slider--slide ab-slider--vertical"
+  style="--ab-slider-gap: 24px; --ab-slider-arrow-color: #ffffff; --ab-slider-arrow-bg: #111111; --ab-slider-dot-active: #7c3aed;"
+  data-effect="slide"
+  data-orientation="vertical"
+  data-per-view="3"
+  data-per-view-tablet="2"
+  data-per-view-mobile="1"
+  data-scroll="1"
+  data-pagination="bullets"
+  data-adaptive="1"
+  data-slide-speed="400"
+  data-autoplay="1"
+  data-loop="1"
+>
   <div class="ab-slider__viewport">
     <div class="ab-slider__track">
       <!-- each slide renders your inner blocks -->
@@ -70,4 +118,21 @@ Give the slider a fixed **height**, a **border** (colour, width, radius), and pe
 </div>
 ```
 
-The `ab-slider--slide|fade|coverflow` and `ab-slider--vertical` modifier classes drive the effect and orientation; behaviour is read from `data-*` attributes by the view script, and colours, gap, height, and border are `--ab-slider-*` custom properties on the wrapper. Each slide keeps its own inner-block markup.
+The `ab-slider--slide|fade|coverflow` and `ab-slider--vertical` modifier classes drive the effect and orientation; behavior is read from `data-*` attributes by the view script. Each slide keeps its own inner-block markup.
+
+## CSS custom properties
+
+| Property | Controls |
+|----------|----------|
+| `--ab-slider-gap` | Space between slides |
+| `--ab-slider-height` | Fixed slider height |
+| `--ab-slider-arrow-color` / `--ab-slider-arrow-bg` | Arrow color and background |
+| `--ab-slider-arrow-color-hover` / `--ab-slider-arrow-bg-hover` | Arrow hover state |
+| `--ab-slider-arrow-offset` | Arrow side spacing |
+| `--ab-slider-arrow-radius-*` | Arrow corner radius (`tl`, `tr`, `br`, `bl`) |
+| `--ab-slider-dot-color` / `--ab-slider-dot-active` | Dot resting and active color |
+| `--ab-slider-pagination-gap` | Space above the pagination row |
+| `--ab-slider-dot-gap` | Space between dots |
+| `--ab-slider-bs` / `--ab-slider-bc` / `--ab-slider-bw` | Container border style, color, width (per-side as `--ab-slider-bw-top` etc.) |
+| `--ab-slider-radius` | Container corner radius (per-corner variants also emitted) |
+| `--ab-slider-shadow` | Container box shadow |

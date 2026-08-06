@@ -1,7 +1,7 @@
 ---
 title: Device Visibility
 category: Axiom Blocks
-updatedAt: 2026-05-15
+updatedAt: 2026-08-06
 readTime: 3
 prev:
   title: Shape Divider
@@ -11,17 +11,27 @@ next:
   slug: reading-progress-bar-block
 ---
 
-Device Visibility is an inner blocks container that shows or hides its content at three breakpoints — desktop, tablet, and mobile. Drop any block inside it and control exactly which screen sizes see that content.
+Device Visibility is an inner blocks container that shows or hides its content at three breakpoints — desktop, tablet, and mobile. Drop any blocks inside it and control exactly which screen sizes see that content.
 
 ## How to add
 
 Open the block inserter, switch to the **Axiom Blocks** category, and click **Device Visibility**. The block drops in as an empty container visible on all devices. Add any inner blocks inside it — headings, images, columns, other Axiom blocks.
 
-The editor shows a label beneath the toolbar summarising the current visibility state: **Visible on all devices** when all three toggles are on, or a list of the active devices when some are off.
+The editor shows a label beneath the toolbar summarising the current state: **Visible on all devices** when all three toggles are on, or a list of the active devices when some are off.
+
+## Do you need this block?
+
+Every Axiom block now carries its own **Visibility** control in **Settings → Advanced** — you can hide an Advanced Section, a Counter, or a Pricing Table on mobile without wrapping it in anything.
+
+Reach for the Device Visibility block when you want to hide **a group of blocks together**, or blocks that aren't Axiom blocks — a core Image plus a core Paragraph plus a button, all hidden on mobile as one unit. For a single Axiom block, use its own Visibility control instead and skip the wrapper.
+
+<Callout type="info">
+  The two systems are deliberately independent. This block keeps its own **Show on…** toggles and is excluded from the universal visibility feature, so the controls never fight each other — and blocks saved before the universal control existed keep behaving exactly as they did.
+</Callout>
 
 ## Visibility settings
 
-The **Visibility Settings** panel is open by default and has one toggle per breakpoint:
+One toggle per breakpoint:
 
 | Toggle | Breakpoint |
 |--------|-----------|
@@ -32,16 +42,20 @@ The **Visibility Settings** panel is open by default and has one toggle per brea
 All three are on by default. Disable any combination to hide the inner content at that breakpoint.
 
 <Callout type="warning">
-  If you turn off all three toggles the editor shows a warning: **This block is hidden on all devices.** The wrapper is still rendered in the HTML with `display: none` so the content is completely invisible — but it still exists in the DOM.
+  If you turn off all three toggles the editor shows a warning: **This block is hidden on all devices.** The wrapper still renders with `display: none`, so the content is completely invisible — but it still exists in the DOM and is still downloaded. Don't use it to hide sensitive content.
 </Callout>
 
 ## Spacing
 
 Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
 
+<Callout type="info">
+  Device Visibility is a utility container, so it has no **Styles** tab — there's nothing to style but the box itself. Its sidebar is the visibility toggles plus Spacing.
+</Callout>
+
 ## HTML output
 
-Hiding a device adds a modifier class to the wrapper. The block's stylesheet uses media queries to apply `display: none` at the corresponding breakpoint.
+Hiding a device adds a modifier class to the wrapper. The block's stylesheet uses media queries to apply `display: none` at the matching breakpoint.
 
 ```html
 <!-- Visible on desktop and tablet, hidden on mobile -->
@@ -66,3 +80,7 @@ When **all three** toggles are off, the block renders with an inline `display: n
 ```
 
 When a device toggle is **on**, no modifier class is added for that breakpoint — the default state is visible.
+
+<Callout type="info">
+  The universal control on other Axiom blocks uses a different class prefix — `.ab-hide-desktop`, `.ab-hide-tablet`, `.ab-hide-mobile` — applied to the block's own wrapper. If you're writing CSS against hidden blocks, check which of the two you're targeting.
+</Callout>

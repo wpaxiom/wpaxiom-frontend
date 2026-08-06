@@ -1,7 +1,7 @@
 ---
 title: Info Box
 category: Axiom Blocks
-updatedAt: 2026-06-19
+updatedAt: 2026-08-06
 readTime: 4
 prev:
   title: Testimonials
@@ -37,20 +37,34 @@ The **Gap between items** control (in the **Layout** panel) sets a single, consi
 - **Direction** — **Stack** (vertical) for classic feature cards, or **Row** (horizontal) to put the icon beside the text.
 - **Alignment** — align the contents **Left**, **Center**, or **Right** (in row mode this controls vertical alignment).
 
-## Styles
+## The sidebar at a glance
 
-Pick a predefined look from the block's **Styles** panel to start from a polished base:
+The block sidebar is split into two tabs. **Settings** is what the box does; **Styles** is how it looks.
 
-- **Default** — no box chrome.
-- **Bordered** — a light hairline border.
-- **Card** — white background with a soft shadow and rounded corners.
-- **Accent** — a tinted background with a colored left border.
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Layout** | Direction, icon position, alignment, gap, link |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Card** | The box itself |
+| Styles | **Icon** | The leading icon |
+| Styles | **Spacing** | Padding and margin |
 
-Styles just set sensible defaults — anything you then change in the **Box** panel still wins.
+## Styling the card
 
-## Box
+**Styles → Card** holds everything about the box:
 
-Style the box itself with a **background** color, **border** color and width, **corner radius**, and a **shadow** preset (**None**, **Small**, **Medium**, or **Large**). Per-side **padding** and **margin** are available, and Info Box supports **Wide** and **Full** alignment plus an HTML anchor.
+| Row | What it does |
+|-----|--------------|
+| Background | Solid color, gradient, or image with an overlay |
+| Border | Per-side width, style, and color |
+| Radius | Per-corner rounding |
+| Shadow | Preset or custom shadow |
+| Max width | Per device |
+| Min height | Per device |
+
+**Styles → Icon** sets the icon color and size. The heading, text, and button inside the box are ordinary blocks, so each carries its own styling — there is no separate typography panel here.
+
+Info Box supports **Wide** and **Full** alignment plus an HTML anchor.
 
 <Callout type="tip">
   Building a feature grid? Style one Info Box exactly how you want it, then duplicate it across your columns so every card matches.

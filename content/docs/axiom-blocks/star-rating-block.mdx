@@ -1,8 +1,8 @@
 ---
 title: Star Rating
 category: Axiom Blocks
-updatedAt: 2026-05-15
-readTime: 3
+updatedAt: 2026-08-06
+readTime: 4
 prev:
   title: Copy to Clipboard
   slug: copy-to-clipboard-block
@@ -19,8 +19,6 @@ Open the block inserter, switch to the **Axiom Blocks** category, and click **St
 
 ## Rating
 
-The **Rating** panel is open by default.
-
 **Precision** controls how finely the rating value is snapped:
 
 | Option | Behavior |
@@ -29,49 +27,67 @@ The **Rating** panel is open by default.
 | Half stars | Rounds to the nearest 0.5 |
 | Any fraction | Uses the exact value with no rounding |
 
-**Rating** — the value to display. The slider range is 0 to the current **Max Stars** value. The step size follows the Precision setting: 1 for Full, 0.5 for Half, 0.1 for Any.
+**Rating** — the value to display. The slider runs from 0 to the current **Max Stars**, and its step follows Precision: 1 for Full, 0.5 for Half, 0.1 for Any.
 
 **Max Stars** — the total number of stars in the row. Range 3–10, default 5.
 
 ## Labels
 
-**Show numeric value** — displays the rating number alongside the stars (e.g. `4.5`). Full-star precision shows no decimal; Half and Any show one decimal place.
+**Show numeric value** displays the rating number alongside the stars (e.g. `4.5`). Full-star precision shows no decimal; Half and Any show one decimal place.
 
-**Show review count** — displays the review count in parentheses after the numeric value (e.g. `(1,234 reviews)`). Enabling this reveals two additional fields:
+**Show review count** displays the count in parentheses after the value (e.g. `(1,234 reviews)`) and reveals two more fields:
 
-- **Review count** — the number to display. Formatted with locale-aware thousands separators on the frontend.
-- **Count label** — the word after the number. Default `reviews`. Change it to `ratings`, `opinions`, or any other label.
+- **Review count** — the number to display, formatted with locale-aware thousands separators on the frontend
+- **Count label** — the word after the number. Default `reviews`; change it to `ratings`, `opinions`, or anything else.
 
 <Callout type="info">
-  The numeric value and review count share a single meta line below the stars. Both can be shown together or independently.
+  The numeric value and review count share a single meta line below the stars. Both can be shown together or independently — and the whole line is omitted from the markup when both are off.
 </Callout>
 
-## Style
+## Layout
 
-**Alignment** — positions the star row (and meta line) within the block: **Left** (default), **Center**, or **Right**.
+**Alignment** positions the star row and meta line: **Left** (default), **Center**, or **Right**. It's a per-device control, so a centered rating on a desktop card can align left on mobile.
 
-**Star size** — the width and height of each star SVG. Default `20px`. Accepts any CSS length — e.g. `24px`, `1.5rem`.
+## The sidebar at a glance
 
-**Filled color** — the color of the filled portion of the stars. Default `#fbbf24` (amber).
+The block sidebar is split into two tabs. **Settings** is what the rating says; **Styles** is how it looks, organised by the parts you can see.
 
-**Empty color** — the color of the unfilled portion. Default `#e5e7eb` (light grey).
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Rating** | Precision, rating value, max stars |
+| Settings | **Labels** | Show value, show count, count text |
+| Settings | **Layout** | Alignment |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Stars** | The star row |
+| Styles | **Labels** | The value and count text |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
 
-**Text color** — the color of the numeric value and review count text. Default `#4b5563`. Only appears in the sidebar when **Show numeric value** or **Show review count** is enabled.
+## Styling
 
-## Meta typography
+| Part | Rows |
+|------|------|
+| **Stars** | Filled, Empty, Size (per device) |
+| **Labels** | Text, Typography |
 
-Full control over font family, size, weight, line height, letter spacing, transform, and decoration for the value and count text. Only appears in the sidebar when at least one of the label toggles is on.
+- **Filled** is the color of the filled portion. Default `#fbbf24` (amber).
+- **Empty** is the unfilled remainder. Default `#e5e7eb` (light grey).
+- **Size** is the width and height of each star, 10–80 px and per-device.
+- **Text** and **Typography** style the value and count line. Default text color `#4b5563`.
 
-## Spacing
+<Callout type="info">
+  The **Labels** part appears only when **Show numeric value** or **Show review count** is on. With both off there's no meta line to style, so the whole section is hidden rather than left as dead controls.
+</Callout>
 
-Per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment from the toolbar.
+The block supports **Wide** and **Full** alignment from the toolbar and an HTML anchor.
+
+<Callout type="info">
+  Ratings saved before 1.0.6 may hold a free-form star size such as `1.5rem`. Those keep rendering as before; the current Size control is a pixel range capped at 80 px.
+</Callout>
 
 ## HTML output
 
 ```html
-<div
-  class="wp-block-axiom-blocks-star-rating axiom-blocks-star-rating axiom-blocks-star-rating--align-left"
->
+<div class="axiom-blocks-star-rating axiom-blocks-star-rating--align-left">
   <div
     class="axiom-blocks-star-rating__stars"
     role="img"
@@ -97,4 +113,6 @@ Per-side padding and margin on the outer wrapper. The block supports **Wide** an
 </div>
 ```
 
-The star fill works by overlaying two identical rows of stars — one in the empty color, one in the filled color — and clipping the filled row to `width: {fillPercent}%`. A 4.5 out of 5 rating clips to `90%`.
+The star fill works by overlaying two identical rows — one in the empty color, one in the filled color — and clipping the filled row to `width: {fillPercent}%`. A 4.5 out of 5 rating clips to `90%`, which is what lets **Any fraction** precision render an exact 4.3 without a special half-star glyph.
+
+Per-device alignment and star size are emitted as scoped media-query rules — `justify-content` on the wrapper, `width` and `height` on the star SVGs — so the inline values above are always the desktop ones.

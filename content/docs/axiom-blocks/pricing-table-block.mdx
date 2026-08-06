@@ -1,7 +1,7 @@
 ---
 title: Pricing Table
 category: Axiom Blocks
-updatedAt: 2026-05-15
+updatedAt: 2026-08-06
 readTime: 6
 prev:
   title: Tabs
@@ -11,7 +11,7 @@ next:
   slug: advanced-section-block
 ---
 
-The Pricing Table block is a parent–child pair: the **Pricing Table** wrapper manages the grid layout, accent color, and card style, while each **Pricing Plan** card holds its own name, price, features, and CTA. Both blocks are server-side rendered. The block drops in with three pre-filled plans — Starter, Pro (highlighted), and Business — so you have a working layout to edit immediately.
+The Pricing Table block is a parent–child pair: the **Pricing Table** wrapper manages the grid layout, the accent color, and the card styling shared by every plan, while each **Pricing Plan** card holds its own name, price, features, and CTA. Both blocks are server-side rendered. The block drops in with three pre-filled plans — Starter, Pro (highlighted), and Business — so you have a working layout to edit immediately.
 
 ## How to add
 
@@ -60,26 +60,36 @@ Enable **Mark as recommended** in the **Plan** sidebar panel to highlight that c
 
 ## Table settings
 
-Select the outer Pricing Table block to access grid and style settings.
+Select the outer Pricing Table block to reach the table-wide settings. The sidebar is split into two tabs — **Settings** for what the table does, **Styles** for how it looks, organised by part.
+
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Layout** | Columns, gap, feature icon style |
+| Settings | **Heading** | Show heading, heading text |
+| Settings | **Features** | Feature list management |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Heading** | Section heading color and typography |
+| Styles | **Accent** | The highlight color for the recommended plan |
+| Styles | **Cards** | Card defaults for every plan, plus a Featured tab |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
 
 ### Columns & gap
 
 **Columns** (1–4) sets how many plan cards appear per row. **Gap** (in px) controls the spacing between cards. On small screens the cards stack to a single column automatically.
 
-### Card style
+### Cards
 
-Four card style presets control the visual treatment of every plan card in the table.
+**Styles → Cards** sets the look of every plan card in the table: background (solid or gradient), border, radius, shadow, padding, and minimum height. A **Featured** tab within the section holds the overrides applied to the recommended plan, so the highlighted card can differ without styling it separately.
 
-| Preset | Appearance |
-|--------|------------|
-| Bordered | Subtle border around each card, no shadow |
-| Flat | No border or shadow — suits layered or colored section backgrounds |
-| Shadow | Drop shadow with no border — lifts cards off the background |
-| Minimal | Border and background stripped away — cards sit flush |
+These are the table-wide defaults. An individual Pricing Plan can override any of them from its own **Styles → Card** section — set it once here, and only reach for the per-plan override when one card genuinely differs.
+
+<Callout type="warning">
+  **Changed in 1.0.6** — the **Card style** presets (Bordered, Filled, Minimal) were removed. Card styling now comes from the rows above, which means you can adjust it rather than picking the nearest preset. Tables using **Bordered** are unchanged — that look is now the shipped default. Tables using **Filled** or **Minimal** revert to the Bordered look and need restyling from Styles → Cards. The `is-card-<style>` wrapper class is no longer output, so remove any theme CSS targeting it.
+</Callout>
 
 ### Accent color
 
-The **Accent color** drives the highlight treatment on the recommended plan card — the border, badge background, and CTA button all inherit this color. Default is `#7C3AED`. Set it once and every `is-highlight` card updates.
+**Styles → Accent** drives the highlight treatment on the recommended plan card — the border, badge background, and CTA button all inherit this color. Default is `#7C3AED`. Set it once and every `is-highlight` card updates.
 
 ### Feature icon style
 
@@ -94,15 +104,15 @@ Use **Dot** when you don't want to show excluded items as negatives — both sta
 
 ### Section heading
 
-Enable **Show heading** to render a title above the plan grid. Edit the heading text in the sidebar. Alignment (Left, Center, Right) and full typography controls are available under **Heading typography**.
+Enable **Show heading** in **Settings → Heading** to render a title above the plan grid, and edit the heading text there. Its color and full typography live in **Styles → Heading**.
 
 ## Typography
 
-Each text element in a Pricing Plan card has its own independent typography panel inside **Typography** in the plan sidebar: **Plan name**, **Price**, **Description**, **Features**, and **Button**. The section heading typography is controlled from the parent Pricing Table block.
+Each text element in a Pricing Plan card has its own section in the plan's **Styles** tab, each with a typography row: **Plan name**, **Price**, **Description**, **Features**, and **Button**. Grouping them by part means you style the price where you style the price, rather than hunting through one combined typography panel. The section heading is styled from the parent Pricing Table block.
 
 ## Spacing & alignment
 
-**Spacing** sets per-side padding and margin on the outer Pricing Table wrapper. The block supports **Wide** and **Full** alignment from the toolbar to break out of the content column.
+**Styles → Spacing** sets per-side padding and margin on the outer Pricing Table wrapper. The block supports **Wide** and **Full** alignment from the toolbar to break out of the content column.
 
 ## HTML output
 
@@ -110,7 +120,7 @@ The Pricing Table renders a wrapper with the grid inside it. Each plan renders a
 
 ```html
 <div
-  class="wp-block-axiom-blocks-pricing-table axiom-blocks-pricing-table is-card-bordered is-feat-check"
+  class="axiom-blocks-pricing-table is-feat-check"
   style="--ab-pt-columns: 3; --ab-pt-gap: 24px; --ab-pt-accent: #7C3AED;"
 >
   <div class="axiom-blocks-pricing-table__grid">
@@ -152,3 +162,14 @@ These are set on the outer `.axiom-blocks-pricing-table` wrapper. Target them fr
 | `--ab-pt-columns` | Number of columns in the plan grid |
 | `--ab-pt-gap` | Gap between plan cards |
 | `--ab-pt-accent` | Accent color for highlighted plan card |
+
+The Styles rows emit a finer-grained set, named `--ab-pt-<part>-<property>`:
+
+| Prefix | Part |
+|--------|------|
+| `--ab-pt-card-*` | Plan card — `bg`, `bc`, `bs`, `bw-*`, `radius-*`, `p*`, `shadow`, `gap` |
+| `--ab-pt-badge-*` | Recommended badge — `bg`, `color`, `bc`, `bw-*`, `radius-*`, `p*` |
+| `--ab-pt-cta-*` | Call-to-action button — including `shadow` and `shadow-h` for hover |
+| `--ab-pt-name-color`, `--ab-pt-price-color`, `--ab-pt-desc-color`, `--ab-pt-feat-color` | Per-part text colors |
+| `--ab-pt-feat-icon*` | Feature icons — color, excluded color, size, gap |
+| `--ab-pt-heading-color`, `--ab-pt-heading-gap` | Section heading |

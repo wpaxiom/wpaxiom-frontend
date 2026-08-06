@@ -1,7 +1,7 @@
 ---
 title: Advanced Button
 category: Axiom Blocks
-updatedAt: 2026-06-12
+updatedAt: 2026-08-06
 readTime: 4
 prev:
   title: Advanced Heading
@@ -38,21 +38,45 @@ Open the block inserter, switch to the **Axiom Blocks** category, and click **Ad
 - **Size** and **Gap** — the icon size and the space between icon and text.
 - **Icon only** — hides the label visually and uses it as the `aria-label`, giving a compact square button.
 
+## The sidebar at a glance
+
+The block sidebar is split into two tabs. **Settings** is what the button does; **Styles** is how it looks.
+
+| Tab | Section | Covers |
+|-----|---------|--------|
+| Settings | **Button** | Label text, width preset |
+| Settings | **Link** | URL, open in new tab, rel |
+| Settings | **Icon** | Icon picker, position |
+| Settings | **Advanced** | Visibility, Position, anchor, CSS class |
+| Styles | **Button** | Everything visual, with Normal / Hover states |
+| Styles | **Spacing** | Padding and margin on the outer wrapper |
+
 ## Presets
 
-**Style preset** — **Fill**, **Outline**, **Ghost**, and similar starting points. **Size preset** — small, medium, or large padding and font scaling. Presets set sensible defaults that the color, border, and typography panels below can override.
+**Style preset** — **Fill**, **Outline**, and **Text** starting points. **Size preset** — small, medium, or large padding and font scaling. Presets set sensible defaults that the Styles rows override.
 
-## Colors & border
+## Styling the button
 
-Base and hover values for **text**, **background**, and **border** colors, plus **border width/style/radius**. A **hover effect** (grow, sweep, etc.) and **shadow** / **hover shadow** presets round out the interaction styling.
+**Styles → Button** carries the whole stack. Text, background, and border each have **Normal / Hover** states — pick the state at the top of the row.
+
+| Row | What it does |
+|-----|--------------|
+| Text | Label color, per state |
+| Background | Solid color or gradient, per state |
+| Typography | Family, weight, size, line height, letter spacing, transform, decoration |
+| Border | Per-side width, style, and color, per state |
+| Radius | Per-corner rounding |
+| Shadow | Shadow and hover shadow |
+| Width | Width and min-width, per device |
+| Hover effect | Grow, shrink, float, sink, pulse, or shine |
 
 <Callout type="info">
-  Colors are applied as CSS custom properties (`--ab-advbtn-bg`, `--ab-advbtn-h-bg`, …), so the hover state is pure CSS — no JavaScript and no layout shift.
+  Colors are applied as CSS custom properties (`--ab-advbtn-bg`, `--ab-advbtn-h-bg`, …), so the hover state is pure CSS — no JavaScript.
 </Callout>
 
-## Typography & spacing
+## Spacing
 
-Full typography panel (family, weight, size, line height, letter spacing, transform, decoration, alignment) and per-side padding and margin. The block supports **Wide** and **Full** alignment and an HTML anchor.
+**Styles → Spacing** sets per-side padding and margin on the outer wrapper. The block supports **Wide** and **Full** alignment and an HTML anchor.
 
 ## Arranging multiple buttons
 

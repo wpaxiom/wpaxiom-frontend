@@ -17,9 +17,31 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'axiom-blocks',
+    version: '1.0.6',
+    date: '2026-08-06',
+    latest: true,
+    summary: 'Every block’s settings redesigned around the parts you can see — with hover states and a consistent styling stack',
+    changes: [
+      { type: 'Improved', text: 'Redesigned block settings across every block. Each block’s sidebar is now split into Settings (what the block does) and Styles (how it looks), and the Styles tab is organised by the parts you can see — a Tab, a Card, an Icon, a Heading — instead of one long list of options. Border, shadow, and typography open in focused popovers, and each row shows its current value at a glance' },
+      { type: 'Added', text: 'Normal / Hover / Active states on styleable parts — hover colors, backgrounds, and borders are now real controls rather than something baked into a preset' },
+      { type: 'Added', text: 'A consistent styling stack on every part: colors, background (including gradients), border, radius, shadow, padding, size, and gap, with per-device values where it makes sense. Many parts that previously offered only a color now offer the full set' },
+      { type: 'Improved', text: 'Every style control now shows the block’s actual shipped default instead of “None”, so resetting returns you to the original look rather than clearing the style' },
+      { type: 'Removed', text: 'Tabs “Tab style” presets (Default / Pills / Underline / Boxed). Every look they produced is now built from the Styles rows on the Tab bar, Tab, and Panel parts. Existing tabs are converted once into those rows, so the design is preserved and now fully editable' },
+      { type: 'Removed', text: 'Pricing Table “Card style” presets (Bordered / Filled / Minimal). Card styling now comes from the Styles → Cards rows, with a Featured tab for the highlighted plan. Tables using Filled or Minimal revert to the Bordered look and need restyling' },
+      { type: 'Added', text: 'Tabs — Tab padding, Tab shadow, and per-state Tab border controls, a “Tab bar fits content” layout option, a fully-round radius range, and separate gap controls for tab-to-tab spacing, icon-to-label spacing, and the gap between the tab bar and the panel' },
+      { type: 'Improved', text: 'Trust Badges — the “Card background” and “Card border” toggles are gone; both are now ordinary Styles rows on the Card part. Existing badges keep their appearance' },
+      { type: 'Added', text: 'Reading Progress Bar — the fill accepts a gradient, and the block now supports HTML anchors' },
+      { type: 'Improved', text: 'Testimonials — avatar/monogram size and weight moved to the block’s Monogram part, so one setting styles every card' },
+      { type: 'Fixed', text: 'Advanced Button — outline-style buttons flickered on hover and showed the wrong border width, because the button changed size between its normal and hover states and shifted the layout out from under the pointer' },
+      { type: 'Fixed', text: 'Reading Progress Bar dropped a custom CSS class added in the editor' },
+      { type: 'Fixed', text: 'Table of Contents ignored per-device typography settings' },
+      { type: 'Fixed', text: 'Border controls read “None” when a block’s shipped border applies to only one side' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
     version: '1.0.5',
     date: '2026-07-11',
-    latest: true,
     summary: 'Two new blocks — Content Slider and Table of Contents — and a redesigned colour picker',
     changes: [
       { type: 'Added', text: 'Content Slider block — a slider/carousel that holds any blocks per slide, with slide, fade, and coverflow effects, autoplay with loop and pause-on-hover, arrows and pagination (dots, fraction, or progress bar), drag and swipe, keyboard control, vertical orientation, responsive slides-per-view for desktop/tablet/mobile, adaptive height, and an optional click-to-zoom lightbox' },
