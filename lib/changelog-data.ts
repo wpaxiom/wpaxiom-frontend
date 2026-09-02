@@ -16,10 +16,34 @@ export type ChangelogEntry = {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    plugin: 'specifico',
+    version: '1.0.6',
+    date: '2026-08-31',
+    latest: true,
+    summary: 'Specification Table block for the block editor, plus full uninstall cleanup',
+    changes: [
+      { type: 'Added', text: 'Specification Table Gutenberg block - place any saved table or the current product\'s table on any post or page straight from the block editor, with a source selector for the current product or a specific table' },
+      { type: 'Improved', text: 'Full uninstall cleanup - deactivating still keeps all your data, but uninstalling the plugin now deletes its options, transients, specification tables and groups, and per-product specification data from the database' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
+    version: '1.0.7',
+    date: '2026-08-30',
+    latest: true,
+    summary: 'New Post Grid block — your posts in a grid or list, built from card blocks you arrange and style individually',
+    changes: [
+      { type: 'Added', text: 'Post Grid block — show your posts in a grid or list, with each card built from Post Image, Post Terms, Post Title, Post Meta, Post Excerpt, and Post Read More blocks that you arrange and style individually. Query by post type, taxonomy, or author, order by date, title, comment count, or random, skip or exclude posts, and choose how sticky posts are handled' },
+      { type: 'Added', text: 'Numbered or Load more pagination — both work even with JavaScript disabled. Load more is a real link to the next page and falls back to it if the request fails' },
+      { type: 'Added', text: 'Featured card — an optional second card template for the first or a chosen post, carrying its own padding, radius, and typography rather than only a different color' },
+      { type: 'Added', text: 'A fallback image for posts with no featured image, read time, per-field labels on the meta row, an option to exclude the post currently being viewed, and an editable no-results message' },
+      { type: 'Added', text: 'The per-item card blocks (Post Image, Post Terms, Post Title, Post Meta, Post Excerpt, Post Read More) also work inside the core Query Loop block' },
+    ],
+  },
+  {
     plugin: 'axiom-blocks',
     version: '1.0.6',
     date: '2026-08-06',
-    latest: true,
     summary: 'Every block’s settings redesigned around the parts you can see — with hover states and a consistent styling stack',
     changes: [
       { type: 'Improved', text: 'Redesigned block settings across every block. Each block’s sidebar is now split into Settings (what the block does) and Styles (how it looks), and the Styles tab is organised by the parts you can see — a Tab, a Card, an Icon, a Heading — instead of one long list of options. Border, shadow, and typography open in focused popovers, and each row shows its current value at a glance' },
@@ -133,7 +157,6 @@ export const CHANGELOG: ChangelogEntry[] = [
     plugin: 'specifico',
     version: '1.0.5',
     date: '2026-07-07',
-    latest: true,
     summary: 'Side-by-side product comparison, custom table and button styling, and full localization',
     changes: [
       { type: 'Added', text: 'Product comparison — shoppers add products to a compare tray and view their specification tables side by side in a slide-in drawer, with differing rows highlighted. Compared specs reuse the same mapping resolution as the Specifications tab, so what shoppers compare always matches what each product shows' },
