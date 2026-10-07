@@ -73,7 +73,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://api.wpaxiom.com" />
         <link rel="describedby" href="/llms.txt" type="text/markdown" />
       </head>
       <body className="min-h-screen bg-base text-ink antialiased font-sans" suppressHydrationWarning>
@@ -82,16 +81,45 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-          strategy="afterInteractive"
-        />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${googleAnalyticsId}', { anonymize_ip: true });
+            (function () {
+              var loaded = false;
+              var events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+
+              function loadGoogleAnalytics() {
+                if (loaded) return;
+                loaded = true;
+                events.forEach(function (eventName) {
+                  window.removeEventListener(eventName, loadGoogleAnalytics);
+                });
+
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = window.gtag || function () {
+                  window.dataLayer.push(arguments);
+                };
+
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}';
+                document.head.appendChild(script);
+
+                window.gtag('js', new Date());
+                window.gtag('config', '${googleAnalyticsId}', { anonymize_ip: true });
+              }
+
+              events.forEach(function (eventName) {
+                window.addEventListener(eventName, loadGoogleAnalytics, { once: true, passive: true });
+              });
+
+              window.setTimeout(function () {
+                if ('requestIdleCallback' in window) {
+                  window.requestIdleCallback(loadGoogleAnalytics, { timeout: 2000 });
+                } else {
+                  loadGoogleAnalytics();
+                }
+              }, 5000);
+            })();
           `}
         </Script>
         <SpeedInsights />
