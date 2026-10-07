@@ -7,6 +7,7 @@ import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm";
 export const metadata: Metadata = {
   title: "Reset password — wpaxiom",
   description: "Set a new password for your wpaxiom account.",
+  robots: { index: false, follow: false },
 };
 
 export default function ResetPasswordPage() {

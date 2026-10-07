@@ -5,6 +5,7 @@ import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { JsonLd } from "@/components/seo/JsonLd";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,6 +17,40 @@ export const metadata: Metadata = {
     icon: "/logo-icon.svg",
     apple: "/logo-icon.svg",
   },
+  alternates: {
+    types: {
+      "application/rss+xml": "https://wpaxiom.com/changelog.xml",
+    },
+  },
+};
+
+const siteSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://wpaxiom.com/#organization",
+      name: "wpaxiom",
+      url: "https://wpaxiom.com",
+      logo: "https://wpaxiom.com/logo-icon.svg",
+      email: "support@wpaxiom.com",
+      sameAs: [
+        "https://github.com/wpaxiom",
+        "https://profiles.wordpress.org/wpaxiom/",
+        "https://twitter.com/wpaxiom",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://wpaxiom.com/#website",
+      url: "https://wpaxiom.com",
+      name: "wpaxiom",
+      description:
+        "Tightly-scoped WordPress plugins for developers who care about performance, maintainability, and accessibility.",
+      publisher: { "@id": "https://wpaxiom.com/#organization" },
+      inLanguage: "en",
+    },
+  ],
 };
 
 const themeInitScript = `
@@ -38,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://api.wpaxiom.com" />
       </head>
       <body className="min-h-screen bg-base text-ink antialiased font-sans" suppressHydrationWarning>
+        <JsonLd data={siteSchema} />
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <Navbar />
         <main>{children}</main>

@@ -10,7 +10,7 @@ const ITEMS: FAQItem[] = [
   {
     question: "What blocks are included?",
     answer:
-      "Tabs, accordion, countdown timer, before/after slider, pricing table, star rating, shape divider, device visibility, reading progress bar, trust badges, free shipping progress, and copy-to-clipboard — 12 blocks in total.",
+      "Axiom Blocks includes layout, content, conversion, accessibility, and WooCommerce blocks — including Post Grid, Content Slider, Table of Contents, Accordion, Testimonials, Pricing Table, Advanced Section, and more. See the documentation for the current complete list.",
     defaultOpen: true,
   },
   {

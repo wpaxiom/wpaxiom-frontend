@@ -7,6 +7,7 @@ import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
 export const metadata: Metadata = {
   title: "Reset password — wpaxiom",
   description: "Send yourself a password reset link by email.",
+  robots: { index: false, follow: false },
 };
 
 export default function ForgotPasswordPage() {

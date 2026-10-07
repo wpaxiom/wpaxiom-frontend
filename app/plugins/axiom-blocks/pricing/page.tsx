@@ -4,11 +4,18 @@
 //   export default function PricingPage() { redirect("/plugins/axiom-blocks"); }
 
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import { getProductBySlug, getProductVariations } from "@/lib/wp-api";
 import { buildMatrix } from "@/lib/pricing";
 import { PricingCheckoutTest } from "@/components/plugin/axiom-blocks/pricing/PricingCheckoutTest";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Axiom Blocks Pro pricing — wpaxiom",
+  description: "Choose an Axiom Blocks Pro license.",
+  robots: { index: false, follow: false },
+};
 
 export default async function PricingPage() {
   const product = await getProductBySlug("axiom-blocks");

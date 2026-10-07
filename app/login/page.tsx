@@ -8,6 +8,7 @@ import { LoginForm } from "@/components/auth/LoginForm";
 export const metadata: Metadata = {
   title: "Sign in — wpaxiom",
   description: "Sign in to your wpaxiom account to manage licenses, subscriptions, and downloads.",
+  robots: { index: false, follow: false },
 };
 
 export default function LoginPage() {

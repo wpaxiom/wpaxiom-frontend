@@ -58,8 +58,17 @@ export async function getPost(slug: string): Promise<WPPost | null> {
 }
 
 export async function getPostSlugs(): Promise<string[]> {
-  const posts = await wpFetch<WPPost[]>(`/wp/v2/posts?per_page=100&fields=slug,status&status=publish`)
+  const posts = await wpFetch<WPPost[]>(`/wp/v2/posts?per_page=100&_fields=slug,status&status=publish`)
   return posts.filter((p) => p.status === 'publish').map((p) => p.slug)
+}
+
+export async function getPostSitemapEntries(): Promise<Array<{ slug: string; modified: string }>> {
+  const posts = await wpFetch<Array<Pick<WPPost, 'slug' | 'status' | 'modified'>>>(
+    `/wp/v2/posts?per_page=100&_fields=slug,status,modified&status=publish`
+  )
+  return posts
+    .filter((post) => post.status === 'publish')
+    .map(({ slug, modified }) => ({ slug, modified }))
 }
 
 export function getPostCategory(post: WPPost): string {

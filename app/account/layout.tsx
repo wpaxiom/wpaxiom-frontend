@@ -1,7 +1,16 @@
 import { createHash } from "crypto";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { auth, signOut } from "@/lib/auth";
 import { AccountSidebar, AccountTabBar } from "@/components/account/AccountSidebar";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
 
 function initialsFrom(name: string | null | undefined, email: string | null | undefined): string {
   if (name && name.trim().length > 0) {
@@ -48,4 +57,3 @@ export default async function AccountLayout({ children }: { children: React.Reac
     </div>
   );
 }
-
