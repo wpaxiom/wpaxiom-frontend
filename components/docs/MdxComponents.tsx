@@ -3,11 +3,13 @@ import { Callout } from './Callout'
 import { CodeBlock } from './CodeBlock'
 import { Figure } from './Figure'
 import { ContactCta } from './ContactCta'
+import { VideoTutorial } from './VideoTutorial'
 
 export const mdxComponents: MDXComponents = {
   Callout,
   Figure,
   ContactCta,
+  VideoTutorial,
   pre: ({ children, ...props }) => {
     const child = children as React.ReactElement<{ className?: string; children?: React.ReactNode }>
     const className = child?.props?.className ?? ''

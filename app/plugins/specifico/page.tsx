@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { PLUGINS } from "@/lib/plugins";
 import { PLUGIN_PAGE_DATA } from "@/lib/plugin-page-data";
 import { getWpOrgStats } from "@/lib/wp-org";
@@ -6,21 +5,45 @@ import { Breadcrumb } from "@/components/plugin/Breadcrumb";
 import { PluginHero } from "@/components/plugin/PluginHero";
 import { FeatureGrid } from "@/components/plugin/FeatureGrid";
 import { PluginFAQ } from "@/components/plugin/PluginFAQ";
-import { PluginTestimonials } from "@/components/plugin/PluginTestimonials";
 import { FreePluginSupportCTA } from "@/components/plugin/FreePluginSupportCTA";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  faqJsonLd,
+  softwareApplicationJsonLd,
+} from "@/lib/seo";
 
 export const revalidate = 3600;
 
 const plugin = PLUGINS.find((p) => p.slug === "specifico")!;
 const data = PLUGIN_PAGE_DATA.specifico;
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: `${plugin.name} — wpaxiom`,
   description: plugin.tagline,
-};
+  path: "/plugins/specifico",
+});
 
 export default async function SpecificoPage() {
   const stats = await getWpOrgStats(plugin.slug);
+  const structuredData = [
+    softwareApplicationJsonLd({
+      name: plugin.name,
+      description: plugin.tagline,
+      path: "/plugins/specifico",
+      downloadUrl: plugin.wpOrgUrl,
+      version: stats?.version,
+      rating: stats?.rating,
+      reviewCount: stats?.reviewCount,
+    }),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Plugins", path: "/plugins" },
+      { name: plugin.name, path: "/plugins/specifico" },
+    ]),
+    faqJsonLd(data.faqs),
+  ];
 
   const badges = [
     ...(stats?.version ? [{ label: `v${stats.version}`, tone: "neutral" as const }] : []),
@@ -29,6 +52,7 @@ export default async function SpecificoPage() {
 
   return (
     <>
+      <JsonLd data={structuredData} />
       <Breadcrumb
         trail={[
           { label: "Home", href: "/" },
@@ -47,7 +71,7 @@ export default async function SpecificoPage() {
         ctas={[
           {
             label: "Download from WordPress.org",
-            href: plugin.wpOrgUrl,
+            href: plugin.wpOrgUrl!,
             variant: "primary",
             external: true,
           },
@@ -75,21 +99,13 @@ export default async function SpecificoPage() {
             >
               Ask on the forum
             </a>{" "}
-            — answers usually arrive same day.
+            for public, searchable support.
           </>
         }
-      />
-      <PluginTestimonials
-        headline={data.testimonialsHeadline}
-        rating={stats?.rating}
-        reviewCount={stats?.reviewCount}
-        quotes={data.quotes}
       />
       <FreePluginSupportCTA
         pluginName={plugin.name}
         forumHref={`https://wordpress.org/support/plugin/${plugin.slug}/`}
-        resolvedThreads={data.support.resolvedThreads}
-        firstReply={data.support.firstReply}
       />
     </>
   );

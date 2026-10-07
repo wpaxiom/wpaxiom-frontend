@@ -3,7 +3,6 @@ import type { LucideIcon } from "lucide-react";
 
 export type PageFeature = { Icon: LucideIcon; title: string; body: string };
 export type PageFAQ = { question: string; answer: string; defaultOpen?: boolean };
-export type PageQuote = { body: string; name: string; role: string };
 export type PageBadge = { label: string; tone: "neutral" | "coral" | "ok"; withDot?: boolean };
 
 export type PluginPageData = {
@@ -14,10 +13,7 @@ export type PluginPageData = {
   wpVersion: string;
   featureGrid: { eyebrow: string; headline: string; lead: string };
   features: PageFeature[];
-  testimonialsHeadline: string;
   faqs: PageFAQ[];
-  quotes: PageQuote[];
-  support: { resolvedThreads: string; firstReply: string };
 };
 
 export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
@@ -63,7 +59,6 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
         body: "Reads WC's own cart object, fragments, taxes, coupons, and shipping rules. Every product type, gateway, and extension keeps working out of the box.",
       },
     ],
-    testimonialsHeadline: "Trusted on real WooCommerce stores.",
     faqs: [
       {
         question: "What does Cartick add to my store?",
@@ -84,7 +79,7 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
       {
         question: "Is it free forever?",
         answer:
-          "Yes. Cartick has no Pro version, no upsell, and no nag screens. It's GPL-licensed on WP.org with source on GitHub.",
+          "Yes. Cartick has no Pro version, no upsell, and no nag screens. It is GPLv2-licensed.",
       },
       {
         question: "How do I customise the styling?",
@@ -94,30 +89,9 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
       {
         question: "Where do I get help?",
         answer:
-          "The WordPress.org support forum. We monitor threads daily — median first reply is around two days.",
+          "Email support@wpaxiom.com with the plugin version, WordPress version, and a clear description of the issue.",
       },
     ],
-    quotes: [
-      {
-        body: "Enabled the sticky cart and off-canvas drawer in under ten minutes. The module system is exactly right — I turned on what I needed and nothing else loaded.",
-        name: "Jonas Weil",
-        role: "Senior Woo developer · Nordic Commerce",
-      },
-      {
-        body: "Replaced our custom sticky bar with Cartick on a high-volume shop. The scroll-trigger saved a complete CSS rewrite, and the menu cart works perfectly on our block theme.",
-        name: "Iris Tanaka",
-        role: "Performance lead · Tonalia",
-      },
-      {
-        body: "The Add to Cart button settings matched our design system without touching a single template file. Small plugin, genuinely useful.",
-        name: "Diego Marín",
-        role: "Freelance WooCommerce dev",
-      },
-    ],
-    support: {
-      resolvedThreads: "940+ resolved threads",
-      firstReply: "Median first reply: ~2 days",
-    },
   },
 
   specifico: {
@@ -149,7 +123,7 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
       {
         Icon: Zap,
         title: "Lightweight",
-        body: "Static HTML by default. Sort/filter scripts (4kb) load only when columns that need them are present.",
+        body: "Static HTML by default. Sorting and filtering scripts load only when columns that need them are present.",
       },
       {
         Icon: LayoutGrid,
@@ -162,7 +136,6 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
         body: "Reads colours, borders, and spacing from your theme.json. No fight with your design system.",
       },
     ],
-    testimonialsHeadline: "Quietly powering tens of thousands of spec tables.",
     faqs: [
       {
         question: "Does it support ACF?",
@@ -183,7 +156,7 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
       {
         question: "Will it slow down my page?",
         answer:
-          "No. Static HTML by default. The sort and filter scripts together weigh 4kb gzipped, and only load when those features are configured on the page.",
+          "Specifico renders the table as static HTML by default. Its sorting and filtering scripts load only when those features are configured on the page.",
       },
       {
         question: "Is it free?",
@@ -193,29 +166,8 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
       {
         question: "Where do I get help?",
         answer:
-          "WordPress.org support forum. We monitor threads daily — most questions are answered the same day.",
+          "Use the WordPress.org support forum for public questions or email support@wpaxiom.com for private account-related help.",
       },
     ],
-    quotes: [
-      {
-        body: "Specifico turned a six-week spec-table project into an afternoon. The accessibility work alone is rare in this corner of WordPress.",
-        name: "Priya Anand",
-        role: "Freelance developer · @priya.dev",
-      },
-      {
-        body: "We power 80+ product comparison pages with Specifico. Zero JavaScript on most of them — pure HTML tables that just work.",
-        name: "Tomáš Krajina",
-        role: "Senior dev · Outpost Magazine",
-      },
-      {
-        body: "The ACF repeater support is the killer feature. We were rolling our own table renderer for years; this replaced 600 lines of code in one afternoon.",
-        name: "Sienna Park",
-        role: "Tech lead · Maker Studio",
-      },
-    ],
-    support: {
-      resolvedThreads: "520+ resolved threads",
-      firstReply: "Median first reply: same day",
-    },
   },
 };

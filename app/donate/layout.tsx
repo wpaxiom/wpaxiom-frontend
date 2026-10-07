@@ -1,15 +1,11 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Support wpaxiom — Buy us a coffee",
   description: "Support the continued development of wpaxiom's free, open-source WordPress plugins.",
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+  path: "/donate",
+});
 
 export default function DonateLayout({ children }: { children: React.ReactNode }) {
   return children;
 }
-

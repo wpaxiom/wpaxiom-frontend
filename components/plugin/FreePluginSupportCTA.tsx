@@ -3,15 +3,11 @@ import { ArrowUpRight, Globe } from "lucide-react";
 type FreePluginSupportCTAProps = {
   pluginName: string;
   forumHref: string;
-  resolvedThreads?: string;
-  firstReply?: string;
 };
 
 export function FreePluginSupportCTA({
   pluginName,
   forumHref,
-  resolvedThreads = "1,800+ resolved threads",
-  firstReply = "Median first reply: ~2 days",
 }: FreePluginSupportCTAProps) {
   return (
     <section className="border-b border-line/70">
@@ -40,18 +36,14 @@ export function FreePluginSupportCTA({
             </div>
           </div>
           <p className="mt-5 text-muted leading-relaxed max-w-2xl">
-            Browse the public support forum on WP.org. Our team monitors threads daily and an active
-            community contributes solutions.
+            Browse existing answers or start a public support thread on WordPress.org.
           </p>
           <ul className="mt-5 space-y-2.5 text-sm text-ink/85">
             <li className="flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-coral" /> {resolvedThreads}
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-coral" /> {firstReply}
-            </li>
-            <li className="flex items-center gap-2">
               <span className="w-1 h-1 rounded-full bg-coral" /> Public, searchable answers
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-coral" /> Questions reach the plugin maintainers
             </li>
           </ul>
           <a

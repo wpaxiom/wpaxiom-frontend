@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
 import { LegalPage, Section } from "@/components/layout/LegalPage";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Terms of Service — wpaxiom",
   description: "Terms of Service for wpaxiom WordPress plugins.",
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

@@ -16,6 +16,7 @@ const RESOURCE_LINKS = [
 
 const IMPORTANT_LINKS = [
   { href: "/about", label: "About" },
+  { href: "/editorial-policy", label: "Editorial policy" },
   { href: "/contact", label: "Contact" },
   { href: "/donate", label: "Buy me a coffee" },
 ];

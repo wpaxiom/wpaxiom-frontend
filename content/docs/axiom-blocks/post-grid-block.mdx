@@ -1,0 +1,76 @@
+---
+title: Post Grid
+description: "Build a post grid or list from editable card blocks, with flexible queries, pagination, featured cards, fallback images, and no-results handling."
+version: "Axiom Blocks 1.0.8"
+author: "WPAxiom"
+reviewedBy: "Shuvo"
+lastReviewed: "2026-10-07"
+category: Axiom Blocks
+updatedAt: 2026-08-30
+readTime: 7
+prev:
+  title: Table of Contents
+  slug: table-of-contents-block
+next:
+  title: Post Filter
+  slug: post-filter-block
+---
+
+Post Grid displays posts in a grid or list using a card template that you arrange yourself. Choose which content to query, build the card from individual post blocks, and configure pagination without writing a custom query or template.
+
+## Add a Post Grid
+
+Open the block inserter, select the **Axiom Blocks** category, and add **Post Grid**. The block includes a card template made from post-specific inner blocks. Edit that template once and the design is repeated for every result.
+
+## Build the card template
+
+The card can contain these blocks:
+
+- **Post Image** — displays the featured image or your configured fallback image.
+- **Post Terms** — displays categories, tags, or another assigned taxonomy.
+- **Post Title** — displays the post title and can link to the post.
+- **Post Meta** — displays supporting information such as the date, author, or reading time, with configurable field labels.
+- **Post Excerpt** — displays the post excerpt.
+- **Post Read More** — adds a link to the complete post.
+
+Arrange and style these blocks inside the card in the same way as other nested blocks. The per-item blocks can also be used inside the core WordPress **Query Loop** block when you need its query or template behavior.
+
+## Configure the query
+
+Use the query controls to choose what the grid displays. Post Grid can query by:
+
+- post type;
+- taxonomy;
+- author;
+- publication date, title, comment count, or random order;
+- posts to skip or explicitly exclude; and
+- sticky-post handling.
+
+When a Post Grid appears inside a post template or single post, enable the current-post exclusion option to prevent the page from recommending itself.
+
+## Choose a layout
+
+Select a **grid** when you want repeated cards across columns, or a **list** when each result should occupy a row. Style the card template and its inner blocks to control the spacing, typography, images, and other visual details.
+
+## Add pagination
+
+Post Grid supports two pagination modes:
+
+- **Numbered pagination** gives visitors direct links to result pages.
+- **Load more** appends the next set of posts without replacing the current results.
+
+Both modes continue to work when JavaScript is unavailable. The Load more control is a real link to the next page and falls back to normal navigation if the request cannot complete.
+
+## Create a featured card
+
+Enable the featured-card template when one result needs stronger visual emphasis. You can feature the first result or another selected result, then give that card its own layout, padding, corner radius, and typography.
+
+The featured card uses a separate template rather than applying only a different color to the regular card. This lets you change both its structure and presentation.
+
+## Handle missing images and empty results
+
+Set a fallback image for posts that do not have a featured image. You can also edit the message shown when the query returns no results so it fits the context of the page.
+
+## Related release
+
+Post Grid was added in Axiom Blocks 1.0.7 and gained card styling and additional layout controls in 1.0.8. See the [Axiom Blocks changelog](/changelog/axiom-blocks) for the complete release notes.

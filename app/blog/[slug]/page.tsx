@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { getPost, getPostSlugs, getPostCategory, getFeaturedImage, formatPostDate, estimateReadTime } from '@/lib/blog'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { absoluteUrl, breadcrumbJsonLd, createPageMetadata } from '@/lib/seo'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -20,14 +22,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const { slug } = await params
     const post = await getPost(slug)
-    if (!post) return { title: 'Blog — wpaxiom' }
+    if (!post) return createPageMetadata({ title: 'Blog — wpaxiom', description: 'WordPress plugin engineering notes from wpaxiom.', path: '/blog' })
     const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim()
-    return {
+    return createPageMetadata({
       title: `${post.title.rendered.replace(/<[^>]+>/g, '')} — wpaxiom`,
       description: excerpt.slice(0, 160),
-    }
+      path: `/blog/${slug}`,
+      type: 'article',
+    })
   } catch {
-    return { title: 'Blog — wpaxiom' }
+    return createPageMetadata({ title: 'Blog — wpaxiom', description: 'WordPress plugin engineering notes from wpaxiom.', path: '/blog' })
   }
 }
 
@@ -47,9 +51,34 @@ export default async function BlogPostPage({ params }: Props) {
   const date = formatPostDate(post.date)
   const readTime = estimateReadTime(post.content.rendered)
   const author = post._embedded?.author?.[0]
+  const title = post.title.rendered.replace(/<[^>]+>/g, '')
+  const description = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 160)
+  const structuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      '@id': `${absoluteUrl(`/blog/${slug}`)}#article`,
+      headline: title,
+      description,
+      url: absoluteUrl(`/blog/${slug}`),
+      datePublished: post.date,
+      dateModified: post.modified,
+      inLanguage: 'en',
+      image: image ?? undefined,
+      author: author ? { '@type': 'Person', name: author.name } : { '@id': 'https://wpaxiom.com/#organization' },
+      publisher: { '@id': 'https://wpaxiom.com/#organization' },
+      mainEntityOfPage: absoluteUrl(`/blog/${slug}`),
+    },
+    breadcrumbJsonLd([
+      { name: 'Home', path: '/' },
+      { name: 'Blog', path: '/blog' },
+      { name: title, path: `/blog/${slug}` },
+    ]),
+  ]
 
   return (
     <>
+      <JsonLd data={structuredData} />
       {/* Breadcrumb nav */}
       <div className="border-b border-line/70 bg-surface/40">
         <div className="max-w-[1280px] mx-auto px-6 py-3">
@@ -105,6 +134,7 @@ export default async function BlogPostPage({ params }: Props) {
                 src={image}
                 alt={post.title.rendered.replace(/<[^>]+>/g, '')}
                 fill
+                sizes="(max-width: 760px) 100vw, 760px"
                 priority
                 className="object-cover"
               />

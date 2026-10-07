@@ -20,12 +20,12 @@ export function Testimonials() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-5">
-          {PLUGINS.map((plugin) => {
+          {PLUGINS.filter((plugin) => plugin.wpOrgUrl).map((plugin) => {
             const { Icon } = plugin;
             return (
               <a
                 key={plugin.slug}
-                href={`${plugin.wpOrgUrl}#reviews`}
+                href={`${plugin.wpOrgUrl!}#reviews`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group rounded-2xl border border-line bg-surface hover:border-muted/60 transition p-7 flex flex-col"

@@ -11,15 +11,51 @@ export type ChangelogEntry = {
   date: string
   latest?: boolean
   summary: string
+  docsPath?: string
   changes: ChangeItem[]
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'specifico',
+    version: '1.0.7',
+    date: '2026-09-12',
+    latest: true,
+    docsPath: '/docs/specifico/comparison-table-block',
+    summary: 'Comparison Table block with a live editor preview',
+    changes: [
+      { type: 'Added', text: 'Comparison Table block — find and select two to four products in the block editor, then display their specifications side by side on any page' },
+      { type: 'Added', text: 'Live block preview — the editor uses the same comparison renderer as the shortcode and shopper-facing drawer, so the table matches the frontend output' },
+    ],
+  },
+  {
+    plugin: 'axiom-blocks',
+    version: '1.0.8',
+    date: '2026-09-06',
+    latest: true,
+    docsPath: '/docs/axiom-blocks/post-filter-block',
+    summary: 'New Post Filter block, styleable Post Grid cards, and layout fixes',
+    changes: [
+      { type: 'Added', text: 'Post Filter block — build a filter bar from Search Field, Taxonomy Filter, Sort Filter, and Reset Filter blocks, and connect it to a Post Grid' },
+      { type: 'Added', text: 'Progressive filtering — filters use a real form, work without JavaScript, and produce shareable, bookmarkable URLs' },
+      { type: 'Added', text: 'Responsive filter layouts — arrange fields by row or column, control their alignment and gap per device, and choose automatic, half, full, or custom field widths' },
+      { type: 'Added', text: 'Shared label controls — show, hide, position, and style labels across every field in a Post Filter bar' },
+      { type: 'Improved', text: 'Post Card styling — cards now support backgrounds, gradients, images, borders, radius, shadow, minimum height, content gap, and hover states' },
+      { type: 'Improved', text: 'Post Grid adds author filtering, content alignment, and vertical card alignment controls' },
+      { type: 'Improved', text: 'Include terms, Exclude terms, and Filter by author now use searchable multi-select controls with removable chips' },
+      { type: 'Improved', text: 'Advanced Section width now follows the WordPress alignment toolbar, the parent layout, and the active theme content width' },
+      { type: 'Fixed', text: 'Advanced Section horizontal centering now works in every layout mode, empty alignment classes are no longer emitted, and the editor matches frontend layout behavior' },
+      { type: 'Fixed', text: 'Post Filter sanitizes URL search and sort values, includes translator notes for result counts, and fixes full-width search and button layout' },
+      { type: 'Fixed', text: 'Post Filter fields retain per-device typography settings' },
+      { type: 'Fixed', text: 'Advanced Section and Button Group preserve all inner-block markup, including Post Filter fields, embedded media, core Search, and third-party forms' },
+      { type: 'Fixed', text: 'Pricing Table, Counter Group, and Testimonials no longer remove form fields placed inside them' },
+    ],
+  },
+  {
+    plugin: 'specifico',
     version: '1.0.6',
     date: '2026-08-31',
-    latest: true,
+    docsPath: '/docs/specifico/specification-table-block',
     summary: 'Specification Table block for the block editor, plus full uninstall cleanup',
     changes: [
       { type: 'Added', text: 'Specification Table Gutenberg block - place any saved table or the current product\'s table on any post or page straight from the block editor, with a source selector for the current product or a specific table' },
@@ -30,7 +66,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     plugin: 'axiom-blocks',
     version: '1.0.7',
     date: '2026-08-30',
-    latest: true,
+    docsPath: '/docs/axiom-blocks/post-grid-block',
     summary: 'New Post Grid block — your posts in a grid or list, built from card blocks you arrange and style individually',
     changes: [
       { type: 'Added', text: 'Post Grid block — show your posts in a grid or list, with each card built from Post Image, Post Terms, Post Title, Post Meta, Post Excerpt, and Post Read More blocks that you arrange and style individually. Query by post type, taxonomy, or author, order by date, title, comment count, or random, skip or exclude posts, and choose how sticky posts are handled' },

@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
 import { LegalPage, Section } from "@/components/layout/LegalPage";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Refund Policy — wpaxiom",
   description: "Refund Policy for wpaxiom WordPress plugins.",
-};
+  path: "/refund-policy",
+});
 
 export default function RefundPolicyPage() {
   return (
@@ -76,7 +77,7 @@ export default function RefundPolicyPage() {
           >
             support@wpaxiom.com
           </a>
-          . We respond within 4 hours on business days.
+          . We will review the request and reply by email.
         </p>
       </Section>
     </LegalPage>

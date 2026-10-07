@@ -50,9 +50,9 @@ export default async function AccountLayout({ children }: { children: React.Reac
       <AccountTabBar />
       <div className="md:flex md:gap-8 md:py-10">
         <AccountSidebar user={sidebarUser} />
-        <main className="flex-1 min-w-0 px-4 md:px-0 py-8 md:py-0">
+        <div className="flex-1 min-w-0 px-4 md:px-0 py-8 md:py-0">
           {children}
-        </main>
+        </div>
       </div>
     </div>
   );

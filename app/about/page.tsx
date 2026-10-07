@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Layers, Microscope, GitPullRequest, Heart } from "lucide-react";
 import { Breadcrumb } from "@/components/plugin/Breadcrumb";
 import { SITE_STATS, WP_PROFILE_URL } from "@/lib/site-data";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "About — wpaxiom",
   description:
     "wpaxiom builds tightly-scoped WordPress plugins for developers who care about query count, bundle size, and the next ten years of the platform.",
-};
+  path: "/about",
+});
 
 const PRINCIPLES = [
   {
@@ -19,7 +20,7 @@ const PRINCIPLES = [
   {
     Icon: Microscope,
     title: "Measured, not assumed",
-    body: "Every release ships with PHPStan level 8, an external security audit each quarter, and load-tested benchmarks published in the changelog.",
+    body: "Automated coding-standard and static-analysis checks are part of the release workflow, and changes are documented in public changelogs.",
   },
   {
     Icon: GitPullRequest,
@@ -29,7 +30,7 @@ const PRINCIPLES = [
   {
     Icon: Heart,
     title: "Real human support",
-    body: "The person who replies to your support thread wrote the code. Median first response: four hours. No tier-1 outsourced ticket queue.",
+    body: "Support questions go directly to people who work on the plugins, without an outsourced tier-1 queue.",
   },
 ];
 
@@ -73,8 +74,8 @@ export default function AboutPage() {
               </p>
               <p>
                 We thought there was a better way to do this, so we set out to do it. Cartick, Specifico,
-                and Axiom Blocks are the result: tightly scoped, exhaustively tested, maintained like the
-                infrastructure they actually are when 120,000 sites depend on you.
+                and Axiom Blocks are the result: tightly scoped, tested, and maintained like the
+                infrastructure they become for the people who rely on them.
               </p>
               <p>
                 We do not have a roadmap with 60 items. We have one with three. We push releases when the
@@ -150,6 +151,37 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-line/70 bg-surface/30">
+        <div className="max-w-[1280px] mx-auto px-6 py-20">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16">
+            <div className="lg:col-span-4">
+              <div className="text-xs font-mono uppercase tracking-[0.2em] text-coral mb-3">// Maintainers</div>
+              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-ink leading-[1.1]">
+                Published and maintained in public.
+              </h2>
+            </div>
+            <div className="lg:col-span-8 space-y-5 text-[17px] text-ink/90 leading-relaxed">
+              <p>
+                The plugins are published through the verified WPAxiom WordPress.org account. WordPress.org
+                lists WPAxiom and shuvo586 as contributors, and the public source lives in the wpaxiom GitHub
+                organization.
+              </p>
+              <div className="flex flex-wrap gap-3 text-sm">
+                <a href={WP_PROFILE_URL} className="text-ink underline underline-offset-4 hover:text-coral transition">
+                  WPAxiom publisher profile
+                </a>
+                <a href="https://profiles.wordpress.org/shuvo586/" className="text-ink underline underline-offset-4 hover:text-coral transition">
+                  shuvo586 contributor profile
+                </a>
+                <Link href="/editorial-policy" className="text-ink underline underline-offset-4 hover:text-coral transition">
+                  Editorial policy
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

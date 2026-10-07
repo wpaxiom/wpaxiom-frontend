@@ -4,12 +4,14 @@ import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
-import { getDoc, getAllDocSlugs, extractHeadings } from '@/lib/docs'
+import { getDoc, getAllDocSlugs, extractDocDescription, extractHeadings } from '@/lib/docs'
 import { DOC_NAV, findArticleInNav } from '@/lib/docs-nav'
 import { mdxComponents } from '@/components/docs/MdxComponents'
 import { DocSidebar } from '@/components/docs/DocSidebar'
 import { TableOfContents } from '@/components/docs/TableOfContents'
 import { ArticleFeedback } from '@/components/docs/ArticleFeedback'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { absoluteUrl, breadcrumbJsonLd, createPageMetadata } from '@/lib/seo'
 
 type Props = { params: Promise<{ plugin: string; slug: string }> }
 
@@ -20,13 +22,20 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { plugin, slug } = await params
   try {
-    const { frontmatter } = await getDoc(plugin, slug)
-    return {
+    const { frontmatter, content } = await getDoc(plugin, slug)
+    const description = frontmatter.description ?? extractDocDescription(content)
+    return createPageMetadata({
       title: `${frontmatter.title} — Documentation — wpaxiom`,
-      description: `${frontmatter.category} · ${DOC_NAV[plugin]?.label ?? ''}`,
-    }
+      description,
+      path: `/docs/${plugin}/${slug}`,
+      type: 'article',
+    })
   } catch {
-    return { title: 'Documentation — wpaxiom' }
+    return createPageMetadata({
+      title: 'Documentation — wpaxiom',
+      description: 'Guides, references, and answers for every wpaxiom plugin.',
+      path: '/docs',
+    })
   }
 }
 
@@ -41,6 +50,7 @@ export default async function DocArticlePage({ params }: Props) {
   }
 
   const { frontmatter, content } = doc
+  const description = frontmatter.description ?? extractDocDescription(content)
   const headings = extractHeadings(content)
   const pluginNav = DOC_NAV[plugin]
   const articleMeta = findArticleInNav(plugin, slug)
@@ -50,9 +60,45 @@ export default async function DocArticlePage({ params }: Props) {
     day: 'numeric',
     year: 'numeric',
   })
+  const reviewedDate = frontmatter.lastReviewed
+    ? new Date(frontmatter.lastReviewed).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : null
+  const structuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'TechArticle',
+      '@id': `${absoluteUrl(`/docs/${plugin}/${slug}`)}#article`,
+      headline: frontmatter.title,
+      description,
+      url: absoluteUrl(`/docs/${plugin}/${slug}`),
+      dateModified: frontmatter.lastReviewed ?? frontmatter.updatedAt,
+      ...(frontmatter.reviewedBy
+        ? { reviewedBy: { '@type': 'Person', name: frontmatter.reviewedBy } }
+        : {}),
+      ...(frontmatter.version ? { version: frontmatter.version } : {}),
+      ...(frontmatter.keywords?.length ? { keywords: frontmatter.keywords.join(', ') } : {}),
+      inLanguage: 'en',
+      author: frontmatter.author && frontmatter.author !== 'WPAxiom'
+        ? { '@type': 'Person', name: frontmatter.author }
+        : { '@id': 'https://wpaxiom.com/#organization' },
+      publisher: { '@id': 'https://wpaxiom.com/#organization' },
+      about: pluginNav?.label,
+      mainEntityOfPage: absoluteUrl(`/docs/${plugin}/${slug}`),
+    },
+    breadcrumbJsonLd([
+      { name: 'Home', path: '/' },
+      { name: 'Documentation', path: '/docs' },
+      { name: frontmatter.title, path: `/docs/${plugin}/${slug}` },
+    ]),
+  ]
 
   return (
     <>
+      <JsonLd data={structuredData} />
       {/* Mobile docs nav */}
       <div className="lg:hidden border-b border-line/70 bg-surface/40">
         <details className="group">
@@ -85,7 +131,7 @@ export default async function DocArticlePage({ params }: Props) {
         <div className="grid lg:grid-cols-[260px,minmax(0,1fr)] xl:grid-cols-[260px,minmax(0,1fr),220px] gap-10 xl:gap-14">
           <DocSidebar plugin={plugin} currentSlug={slug} />
 
-          <main className="py-10 lg:py-12 max-w-[760px]">
+          <div className="py-10 lg:py-12 max-w-[760px]">
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-muted mb-6 flex-wrap">
               <Link href="/docs" className="hover:text-ink transition">Docs</Link>
@@ -118,6 +164,21 @@ export default async function DocArticlePage({ params }: Props) {
                   </svg>
                   ~{frontmatter.readTime} min read
                 </span>
+                {frontmatter.version && (
+                  <>
+                    <span className="text-subtle">&middot;</span>
+                    <span>Applies to {frontmatter.version}</span>
+                  </>
+                )}
+                {frontmatter.reviewedBy && reviewedDate && (
+                  <>
+                    <span className="text-subtle">&middot;</span>
+                    <span>
+                      Reviewed by {frontmatter.reviewedBy} on{' '}
+                      <time dateTime={frontmatter.lastReviewed}>{reviewedDate}</time>
+                    </span>
+                  </>
+                )}
               </div>
             </header>
 
@@ -160,7 +221,7 @@ export default async function DocArticlePage({ params }: Props) {
                 )}
               </nav>
             )}
-          </main>
+          </div>
 
           <TableOfContents headings={headings} />
         </div>

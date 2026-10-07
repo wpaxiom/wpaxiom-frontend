@@ -13,7 +13,9 @@ const STATIC_ROUTES = [
   "/contact",
   "/docs",
   "/donate",
+  "/editorial-policy",
   "/plugins",
+  "/plugins/compare",
   "/plugins/axiom-blocks",
   "/plugins/cartick",
   "/plugins/specifico",
@@ -35,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const { frontmatter } = await getDoc(plugin, slug);
       return {
         url: `${SITE_URL}/docs/${plugin}/${slug}`,
-        lastModified: new Date(frontmatter.updatedAt),
+        lastModified: new Date(frontmatter.lastReviewed ?? frontmatter.updatedAt),
         changeFrequency: "monthly" as const,
         priority: 0.7,
       };

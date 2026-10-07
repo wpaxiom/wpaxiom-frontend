@@ -1,0 +1,67 @@
+---
+title: Post Filter
+description: "Build a responsive search, taxonomy, and sort filter for Post Grid with shareable URLs and a functional no-JavaScript fallback."
+version: "Axiom Blocks 1.0.8"
+author: "WPAxiom"
+reviewedBy: "Shuvo"
+lastReviewed: "2026-10-07"
+category: Axiom Blocks
+updatedAt: 2026-09-06
+readTime: 7
+prev:
+  title: Post Grid
+  slug: post-grid-block
+---
+
+Post Filter adds search, taxonomy, sorting, and reset controls to a Post Grid. You arrange the fields as blocks, connect the bar to a grid, and control its responsive layout without rebuilding the grid's saved query.
+
+## Add a Post Filter
+
+1. Add a **Post Grid** and configure the content it is allowed to show.
+2. Add **Post Filter** to the same page.
+3. Point the filter at the Post Grid it should control.
+4. Insert the search, taxonomy, sort, and reset fields you need inside the bar.
+
+The filter only narrows or reorders the connected grid's saved query. It does not accept an arbitrary query from the browser.
+
+## Available filter fields
+
+Build the bar from these inner blocks:
+
+- **Search Field** — filters results using a visitor's keyword search.
+- **Taxonomy Filter** — narrows results using the taxonomy configured for the bar.
+- **Sort Filter** — reorders the results using the available approved sort options.
+- **Reset Filter** — clears the active values and returns the connected grid to its initial state.
+
+Arrange the fields in the order visitors should encounter them. Each field remains independently editable while sharing the layout and label rules defined on the parent Post Filter block.
+
+## Progressive enhancement
+
+Post Filter is a real HTML form. Submitting it produces a URL that can be copied, bookmarked, or shared, and the filters continue to work when JavaScript is disabled.
+
+With JavaScript available, results can update without a full-page navigation. The server still runs the connected Post Grid's saved query with the validated filter values applied.
+
+## Configure the layout
+
+Set the filter fields in a row or column, then adjust the gap and alignment for desktop, tablet, and mobile. Each field can use:
+
+- automatic width;
+- half width;
+- full width; or
+- a custom width.
+
+Use full-width fields on narrow screens when search text or taxonomy labels need more room.
+
+## Configure labels
+
+Each field label can be shown or hidden and placed above or beside its control. Label styling is managed from the parent bar so typography remains consistent across search, taxonomy, and sort fields.
+
+## Security and query boundaries
+
+The browser submits the connected grid identifier and the selected filter values. Axiom Blocks validates those values and reruns the grid's existing query on the server. Visitors can narrow the content the author published, but cannot replace the grid with an unrestricted query.
+
+Search and sort values read from the URL are sanitized before use, and sorting is limited to supported values.
+
+## Related release
+
+Post Filter was added in Axiom Blocks 1.0.8. See the [Axiom Blocks changelog](/changelog/axiom-blocks) for the complete release notes.

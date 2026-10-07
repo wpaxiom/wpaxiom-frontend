@@ -18,7 +18,7 @@ export type PluginNav = {
 export const DOC_NAV: Record<string, PluginNav> = {
   'axiom-blocks': {
     label: 'Axiom Blocks',
-    version: 'v1.0.6',
+    version: 'v1.0.8',
     icon: 'axiom-blocks',
     categories: [
       {
@@ -54,6 +54,8 @@ export const DOC_NAV: Record<string, PluginNav> = {
           { slug: 'info-box-block', title: 'Info Box' },
           { slug: 'content-slider-block', title: 'Content Slider' },
           { slug: 'table-of-contents-block', title: 'Table of Contents' },
+          { slug: 'post-grid-block', title: 'Post Grid' },
+          { slug: 'post-filter-block', title: 'Post Filter' },
         ],
       },
       {
@@ -90,7 +92,7 @@ export const DOC_NAV: Record<string, PluginNav> = {
   },
   specifico: {
     label: 'Specifico',
-    version: 'v1.0.5',
+    version: 'v1.0.7',
     icon: 'specifico',
     categories: [
       {
@@ -128,6 +130,14 @@ export const DOC_NAV: Record<string, PluginNav> = {
         label: 'Backup & Migration',
         articles: [
           { slug: 'export-and-import', title: 'Export & Import' },
+          { slug: 'uninstalling-specifico', title: 'Uninstalling Specifico' },
+        ],
+      },
+      {
+        label: 'Block Editor',
+        articles: [
+          { slug: 'specification-table-block', title: 'Specification Table block' },
+          { slug: 'comparison-table-block', title: 'Comparison Table block' },
         ],
       },
       {

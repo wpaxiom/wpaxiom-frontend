@@ -6,11 +6,33 @@ const CONTENT_DIR = path.join(process.cwd(), 'content/docs')
 
 export type DocFrontmatter = {
   title: string
+  description?: string
+  version?: string
+  author?: string
+  reviewedBy?: string
+  lastReviewed?: string
+  keywords?: string[]
   category: string
   updatedAt: string
   readTime: number
   prev?: { title: string; slug: string }
   next?: { title: string; slug: string }
+}
+
+export function extractDocDescription(content: string): string {
+  const paragraph = content
+    .split(/\n\s*\n/)
+    .map((part) => part.trim())
+    .find((part) => part.length > 0 && !part.startsWith('#') && !part.startsWith('```')) ?? ''
+
+  return paragraph
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/[*_`>#]/g, '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 160)
 }
 
 export type DocHeading = {

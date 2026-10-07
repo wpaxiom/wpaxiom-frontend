@@ -26,15 +26,14 @@ export function SupportCTA() {
             </div>
           </div>
           <p className="mt-5 text-muted leading-relaxed">
-            Browse the public support forum on WP.org. Our team monitors threads daily and an active
-            community contributes solutions.
+            Browse existing answers or start a public support thread on WordPress.org.
           </p>
           <ul className="mt-5 space-y-2.5 text-sm text-ink/85">
             <li className="flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-coral" /> Median first reply: ~2 days
+              <span className="w-1 h-1 rounded-full bg-coral" /> Public, searchable answers
             </li>
             <li className="flex items-center gap-2">
-              <span className="w-1 h-1 rounded-full bg-coral" /> Public, searchable answers
+              <span className="w-1 h-1 rounded-full bg-coral" /> Questions reach the plugin maintainers
             </li>
           </ul>
           <a

@@ -41,7 +41,7 @@ export default async function LicensesPage() {
       )}
 
       <p className="mt-8 text-xs text-subtle font-mono">
-        Need help? Email <span className="text-muted">support@wpaxiom.com</span> — average reply 4 hours.
+        Need help? Email <span className="text-muted">support@wpaxiom.com</span>.
       </p>
     </>
   );

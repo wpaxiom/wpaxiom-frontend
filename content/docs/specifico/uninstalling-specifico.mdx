@@ -1,0 +1,48 @@
+---
+title: Uninstalling Specifico
+description: "Understand what Specifico keeps when deactivated, what version 1.0.6 removes during uninstall, and how to export your data before deletion."
+version: "Specifico 1.0.7"
+author: "WPAxiom"
+reviewedBy: "Shuvo"
+lastReviewed: "2026-10-07"
+category: Backup & Migration
+updatedAt: 2026-08-31
+readTime: 3
+prev:
+  title: Export & Import
+  slug: export-and-import
+next:
+  title: Specification Table block
+  slug: specification-table-block
+---
+
+Deactivating Specifico preserves its data, while uninstalling it permanently deletes the plugin's stored configuration and product specification data. Export your setup before uninstalling if you may need it again.
+
+## Deactivation versus uninstall
+
+**Deactivation** stops Specifico from running but keeps its data in the WordPress database. Use deactivation when you are troubleshooting, temporarily disabling the plugin, or expect to activate it again.
+
+**Uninstalling** removes the plugin and runs its cleanup process. As of Specifico 1.0.6, that cleanup permanently deletes:
+
+- plugin options and settings;
+- cached transients;
+- specification tables and groups;
+- mapping rules stored with the plugin settings; and
+- per-product specification data.
+
+This distinction is intentional: temporary deactivation is reversible, while uninstalling provides a clean removal.
+
+## Export before uninstalling
+
+If you may reinstall Specifico or move the configuration to another site, create an export first:
+
+1. In WordPress admin, go to **Specifico → Export / Import**.
+2. Include per-product specification data if you need product-level values and overrides.
+3. Download the export and store it somewhere outside the WordPress installation.
+4. Confirm that the export file is available before uninstalling the plugin.
+
+See [Export & Import](/docs/specifico/export-and-import) for the complete backup and restore workflow.
+
+## Related release
+
+Full uninstall cleanup was added in Specifico 1.0.6. See the [Specifico changelog](/changelog/specifico) for the complete release notes.

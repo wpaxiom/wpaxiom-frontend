@@ -2,11 +2,11 @@ import { Plus } from "lucide-react";
 
 type FAQItem = {
   question: string;
-  answer: React.ReactNode;
+  answer: string;
   defaultOpen?: boolean;
 };
 
-const ITEMS: FAQItem[] = [
+export const AXIOM_BLOCKS_FAQS: FAQItem[] = [
   {
     question: "What blocks are included?",
     answer:
@@ -16,7 +16,7 @@ const ITEMS: FAQItem[] = [
   {
     question: "Will it slow my site down?",
     answer:
-      "No. Each block ships its own scoped CSS and JS, loaded only on pages that use it. Median frontend payload is under 14kb gzipped.",
+      "Axiom Blocks loads scoped frontend assets only on pages that use the relevant blocks, and unused blocks can be disabled from the block manager.",
   },
   {
     question: "Does it work with my theme?",
@@ -49,12 +49,12 @@ export function FAQ() {
             <a href="mailto:support@wpaxiom.com" className="text-ink underline-offset-4 hover:underline">
               Email us
             </a>{" "}
-            — a real human responds within 4 hours.
+            to reach the maintainers.
           </p>
         </div>
 
         <div className="max-w-5xl mx-auto divide-y divide-line border-y border-line">
-          {ITEMS.map((item) => (
+          {AXIOM_BLOCKS_FAQS.map((item) => (
             <details key={item.question} className="group" open={item.defaultOpen}>
               <summary className="flex items-start justify-between gap-6 py-6">
                 <span className="text-lg font-medium text-ink tracking-tight">{item.question}</span>

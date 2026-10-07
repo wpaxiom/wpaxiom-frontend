@@ -8,7 +8,7 @@ export type Plugin = {
   Icon: LucideIcon;
   badge: { label: string; tone: "free" | "pro" };
   meta: string;
-  wpOrgUrl: string;
+  wpOrgUrl?: string;
   detailsHref: string;
   installCta: { label: string; href: string };
   highlight?: boolean;
@@ -23,9 +23,8 @@ export const PLUGINS: Plugin[] = [
     Icon: ShoppingCart,
     badge: { label: "Free", tone: "free" },
     meta: "WP 5.8+",
-    wpOrgUrl: "https://wordpress.org/plugins/cartick/",
     detailsHref: "/plugins/cartick",
-    installCta: { label: "View on WordPress.org", href: "https://wordpress.org/plugins/cartick/" },
+    installCta: { label: "View details", href: "/plugins/cartick" },
   },
   {
     slug: "specifico",

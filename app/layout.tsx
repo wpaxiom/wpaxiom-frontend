@@ -38,6 +38,7 @@ const siteSchema = {
         "https://github.com/wpaxiom",
         "https://profiles.wordpress.org/wpaxiom/",
         "https://twitter.com/wpaxiom",
+        "https://www.youtube.com/@WPAxiom",
       ],
     },
     {
@@ -71,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://api.wpaxiom.com" />
+        <link rel="describedby" href="/llms.txt" type="text/markdown" />
       </head>
       <body className="min-h-screen bg-base text-ink antialiased font-sans" suppressHydrationWarning>
         <JsonLd data={siteSchema} />

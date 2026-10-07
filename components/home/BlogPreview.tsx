@@ -50,6 +50,7 @@ export async function BlogPreview() {
                       src={image}
                       alt={post.title.rendered}
                       fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="object-cover group-hover:scale-[1.02] transition duration-500"
                     />
                   ) : (

@@ -1,12 +1,28 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 import { ArrowRight } from 'lucide-react'
 import { getPosts, getPostCategory, getFeaturedImage, formatPostDate, estimateReadTime } from '@/lib/blog'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Blog — wpaxiom',
-  description: 'Notes on building WordPress plugins — performance, developer experience, and the block editor.',
+const BLOG_DESCRIPTION = 'Notes on building WordPress plugins — performance, developer experience, and the block editor.'
+
+function parsePage(value: string | undefined): number | null {
+  if (value === undefined) return 1
+  if (!/^\d+$/.test(value)) return null
+  const page = Number(value)
+  return Number.isSafeInteger(page) && page >= 1 ? page : null
+}
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const { page: pageParam } = await searchParams
+  const page = parsePage(pageParam) ?? 1
+  return createPageMetadata({
+    title: page > 1 ? `Blog, page ${page} — wpaxiom` : 'Blog — wpaxiom',
+    description: BLOG_DESCRIPTION,
+    path: page > 1 ? `/blog?page=${page}` : '/blog',
+  })
 }
 
 const POSTS_PER_PAGE = 9
@@ -17,7 +33,8 @@ type Props = {
 
 export default async function BlogPage({ searchParams }: Props) {
   const { page: pageParam } = await searchParams
-  const page = Math.max(1, parseInt(pageParam ?? '1', 10))
+  const page = parsePage(pageParam)
+  if (page === null) notFound()
 
   let posts: Awaited<ReturnType<typeof getPosts>>['posts'] = []
   let total = 0
@@ -29,6 +46,7 @@ export default async function BlogPage({ searchParams }: Props) {
     posts = data.posts
     total = data.total
     totalPages = data.totalPages
+    if (total > 0 && page > totalPages) notFound()
   } catch {
     available = false
   }
@@ -71,6 +89,7 @@ export default async function BlogPage({ searchParams }: Props) {
                           src={image}
                           alt={post.title.rendered}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover group-hover:scale-[1.02] transition duration-500"
                         />
                       ) : (

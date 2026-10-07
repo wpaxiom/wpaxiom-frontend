@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
 import { LegalPage, Section } from "@/components/layout/LegalPage";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Privacy Policy — wpaxiom",
   description: "Privacy Policy for wpaxiom WordPress plugins.",
-};
+  path: "/privacy-policy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

@@ -4,6 +4,7 @@ import { CHANGELOG, PLUGINS } from '@/lib/changelog-data'
 import { ChangelogHero } from '@/components/changelog/ChangelogHero'
 import { ChangelogFilterBar } from '@/components/changelog/ChangelogFilterBar'
 import { ChangelogTimeline } from '@/components/changelog/ChangelogTimeline'
+import { createPageMetadata } from '@/lib/seo'
 
 type Props = { params: Promise<{ plugin: string }> }
 
@@ -20,11 +21,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { plugin } = await params
   const label = PLUGIN_LABELS[plugin]
-  if (!label) return { title: 'Changelog — wpaxiom' }
-  return {
+  if (!label) return createPageMetadata({ title: 'Changelog — wpaxiom', description: 'Release history for wpaxiom plugins.', path: '/changelog' })
+  return createPageMetadata({
     title: `${label} Changelog — wpaxiom`,
     description: `Release history for ${label}.`,
-  }
+    path: `/changelog/${plugin}`,
+  })
 }
 
 export default async function PluginChangelogPage({ params }: Props) {

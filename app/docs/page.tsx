@@ -1,19 +1,19 @@
-import type { Metadata } from 'next'
 import Link from 'next/link'
 import { DOC_NAV } from '@/lib/docs-nav'
+import { createPageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Documentation — wpaxiom',
   description: 'Guides, references, and answers for every wpaxiom plugin.',
-}
+  path: '/docs',
+})
 
 const PLUGIN_CARDS = [
   {
     key: 'axiom-blocks',
     name: 'Axiom Blocks',
-    description: 'Block library, Query Loop Pro, dynamic content binding, and conditional visibility.',
-    articleCount: 86,
-    tags: ['Getting started', 'Patterns', 'API'],
+    description: 'Layout, content, conversion, accessibility, and WooCommerce blocks for the WordPress editor.',
+    tags: ['Getting started', 'Blocks', 'Troubleshooting'],
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8593C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" />
@@ -24,9 +24,8 @@ const PLUGIN_CARDS = [
   {
     key: 'cartick',
     name: 'Cartick',
-    description: 'Lightweight WordPress checkout, subscriptions, and license-key delivery.',
-    articleCount: 54,
-    tags: ['Checkout', 'Webhooks', 'Migrating'],
+    description: 'WooCommerce cart enhancements including sticky, menu, and off-canvas cart modules.',
+    tags: ['Getting started', 'WooCommerce', 'Modules'],
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8593C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="9" cy="20" r="1.6" /><circle cx="18" cy="20" r="1.6" />
@@ -38,8 +37,7 @@ const PLUGIN_CARDS = [
     key: 'specifico',
     name: 'Specifico',
     description: 'Product specification tables for WooCommerce — reusable groups, category mapping, and per-product overrides.',
-    articleCount: 21,
-    tags: ['Getting started', 'Mapping', 'Import & Export'],
+    tags: ['Getting started', 'Mapping', 'Block editor'],
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8593C" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -50,14 +48,14 @@ const PLUGIN_CARDS = [
 ]
 
 const POPULAR_ARTICLES = [
-  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Getting started', title: 'Installing the Axiom Blocks plugin', excerpt: 'Free from WP.org, Pro from your dashboard — both install in two minutes.', readTime: 4, slug: 'installing-the-plugin' },
-  { plugin: 'cartick', pluginLabel: 'Cartick', category: 'Getting started', title: 'Setting up your first Cartick product', excerpt: 'Create a product, attach a price, and ship a checkout in under ten minutes.', readTime: 6, slug: 'setting-up-your-first-product' },
-  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Advanced', title: 'Using Query Loop Pro filters', excerpt: 'Filter posts by ACF fields, taxonomies, post meta, and arbitrary query vars.', readTime: 8, slug: 'acf-field-filters' },
-  { plugin: 'cartick', pluginLabel: 'Cartick', category: 'Guides', title: 'Migrating from EDD to Cartick', excerpt: 'CSV import for products, customers, licenses, and historical orders.', readTime: 12, slug: 'migrating-from-edd' },
-  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Patterns', title: 'Conditional visibility patterns', excerpt: 'Show or hide blocks based on device, user role, or URL query parameters.', readTime: 5, slug: 'conditional-visibility-overview' },
+  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Blocks', title: 'Post Filter', excerpt: 'Add responsive search, taxonomy, and sorting controls to a Post Grid.', readTime: 7, slug: 'post-filter-block' },
+  { plugin: 'specifico', pluginLabel: 'Specifico', category: 'Block editor', title: 'Comparison Table block', excerpt: 'Select two to four products and preview their comparison directly in the editor.', readTime: 4, slug: 'comparison-table-block' },
+  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Blocks', title: 'Post Grid', excerpt: 'Build post grids and lists with editable card templates, flexible queries, and pagination.', readTime: 7, slug: 'post-grid-block' },
+  { plugin: 'specifico', pluginLabel: 'Specifico', category: 'Block editor', title: 'Specification Table block', excerpt: 'Place the current product or a saved specification table in block-editor content.', readTime: 4, slug: 'specification-table-block' },
+  { plugin: 'cartick', pluginLabel: 'Cartick', category: 'Modules', title: 'Off-Canvas Cart', excerpt: 'Configure the slide-in cart drawer, floating trigger, position, size, and behavior.', readTime: 6, slug: 'off-canvas-cart' },
   { plugin: 'specifico', pluginLabel: 'Specifico', category: 'Getting started', title: 'Creating your first table', excerpt: 'Build a specification table from reusable groups and show it on your products.', readTime: 5, slug: 'creating-your-first-table' },
-  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Troubleshooting', title: 'License activation troubleshooting', excerpt: 'Common reasons activation fails and how to resolve each one quickly.', readTime: 4, slug: 'license-activation-troubleshooting' },
-  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Pro', title: 'White-label mode for agencies', excerpt: 'Rename and rebrand the plugin for client builds with a single toggle.', readTime: 5, slug: 'role-based-visibility' },
+  { plugin: 'specifico', pluginLabel: 'Specifico', category: 'Backup & migration', title: 'Export & Import', excerpt: 'Back up or migrate tables, groups, mappings, settings, and product data.', readTime: 6, slug: 'export-and-import' },
+  { plugin: 'axiom-blocks', pluginLabel: 'Axiom Blocks', category: 'Troubleshooting', title: 'License activation troubleshooting', excerpt: 'Resolve site-quota, subscription, and activation problems in order.', readTime: 3, slug: 'license-activation-troubleshooting' },
 ]
 
 export default function DocsPage() {
@@ -122,6 +120,7 @@ export default function DocsPage() {
             {PLUGIN_CARDS.map((p) => {
               const nav = DOC_NAV[p.key]
               const firstSlug = nav?.categories[0]?.articles[0]?.slug ?? ''
+              const articleCount = nav?.categories.reduce((total, category) => total + category.articles.length, 0) ?? 0
               return (
                 <Link
                   key={p.key}
@@ -130,7 +129,7 @@ export default function DocsPage() {
                 >
                   <div className="flex items-center justify-between mb-5">
                     <div className="inline-flex bg-elevated border border-line p-2.5 rounded-lg">{p.icon}</div>
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-muted">{p.articleCount} articles</span>
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-muted">{articleCount} articles</span>
                   </div>
                   <h3 className="text-lg font-semibold tracking-tight text-ink">{p.name}</h3>
                   <p className="mt-2 text-sm text-muted leading-relaxed">{p.description}</p>
@@ -206,7 +205,7 @@ export default function DocsPage() {
               </div>
               <div>
                 <div className="text-xs font-mono uppercase tracking-wider text-coral">// Can&apos;t find it?</div>
-                <p className="mt-0.5 text-ink tracking-tight">A real human responds within 4 hours.</p>
+                <p className="mt-0.5 text-ink tracking-tight">Contact the people who maintain the plugins.</p>
               </div>
             </div>
             <Link

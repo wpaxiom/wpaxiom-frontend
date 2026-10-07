@@ -11,12 +11,12 @@ const PILLARS: Pillar[] = [
   {
     Icon: Zap,
     title: "Built for speed",
-    body: "Sub-15kb median runtime. Zero jQuery dependencies. CSS where CSS will do.",
+    body: "Per-block assets, zero jQuery dependencies, and CSS where CSS will do.",
   },
   {
     Icon: Shield,
     title: "Hardened by default",
-    body: "Every release passes WPCS, PHPStan level 8, and an external security audit each quarter.",
+    body: "Automated standards and static-analysis checks are part of the release workflow.",
   },
   {
     Icon: Code2,
@@ -26,7 +26,7 @@ const PILLARS: Pillar[] = [
   {
     Icon: MessageSquare,
     title: "Real human support",
-    body: "Median first-response of 4 hours. The person answering wrote the code.",
+    body: "Support questions go directly to people who work on the plugins.",
   },
 ];
 

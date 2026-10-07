@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -11,12 +10,14 @@ import {
   Zap,
 } from "lucide-react";
 import { Breadcrumb } from "@/components/plugin/Breadcrumb";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Contact — wpaxiom",
   description:
-    "Email us, open a GitHub issue, or post on the WordPress.org forums. Median first response — 4 hours during the working week.",
-};
+    "Contact wpaxiom by email, GitHub, your account, or the WordPress.org support forums.",
+  path: "/contact",
+});
 
 const CHANNELS = [
   {
@@ -42,7 +43,7 @@ const CHANNELS = [
     title: "WordPress.org forums",
     label: "Free plugin support",
     description:
-      "Public, searchable, monitored daily. Best for free-plugin questions where the answer might help others too.",
+      "Public and searchable. Best for free-plugin questions where the answer might help others too.",
     cta: { label: "Browse forums", href: "https://wordpress.org/support/", external: true },
   },
   {
@@ -50,14 +51,14 @@ const CHANNELS = [
     title: "GitHub issues",
     label: "Bug reports + feature requests",
     description:
-      "If you have a reproduction or a patch, this is the fastest path. We triage daily.",
+      "Best for reproducible bugs, patches, and feature requests that benefit from a public technical discussion.",
     cta: { label: "Open an issue", href: "https://github.com/wpaxiom", external: true },
   },
 ];
 
 const SLA = [
-  { Icon: Clock, title: "4 hour median first reply", caption: "Pro tickets, working hours" },
-  { Icon: Zap, title: "Same-day fixes for regressions", caption: "Patch releases out of band" },
+  { Icon: Clock, title: "Direct support", caption: "Questions reach the product team" },
+  { Icon: Zap, title: "Regression priority", caption: "Clear reproductions help us act quickly" },
   { Icon: Shield, title: "No automated tier-1 queue", caption: "The reply comes from an engineer" },
 ];
 
@@ -95,7 +96,7 @@ export default function ContactPage() {
         <div className="relative max-w-[1280px] mx-auto px-6 pt-20 pb-16 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface/60 text-xs text-muted font-mono">
             <span className="w-1.5 h-1.5 rounded-full bg-coral" />
-            Median first reply: ~4 hours
+            Direct access to the product team
           </div>
           <h1 className="mt-6 text-5xl sm:text-6xl font-semibold tracking-[-0.03em] leading-[1.05] text-ink max-w-3xl mx-auto">
             Get in touch.

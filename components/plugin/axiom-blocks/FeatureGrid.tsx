@@ -31,7 +31,7 @@ const FEATURES: Feature[] = [
   {
     Icon: Zap,
     title: "Per-block asset loading",
-    body: "Each block ships its own scoped CSS and JS, loaded only on pages that use it. Median frontend payload under 14 kb gzipped.",
+    body: "Each block ships scoped CSS and JavaScript that load only on pages using the relevant block.",
   },
   {
     Icon: ShieldCheck,

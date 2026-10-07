@@ -1,4 +1,5 @@
 import type { ChangelogEntry, ChangeType } from '@/lib/changelog-data'
+import Link from 'next/link'
 
 const CHANGE_COLORS: Record<ChangeType, { dot: string; label: string }> = {
   Added: { dot: 'bg-ok', label: 'text-ok' },
@@ -50,6 +51,16 @@ export function ChangelogTimeline({ entries }: { entries: ChangelogEntry[] }) {
                   </div>
 
                   <h2 className="text-lg font-semibold text-ink mb-6">{entry.summary}</h2>
+
+                  {entry.docsPath && (
+                    <Link
+                      href={entry.docsPath}
+                      className="inline-flex items-center gap-1.5 text-sm font-medium text-coral hover:text-coral-hover transition mb-6 focus-coral rounded-sm"
+                    >
+                      Read the documentation
+                      <span aria-hidden="true">&rarr;</span>
+                    </Link>
+                  )}
 
                   <div className="space-y-5">
                     {changeGroups.map((type) => {

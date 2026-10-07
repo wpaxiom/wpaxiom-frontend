@@ -1,34 +1,45 @@
-import type { Metadata } from "next";
 import { PLUGINS } from "@/lib/plugins";
 import { PLUGIN_PAGE_DATA } from "@/lib/plugin-page-data";
-import { getWpOrgStats } from "@/lib/wp-org";
 import { Breadcrumb } from "@/components/plugin/Breadcrumb";
 import { PluginHero } from "@/components/plugin/PluginHero";
 import { FeatureGrid } from "@/components/plugin/FeatureGrid";
 import { PluginFAQ } from "@/components/plugin/PluginFAQ";
-import { PluginTestimonials } from "@/components/plugin/PluginTestimonials";
-import { FreePluginSupportCTA } from "@/components/plugin/FreePluginSupportCTA";
-
-export const revalidate = 3600;
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  breadcrumbJsonLd,
+  createPageMetadata,
+  faqJsonLd,
+  softwareApplicationJsonLd,
+} from "@/lib/seo";
 
 const plugin = PLUGINS.find((p) => p.slug === "cartick")!;
 const data = PLUGIN_PAGE_DATA.cartick;
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: `${plugin.name} — wpaxiom`,
   description: plugin.tagline,
-};
+  path: "/plugins/cartick",
+});
 
 export default async function CartickPage() {
-  const stats = await getWpOrgStats(plugin.slug);
-
-  const badges = [
-    ...(stats?.version ? [{ label: `v${stats.version}`, tone: "neutral" as const }] : []),
-    ...data.badges,
+  const structuredData = [
+    softwareApplicationJsonLd({
+      name: plugin.name,
+      description: plugin.tagline,
+      path: "/plugins/cartick",
+      downloadUrl: plugin.wpOrgUrl,
+    }),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Plugins", path: "/plugins" },
+      { name: plugin.name, path: "/plugins/cartick" },
+    ]),
+    faqJsonLd(data.faqs),
   ];
 
   return (
     <>
+      <JsonLd data={structuredData} />
       <Breadcrumb
         trail={[
           { label: "Home", href: "/" },
@@ -39,21 +50,17 @@ export default async function CartickPage() {
       <PluginHero
         name={plugin.name}
         tagline={plugin.tagline}
-        badges={badges}
-        rating={stats?.rating}
-        reviewCount={stats?.reviewCount ? `${stats.reviewCount} reviews` : undefined}
-        installs={stats?.installs}
+        badges={data.badges}
         wpVersion={data.wpVersion}
         ctas={[
           {
-            label: "Download from WordPress.org",
-            href: plugin.wpOrgUrl,
-            variant: "primary",
-            external: true,
-          },
-          {
             label: "Read the docs",
             href: `/docs/${plugin.slug}`,
+            variant: "primary",
+          },
+          {
+            label: "Ask about availability",
+            href: "/contact",
             variant: "ghost",
           },
         ]}
@@ -70,26 +77,14 @@ export default async function CartickPage() {
           <>
             Don&apos;t see yours?{" "}
             <a
-              href={`https://wordpress.org/support/plugin/${plugin.slug}/`}
+              href="mailto:support@wpaxiom.com"
               className="text-ink underline-offset-4 hover:underline"
             >
-              Ask on the forum
+              Email support
             </a>{" "}
-            — we monitor it daily.
+            for help or availability.
           </>
         }
-      />
-      <PluginTestimonials
-        headline={data.testimonialsHeadline}
-        rating={stats?.rating}
-        reviewCount={stats?.reviewCount}
-        quotes={data.quotes}
-      />
-      <FreePluginSupportCTA
-        pluginName={plugin.name}
-        forumHref={`https://wordpress.org/support/plugin/${plugin.slug}/`}
-        resolvedThreads={data.support.resolvedThreads}
-        firstReply={data.support.firstReply}
       />
     </>
   );
