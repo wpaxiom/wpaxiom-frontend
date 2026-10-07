@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Github, Twitter } from "lucide-react";
+import { Github, Twitter, Youtube } from "lucide-react";
 
 const PRODUCT_LINKS = [
   { href: "/plugins/cartick", label: "Cartick" },
@@ -29,6 +29,7 @@ const LEGAL_LINKS = [
 
 const CONNECT_LINKS = [
   { href: "https://github.com/wpaxiom", label: "GitHub" },
+  { href: "https://www.youtube.com/@WPAxiom", label: "YouTube" },
   { href: "https://twitter.com/wpaxiom", label: "X / Twitter" },
   { href: "https://profiles.wordpress.org/wpaxiom/", label: "WP.org profile" },
 ];
@@ -70,6 +71,13 @@ export function Footer() {
                 className="w-9 h-9 rounded-md border border-line text-muted hover:text-ink hover:border-muted flex items-center justify-center transition focus-coral"
               >
                 <Twitter size={14} />
+              </a>
+              <a
+                href="https://www.youtube.com/@WPAxiom"
+                aria-label="YouTube"
+                className="w-9 h-9 rounded-md border border-line text-muted hover:text-ink hover:border-muted flex items-center justify-center transition focus-coral"
+              >
+                <Youtube size={16} />
               </a>
               <a
                 href="https://profiles.wordpress.org/wpaxiom/"

@@ -32,12 +32,23 @@ export function Hero() {
         {latestEntry && (
           <Link
             href={`/changelog/${latestEntry.plugin}`}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface/60 text-xs text-muted font-mono hover:border-muted transition"
+            className="flex w-full max-w-2xl items-start gap-2.5 rounded-xl border border-line bg-surface/60 px-4 py-3 text-xs text-muted font-mono transition hover:border-muted lg:inline-flex lg:w-auto lg:items-center lg:rounded-full lg:px-3 lg:py-1"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-coral" />
-            {latestPluginLabel} v{latestEntry.version} — {latestEntry.summary}
-            <span className="text-subtle">·</span>
-            <span className="text-ink/80">read changelog</span>
+            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-coral lg:mt-0" />
+            <span className="min-w-0 flex-1 lg:flex lg:items-center lg:gap-2">
+              <span className="block leading-relaxed lg:inline">
+                <span className="text-ink/90">
+                  {latestPluginLabel} v{latestEntry.version}
+                </span>
+                <span className="hidden lg:inline"> — </span>
+                <span className="block lg:inline">{latestEntry.summary}</span>
+              </span>
+              <span className="mt-2 inline-flex items-center gap-1.5 whitespace-nowrap text-ink/80 lg:mt-0">
+                <span className="hidden text-subtle lg:inline">·</span>
+                read changelog
+                <ArrowRight size={12} aria-hidden="true" />
+              </span>
+            </span>
           </Link>
         )}
 
