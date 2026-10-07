@@ -68,7 +68,7 @@ export function AxiomBlocksHighlight() {
                 href="/plugins/axiom-blocks"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-line hover:border-muted text-ink font-medium transition focus-coral"
               >
-                Learn more
+                Explore Axiom Blocks
               </Link>
             </div>
           </div>
