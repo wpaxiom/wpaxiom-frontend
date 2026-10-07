@@ -9,7 +9,7 @@ export const metadata = createPageMetadata({
 
 export default function PrivacyPolicyPage() {
   return (
-    <LegalPage label="Legal" title="Privacy Policy" updatedAt="May 21, 2026">
+    <LegalPage label="Legal" title="Privacy Policy" updatedAt="October 7, 2026">
       <Section title="1. Overview">
         <p>
           wpaxiom (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) respects your privacy. This policy explains what
@@ -31,8 +31,9 @@ export default function PrivacyPolicyPage() {
             password if you create an account on wpaxiom.com.
           </li>
           <li>
-            <span className="text-ink font-medium">Usage data</span> — anonymized page visit data
-            collected by Vercel Speed Insights (no cookies, no cross-site tracking).
+            <span className="text-ink font-medium">Usage data</span> — page visits, device and
+            browser information, and general interaction data collected through Google Analytics,
+            plus anonymized performance data collected by Vercel Speed Insights.
           </li>
           <li>
             <span className="text-ink font-medium">Support communications</span> — messages you send
@@ -73,6 +74,11 @@ export default function PrivacyPolicyPage() {
             (Speed Insights). No cookies are set.
           </li>
           <li>
+            <span className="text-ink font-medium">Google Analytics</span> — website usage
+            measurement. Google may set analytics cookies and process device, browser, and usage
+            information under its own privacy terms.
+          </li>
+          <li>
             <span className="text-ink font-medium">Resend</span> — transactional email delivery.
           </li>
         </ul>
@@ -80,8 +86,9 @@ export default function PrivacyPolicyPage() {
 
       <Section title="5. Cookies">
         <p>
-          wpaxiom.com does not use tracking or advertising cookies. We use a single session cookie
-          for authenticated account sessions only. Vercel Speed Insights does not use cookies.
+          wpaxiom.com uses analytics cookies from Google Analytics to understand how visitors use
+          the site. We also use a session cookie for authenticated account sessions. Vercel Speed
+          Insights does not use cookies, and we do not use advertising cookies.
         </p>
       </Section>
 

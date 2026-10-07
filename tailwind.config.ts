@@ -23,6 +23,8 @@ const config: Config = {
         coral: {
           DEFAULT: "#E8593C",
           hover: "#D44D32",
+          action: "#C2412D",
+          "action-hover": "#A93622",
         },
         ok: "#22C55E",
         warn: "#F59E0B",

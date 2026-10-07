@@ -65,7 +65,7 @@ export function Hero() {
         <div className="mt-10 flex flex-wrap items-center gap-3">
           <Link
             href="#plugins"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-coral hover:bg-coral-hover text-white font-medium transition focus-coral"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-coral-action hover:bg-coral-action-hover text-white font-medium transition focus-coral"
           >
             Explore plugins
             <ArrowRight size={16} strokeWidth={2} />

@@ -96,7 +96,7 @@ export function Footer() {
 
           <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-4 gap-8 md:gap-12 text-sm">
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Products</h4>
+              <h2 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Products</h2>
               <ul className="space-y-2.5 text-muted">
                 {PRODUCT_LINKS.map((link) => (
                   <li key={link.href}>
@@ -108,7 +108,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Resources</h4>
+              <h2 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Resources</h2>
               <ul className="space-y-2.5 text-muted">
                 {RESOURCE_LINKS.map((link) => (
                   <li key={link.href}>
@@ -120,7 +120,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Important Links</h4>
+              <h2 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Important Links</h2>
               <ul className="space-y-2.5 text-muted">
                 {IMPORTANT_LINKS.map((link) => (
                   <li key={link.href}>
@@ -132,7 +132,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Connect</h4>
+              <h2 className="text-xs font-mono uppercase tracking-[0.18em] text-subtle mb-4">Connect</h2>
               <ul className="space-y-2.5 text-muted">
                 {CONNECT_LINKS.map((link) => (
                   <li key={link.href}>

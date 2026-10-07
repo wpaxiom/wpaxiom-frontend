@@ -11,7 +11,8 @@
     --border: 229 229 229;
     --text-primary: 15 15 15;
     --text-muted: 102 102 102;
-    --text-subtle: 153 153 153;
+    /* WCAG AA for small text on white while remaining visually secondary. */
+    --text-subtle: 118 118 118;
     --text-article: 75 75 75;
   }
 
@@ -21,8 +22,9 @@
     --bg-elevated: 36 36 36;
     --border: 42 42 42;
     --text-primary: 245 245 245;
-    --text-muted: 136 136 136;
-    --text-subtle: 85 85 85;
+    /* Keep small labels above 4.5:1 on the darkest surface variants. */
+    --text-muted: 153 153 153;
+    --text-subtle: 136 136 136;
     --text-article: 201 201 201;
   }
 

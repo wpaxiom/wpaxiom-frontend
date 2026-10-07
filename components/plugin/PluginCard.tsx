@@ -68,7 +68,7 @@ function HighlightCard({ plugin }: { plugin: Plugin }) {
         </Link>
         <Link
           href={plugin.installCta.href}
-          className="px-3 py-1.5 rounded-md bg-coral text-white text-xs font-medium hover:bg-coral-hover transition"
+          className="px-3 py-1.5 rounded-md bg-coral-action text-white text-xs font-medium hover:bg-coral-action-hover transition"
         >
           {plugin.installCta.label}
         </Link>

@@ -60,7 +60,7 @@ export function AxiomBlocksHighlight() {
             <div className="mt-10 flex flex-wrap items-center gap-3">
               <a
                 href="https://wordpress.org/plugins/axiom-blocks/"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-coral hover:bg-coral-hover text-white font-medium transition focus-coral"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-coral-action hover:bg-coral-action-hover text-white font-medium transition focus-coral"
               >
                 Get it on WordPress.org
               </a>
