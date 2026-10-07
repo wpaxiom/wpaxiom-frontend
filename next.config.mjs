@@ -4,6 +4,11 @@ import { dirname } from 'node:path';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  experimental: {
+    // Tailwind produces a small stylesheet; inlining removes a render-blocking
+    // request and its extra round trip for first-time mobile visitors.
+    inlineCss: true,
+  },
   // A stray package-lock.json in C:\Users\Shuvo (the global claude-code install)
   // makes Next infer the home folder as the workspace root, so Turbopack scans
   // and watches everything under it. Pin the root to this project.

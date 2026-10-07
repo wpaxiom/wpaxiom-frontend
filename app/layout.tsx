@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -67,62 +65,92 @@ const themeInitScript = `
 })();
 `;
 
+const themeToggleScript = `
+(function () {
+  var button = document.getElementById('theme-toggle');
+  if (!button) return;
+
+  function updateLabel() {
+    var isDark = document.documentElement.classList.contains('dark');
+    button.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  button.addEventListener('click', function () {
+    var isDark = document.documentElement.classList.toggle('dark');
+    try {
+      localStorage.setItem('wpaxiom-theme', isDark ? 'dark' : 'light');
+    } catch (e) {}
+    updateLabel();
+  });
+
+  updateLabel();
+})();
+`;
+
 const googleAnalyticsId = "G-HBB3LGGY1Y";
+
+const googleAnalyticsScript = `
+(function () {
+  var loaded = false;
+  var scheduled = false;
+  var events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+
+  function loadGoogleAnalytics() {
+    if (loaded) return;
+    loaded = true;
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}';
+    document.head.appendChild(script);
+
+    window.gtag('js', new Date());
+    window.gtag('config', '${googleAnalyticsId}', { anonymize_ip: true });
+  }
+
+  function scheduleGoogleAnalytics() {
+    if (loaded || scheduled) return;
+    scheduled = true;
+    events.forEach(function (eventName) {
+      window.removeEventListener(eventName, scheduleGoogleAnalytics);
+    });
+
+    window.setTimeout(function () {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadGoogleAnalytics, { timeout: 2000 });
+      } else {
+        loadGoogleAnalytics();
+      }
+    }, 1000);
+  }
+
+  events.forEach(function (eventName) {
+    window.addEventListener(eventName, scheduleGoogleAnalytics, { once: true, passive: true });
+  });
+
+  window.setTimeout(scheduleGoogleAnalytics, 15000);
+})();
+`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
+        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <link rel="describedby" href="/llms.txt" type="text/markdown" />
       </head>
       <body className="min-h-screen bg-base text-ink antialiased font-sans" suppressHydrationWarning>
         <JsonLd data={siteSchema} />
-        <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            (function () {
-              var loaded = false;
-              var events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
-
-              function loadGoogleAnalytics() {
-                if (loaded) return;
-                loaded = true;
-                events.forEach(function (eventName) {
-                  window.removeEventListener(eventName, loadGoogleAnalytics);
-                });
-
-                window.dataLayer = window.dataLayer || [];
-                window.gtag = window.gtag || function () {
-                  window.dataLayer.push(arguments);
-                };
-
-                var script = document.createElement('script');
-                script.async = true;
-                script.src = 'https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}';
-                document.head.appendChild(script);
-
-                window.gtag('js', new Date());
-                window.gtag('config', '${googleAnalyticsId}', { anonymize_ip: true });
-              }
-
-              events.forEach(function (eventName) {
-                window.addEventListener(eventName, loadGoogleAnalytics, { once: true, passive: true });
-              });
-
-              window.setTimeout(function () {
-                if ('requestIdleCallback' in window) {
-                  window.requestIdleCallback(loadGoogleAnalytics, { timeout: 2000 });
-                } else {
-                  loadGoogleAnalytics();
-                }
-              }, 5000);
-            })();
-          `}
-        </Script>
-        <SpeedInsights />
+        <script id="google-analytics" dangerouslySetInnerHTML={{ __html: googleAnalyticsScript }} />
+        <script id="theme-toggle-handler" dangerouslySetInnerHTML={{ __html: themeToggleScript }} />
       </body>
     </html>
   );
