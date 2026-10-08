@@ -36,14 +36,14 @@ export function Hero() {
           >
             <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-coral lg:mt-0" />
             <span className="min-w-0 flex-1 lg:flex lg:items-center lg:gap-2">
-              <span className="block leading-relaxed lg:inline">
+              <span className="block leading-relaxed lg:min-w-0 lg:truncate">
                 <span className="text-ink/90">
                   {latestPluginLabel} v{latestEntry.version}
                 </span>
                 <span className="hidden lg:inline"> — </span>
-                <span className="block lg:inline">{latestEntry.summary}</span>
+                <span className="block lg:inline" title={latestEntry.summary}>{latestEntry.summary}</span>
               </span>
-              <span className="mt-2 inline-flex items-center gap-1.5 whitespace-nowrap text-ink/80 lg:mt-0">
+              <span className="mt-2 inline-flex items-center gap-1.5 whitespace-nowrap text-ink/80 lg:mt-0 lg:shrink-0">
                 <span className="hidden text-subtle lg:inline">·</span>
                 read changelog
                 <ArrowRight size={12} aria-hidden="true" />
