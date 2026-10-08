@@ -18,9 +18,24 @@ export type ChangelogEntry = {
 export const CHANGELOG: ChangelogEntry[] = [
   {
     plugin: 'specifico',
+    version: '1.0.8',
+    date: '2026-10-08',
+    latest: true,
+    docsPath: '/docs/specifico/variable-products',
+    summary: 'Per-variation specification values for variable WooCommerce products',
+    changes: [
+      { type: 'Added', text: 'Variable product support - set specification values for each variation, and the storefront table updates when a shopper selects a variation' },
+      { type: 'Added', text: 'Automatic variation-attribute rows - show attributes such as size, colour, voltage, or capacity in the specification table, with a global setting to turn these rows off' },
+      { type: 'Added', text: 'Variation editing shortcuts - reset one variation to its inherited product values or copy its overrides to every variation' },
+      { type: 'Improved', text: 'Variation overrides now use stable row identifiers, so reorganising a specification table does not attach saved values to the wrong row' },
+      { type: 'Improved', text: 'Export and import now include per-variation values and match variations by attribute combination instead of site-specific IDs' },
+      { type: 'Improved', text: 'Structured data omits automatic attribute rows and values that differ between variations, keeping product schema accurate' },
+    ],
+  },
+  {
+    plugin: 'specifico',
     version: '1.0.7',
     date: '2026-09-12',
-    latest: true,
     docsPath: '/docs/specifico/comparison-table-block',
     summary: 'Comparison Table block with a live editor preview',
     changes: [

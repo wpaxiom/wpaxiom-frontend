@@ -101,62 +101,62 @@ export const PLUGIN_PAGE_DATA: Record<string, PluginPageData> = {
     wpVersion: "WP 5.8+ · WC 6.3+",
     featureGrid: {
       eyebrow: "// Capabilities",
-      headline: "Spec tables, from your existing data.",
-      lead: "Render comparison tables, attribute matrices, and product spec sheets straight from custom fields you already have.",
+      headline: "One specification system for your whole catalog.",
+      lead: "Build reusable groups, map tables to products, and keep every simple or variable product accurate without rebuilding the same spec sheet.",
     },
     features: [
       {
         Icon: Database,
-        title: "Reads any field type",
-        body: "ACF, Meta Box, Pods, native post meta. Strings, numbers, taxonomies, relations, and repeaters.",
+        title: "Reusable spec groups",
+        body: "Define groups such as Display, Materials, or Connectivity once, combine them into tables, and reuse them across your WooCommerce catalog.",
       },
       {
         Icon: Filter,
-        title: "Sortable + filterable",
-        body: "Click any column header to sort. Add a filter row to narrow on text or numeric ranges. No build step.",
+        title: "Smart product mapping",
+        body: "Assign tables by product category, tag, or individual product. Matching products inherit the right structure and default values automatically.",
       },
       {
         Icon: Eye,
-        title: "WCAG AA accessible",
-        body: "Real table elements, proper headers and scopes, keyboard sort, screen-reader column announcements.",
+        title: "Per-product control",
+        body: "Keep the mapped table and change only a product's values, or switch to a fully custom table when one item needs different groups and rows.",
       },
       {
         Icon: Zap,
-        title: "Lightweight",
-        body: "Static HTML by default. Sorting and filtering scripts load only when columns that need them are present.",
+        title: "Variation-aware specs",
+        body: "Set value overrides per variation. The table follows the shopper's selection and can add live rows for attributes such as size or colour.",
       },
       {
         Icon: LayoutGrid,
-        title: "Block + shortcode",
-        body: "Drop it in via the block editor with a config sidebar, or use [specifico] in classic editors and theme files.",
+        title: "Blocks, shortcodes + comparison",
+        body: "Place specification or comparison tables with Gutenberg blocks or shortcodes, and let shoppers compare up to four products side by side.",
       },
       {
         Icon: Palette,
-        title: "Theme-aware",
-        body: "Reads colours, borders, and spacing from your theme.json. No fight with your design system.",
+        title: "Store-ready presentation",
+        body: "Choose a preset or custom style, rename the product tab, override the template in your theme, and add accurate specification data to Product schema.",
       },
     ],
     faqs: [
       {
-        question: "Does it support ACF?",
+        question: "How do products get the right specification table?",
         answer:
-          "Yes — including ACF Pro repeater and flexible content fields. Meta Box and Pods are supported on the same code path.",
+          "Create mapping rules by product category, tag, or individual product. A matching product inherits that table automatically, and you can still override its values or give it a custom table.",
         defaultOpen: true,
       },
       {
-        question: "Can I sort by a custom field's value?",
+        question: "Does Specifico support variable products?",
         answer:
-          "Yes. Set the column's data type (text, number, date) and Specifico will sort correctly client-side. Numeric and date columns sort numerically, not lexicographically.",
+          "Yes. Specifico 1.0.8 lets you set specification values per variation. The table updates when shoppers choose a variation, while empty variation fields inherit the product-level value.",
       },
       {
-        question: "How does it handle relations?",
+        question: "Can shoppers compare products?",
         answer:
-          "One-to-one fields render as the related post's title (linked, optional). One-to-many render as a comma-separated list. Custom render templates can override either.",
+          "Yes. You can show compare buttons on product and shop pages, use the slide-in comparison drawer, or embed a comparison of two to four products with the block or shortcode.",
       },
       {
-        question: "Will it slow down my page?",
+        question: "Can I place a specification table outside the product tab?",
         answer:
-          "Specifico renders the table as static HTML by default. Its sorting and filtering scripts load only when those features are configured on the page.",
+          "Yes. Use the Specification Table block or the [specifico] shortcode. You can render the current product or target a specific product or saved table, depending on the tool.",
       },
       {
         question: "Is it free?",

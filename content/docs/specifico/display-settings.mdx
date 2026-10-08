@@ -1,12 +1,12 @@
 ---
 title: Display settings
 description: "The Settings screen under Specifico → Settings is where you set global display preferences for every specification table the plugin renders: whether to..."
-version: "Specifico 1.0.7"
+version: "Specifico 1.0.8"
 author: "WPAxiom"
 reviewedBy: "Shuvo"
-lastReviewed: "2026-10-07"
+lastReviewed: "2026-10-08"
 category: Settings
-updatedAt: 2026-07-07
+updatedAt: 2026-10-08
 readTime: 5
 prev:
   title: Mapping rules
@@ -16,7 +16,7 @@ next:
   slug: product-comparison
 ---
 
-The **Settings** screen under **Specifico → Settings** is where you set global display preferences for every specification table the plugin renders: whether to show group headings, which visual style the table uses, what the product tab is called, and how to handle WooCommerce's default "Additional information" tab.
+The **Settings** screen under **Specifico → Settings** is where you set global display preferences for every specification table the plugin renders: whether to show group headings and variation attributes, which visual style the table uses, what the product tab is called, and how to handle WooCommerce's default "Additional information" tab.
 
 Changes here affect *every* product page that displays a specification table — there's no per-product or per-table style override. If you need a different look on one product, you can do that at the theme level with CSS targeting the body class or product ID.
 
@@ -71,6 +71,16 @@ Leave it empty to keep the default "Specifications" label. The change applies to
   Developers can override this per product (or conditionally) with the `specifico_tab_title` filter — see [Hooks & template overrides](/docs/specifico/hooks-and-templates).
 </Callout>
 
+## Variation attribute rows
+
+This switch controls whether a variable product's WooCommerce attributes appear as an automatic group in its specification table. It is enabled by default.
+
+For example, a shirt with Colour and Size attributes gets one row for each attribute. Before a variation is selected, the rows show the available options. After the shopper chooses a variation, they show that variation's Colour and Size. These rows are generated from WooCommerce, so you do not edit them in the per-variation value panel.
+
+Turn the switch off when those options already appear prominently in your product layout or when you only want your hand-authored specification groups in the table. Disabling it does not remove or change the product's WooCommerce variation attributes.
+
+See [Variable products](/docs/specifico/variable-products) for per-variation values and storefront behavior.
+
 ## Additional Information Tab
 
 WooCommerce adds its own **Additional information** tab to product pages whenever a product has a weight, dimensions, or attributes. When you also show a Specifications tab, that built-in tab can feel redundant. This dropdown controls what happens to it:
@@ -97,10 +107,11 @@ Both settings are stored together in the `_specifico_settings` WordPress option:
   "enable_sub_heading": true,
   "styles": { "value": "bordered-table", "label": "Bordered Table" },
   "tab_title": "Tech Specs",
+  "variable_attribute_rows": true,
   "wc_additional_info": "remove_if_specs"
 }
 ```
 
-`wc_additional_info` accepts `keep`, `remove`, or `remove_if_specs`. `tab_title` is a plain string (empty falls back to "Specifications").
+`wc_additional_info` accepts `keep`, `remove`, or `remove_if_specs`. `tab_title` is a plain string (empty falls back to "Specifications"), and `variable_attribute_rows` is a boolean.
 
 You can read or modify this option from your own code using `get_option( '_specifico_settings' )` and `update_option()` — useful when scripting environment provisioning or building a multisite setup that needs identical settings across sites.

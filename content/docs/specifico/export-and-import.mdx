@@ -1,12 +1,12 @@
 ---
 title: Export & Import
 description: "The Export & Import screen under Specifico → Export / Import lets you save your entire Specifico setup to a single file and load it back on any site. Use..."
-version: "Specifico 1.0.7"
+version: "Specifico 1.0.8"
 author: "WPAxiom"
 reviewedBy: "Shuvo"
-lastReviewed: "2026-10-07"
+lastReviewed: "2026-10-08"
 category: Backup & Migration
-updatedAt: 2026-07-01
+updatedAt: 2026-10-08
 readTime: 6
 prev:
   title: Product comparison
@@ -34,7 +34,7 @@ Your browser downloads a file named `specifico-export-YYYY-MM-DD.json` (the date
 
 ### Include per-product specification data
 
-This toggle controls whether each product's *customized* specification data is bundled into the export.
+This toggle controls whether each product's *customized* specification data is bundled into the export. In Specifico 1.0.8 and later, that includes per-variation value overrides for variable products.
 
 | Toggle | What the file contains |
 | --- | --- |
@@ -42,6 +42,8 @@ This toggle controls whether each product's *customized* specification data is b
 | **Off** | Just the reusable structure — tables, groups, mapping, and settings |
 
 Leave it **on** for a full backup or a site move. Turn it **off** when you only want to copy your table/group *structure* to another site and don't want to carry that site's product data with it.
+
+Variation values are exported against each variation's attribute combination — for example, `Colour: Blue` and `Size: Large` — rather than its database ID. On import, Specifico finds the matching combination on the target product. This keeps variation overrides portable because variation IDs usually differ between sites.
 
 <Callout type="tip">
   A structure-only export (toggle off) is the fastest way to set up a staging or second store with the same specification tables, without dragging along product-specific overrides that wouldn't match anyway.

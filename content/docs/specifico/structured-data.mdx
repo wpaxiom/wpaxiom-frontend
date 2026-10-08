@@ -1,12 +1,12 @@
 ---
 title: Structured data (SEO)
 description: "Specifico automatically adds your product specifications to the page's Schema.org structured data, so search engines can read them as machine-readable..."
-version: "Specifico 1.0.7"
+version: "Specifico 1.0.8"
 author: "WPAxiom"
 reviewedBy: "Shuvo"
-lastReviewed: "2026-10-07"
+lastReviewed: "2026-10-08"
 category: Developers
-updatedAt: 2026-06-25
+updatedAt: 2026-10-08
 readTime: 4
 prev:
   title: Hooks & template overrides
@@ -45,6 +45,12 @@ For a product with a few specifications, the structured data looks like this:
 ```
 
 Specification values are output as plain text, so any links or formatting in a value are stripped in the structured data even though they still display in the visible table.
+
+### Variable products
+
+For variable products, Specifico only adds facts that are true at the product level. Automatic variation-attribute rows and any specification row whose value changes between variations are left out of the parent product's `additionalProperty` list. This prevents the schema from claiming that one variation-specific value applies to every variation.
+
+Those rows still appear and update in the visible table for shoppers. The omission applies only to structured data.
 
 ## Verifying the output
 

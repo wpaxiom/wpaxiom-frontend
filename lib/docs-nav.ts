@@ -92,7 +92,7 @@ export const DOC_NAV: Record<string, PluginNav> = {
   },
   specifico: {
     label: 'Specifico',
-    version: 'v1.0.7',
+    version: 'v1.0.8',
     icon: 'specifico',
     categories: [
       {
@@ -106,6 +106,7 @@ export const DOC_NAV: Record<string, PluginNav> = {
         label: 'Per-product',
         articles: [
           { slug: 'per-product-overrides', title: 'Per-product overrides' },
+          { slug: 'variable-products', title: 'Variable products' },
         ],
       },
       {

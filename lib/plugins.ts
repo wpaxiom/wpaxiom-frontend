@@ -30,7 +30,7 @@ export const PLUGINS: Plugin[] = [
     slug: "specifico",
     name: "Specifico",
     tagline:
-      "Product spec tables that read your existing custom fields. Sortable, filterable, accessible.",
+      "Reusable WooCommerce specification tables with smart mapping, per-product and per-variation values, and side-by-side comparison.",
     Icon: AlignLeft,
     badge: { label: "Free", tone: "free" },
     meta: "WP 5.8+",

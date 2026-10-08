@@ -1,12 +1,12 @@
 ---
 title: Frequently asked questions
 description: "Quick answers to the questions we hear most. If you don't see your question here, the rest of the docs cover each admin screen in depth."
-version: "Specifico 1.0.7"
+version: "Specifico 1.0.8"
 author: "WPAxiom"
 reviewedBy: "Shuvo"
-lastReviewed: "2026-10-07"
+lastReviewed: "2026-10-08"
 category: Help
-updatedAt: 2026-10-07
+updatedAt: 2026-10-08
 readTime: 6
 prev:
   title: Structured data (SEO)
@@ -59,11 +59,11 @@ This usually means the matched specification table has no groups assigned, or ev
 
 ### Can I have different specs per product variation?
 
-Not currently. A variable product shows the same specification table regardless of which variation is selected.
+Yes. Specifico 1.0.8 lets you override individual specification values per variation. The table updates when a shopper selects a variation, and empty variation fields inherit the shared product-level value. It can also add live rows for WooCommerce variation attributes such as Size or Colour. See [Variable products](/docs/specifico/variable-products).
 
 ### Can shoppers compare products on the storefront?
 
-Yes. Enable comparison in **Specifico → Settings** to add compare buttons to product pages and shop loops. Shoppers can compare two to four products side by side, and you can also embed a comparison with the Specification Comparison block or `[specifico_compare]` shortcode. See [Product comparison](/docs/specifico/product-comparison).
+Yes. Enable comparison in **Specifico → Settings** to add compare buttons to product pages and shop loops. Shoppers can compare two to four products side by side, and you can also embed a comparison with the Comparison Table block or `[specifico_compare]` shortcode. See [Product comparison](/docs/specifico/product-comparison).
 
 ### Can shoppers filter products by spec in the shop?
 
@@ -92,7 +92,7 @@ Not in the current admin UI. The attribute label is plain text. You can inject i
 - **Groups** are a custom post type: `specifico-groups`. Attributes for each group are stored as the `_specifico_attr` post meta on the group post.
 - **Specification tables** are a custom post type: `specifico-table`. The list of groups assigned to a table is stored as the `_specifico_groups` post meta on the table post.
 - **Mapping rules** are stored as the `_specifico_mapping` site option.
-- **Per-product settings** (enable/override mode, custom groups, inherit-value overrides) are stored as post meta on each WooCommerce product: `_specifico_spec`, `_specifico_override`, `_specifico_groups`, `_specifico_inherit_values`.
+- **Per-product settings** (enable/override mode, custom groups, inherit-value overrides, and per-variation value overrides) are stored as post meta on each WooCommerce product: `_specifico_spec`, `_specifico_override`, `_specifico_groups`, `_specifico_inherit_values`, and `_specifico_var_values`.
 - **Display settings** are stored as the `_specifico_settings` site option.
 
 ### What happens if I deactivate the plugin?

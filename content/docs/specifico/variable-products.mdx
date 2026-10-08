@@ -1,0 +1,83 @@
+---
+title: Variable products
+description: "Set specification values per WooCommerce variation and show live variation attributes in the product specification table."
+version: "Specifico 1.0.8"
+author: "WPAxiom"
+reviewedBy: "Shuvo"
+lastReviewed: "2026-10-08"
+category: Per-product
+updatedAt: 2026-10-08
+readTime: 5
+prev:
+  title: Per-product overrides
+  slug: per-product-overrides
+next:
+  title: Mapping rules
+  slug: mapping-rules
+---
+
+Specifico 1.0.8 lets a variable WooCommerce product keep one shared specification table while changing selected values for each variation. When a shopper selects a variation, the visible table updates to match it.
+
+Use variation overrides for facts such as weight, storage, power, or dimensions that differ between variations. Values that are common to every variation stay at the product level, so you only enter the differences.
+
+## Before you begin
+
+Your product needs to:
+
+- use WooCommerce's **Variable product** type and have saved variations
+- have specifications enabled in the **Specification Settings** panel
+- inherit a mapped table or use a custom table with at least one row
+
+Set the product-level specification values first. They are the fallback for every variation.
+
+## Set values for a variation
+
+1. Open the variable product in **Products → All Products**.
+2. Find the **Specification Settings** panel and choose **Inherit from mapping** or **Customize for this product**.
+3. Scroll to **Per-variation values**.
+4. Choose a variation from the dropdown. The product's default variation is marked **default**.
+5. Enter only the values that differ for this variation.
+6. Select another variation and repeat, then click **Update** on the product.
+
+Each empty field inherits the product-level value shown as its placeholder. Leaving a field empty is therefore different from replacing the product value with blank output: it means “use the shared value.”
+
+<Callout type="tip">
+  Keep shared facts at the product level and save variation overrides for genuine differences. This makes the product easier to maintain and keeps the exported data smaller.
+</Callout>
+
+## Reset or copy variation values
+
+The variation editor includes two shortcuts:
+
+- **Reset variation** clears every override for the selected variation. Its rows return to the product-level values.
+- **Copy to all** copies the selected variation's overrides to every other variation. Use it when most variations share the same differences, then adjust the exceptions.
+
+These actions update the editor first. Save the product with **Update** to store the changes.
+
+## Automatic variation attribute rows
+
+Specifico can append a generated group containing the product's variation attributes, such as Size, Colour, Voltage, or Capacity. Before a shopper makes a selection, each row lists the available options. Once a valid variation is selected, the row changes to that variation's option.
+
+These rows come directly from WooCommerce. They appear as read-only in the variation editor and do not need separate values in Specifico.
+
+To show or hide them globally, go to **Specifico → Settings** and toggle **Variation attribute rows**. The setting is on by default. See [Display settings](/docs/specifico/display-settings) for details.
+
+## What shoppers see
+
+On the single-product page, the specification table follows WooCommerce's variation selector:
+
+- if the product has a complete default variation, its values appear on the first page load
+- selecting another valid variation updates its differing specification and attribute rows
+- clearing the selection restores the product-level values and the list of available attribute options
+
+No extra page load is required.
+
+## Reordering a table
+
+Variation overrides are attached to stable row identifiers rather than only to a row's position. You can reorganize groups or rows without saved values moving to an unrelated specification. If a row is removed, its old value is no longer displayed.
+
+## Export, import, and structured data
+
+When per-product data is included in an export, Specifico includes variation overrides and identifies each variation by its attribute combination rather than its site-specific database ID. This lets an import reconnect values to the equivalent variation on another site. See [Export & Import](/docs/specifico/export-and-import).
+
+Specifico excludes automatic attribute rows and any value that changes between variations from the parent product's structured data. The visible table remains complete, while the schema only states facts that apply to every variation. See [Structured data (SEO)](/docs/specifico/structured-data).
